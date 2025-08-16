@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "generate-api": "npx @openapitools/openapi-generator-cli generate -i http://localhost:8090/api/v3/api-docs -g typescript-angular -o src/app/core/api --additional-properties=withInterfaces=true",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -22,13 +23,18 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/cdk": "^20.1.6",
     "@angular/common": "^20.1.0",
     "@angular/compiler": "^20.1.0",
     "@angular/core": "^20.1.0",
     "@angular/forms": "^20.1.0",
+    "@angular/material": "^20.1.6",
     "@angular/platform-browser": "^20.1.0",
     "@angular/router": "^20.1.0",
+    "@openapitools/openapi-generator-cli": "^2.22.0",
+    "bootstrap": "^5.3.7",
     "rxjs": "~7.8.0",
+    "three": "^0.179.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },

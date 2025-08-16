@@ -2,6 +2,11 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
+  "schematics": {
+    "@schematics/angular:component": {
+      "style": "scss"
+    }
+  },
   "projects": {
     "carconfig-app": {
       "projectType": "application",
@@ -25,7 +30,7 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ]
           },
           "configurations": {
@@ -59,7 +64,8 @@
               "buildTarget": "carconfig-app:build:production"
             },
             "development": {
-              "buildTarget": "carconfig-app:build:development"
+              "buildTarget": "carconfig-app:build:development",
+              "proxyConfig": "proxy/proxy.conf.js"
             }
           },
           "defaultConfiguration": "development"
@@ -82,11 +88,14 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ]
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

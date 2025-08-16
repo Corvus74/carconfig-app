@@ -1,0 +1,13 @@
+export * from './carColorController.service';
+import { CarColorControllerService } from './carColorController.service';
+export * from './carEngineController.service';
+import { CarEngineControllerService } from './carEngineController.service';
+export * from './carRimsController.service';
+import { CarRimsControllerService } from './carRimsController.service';
+export * from './poolController.service';
+import { PoolControllerService } from './poolController.service';
+export * from './specialEquipmentController.service';
+import { SpecialEquipmentControllerService } from './specialEquipmentController.service';
+export * from './userController.service';
+import { UserControllerService } from './userController.service';
+export const APIS = [CarColorControllerService, CarEngineControllerService, CarRimsControllerService, PoolControllerService, SpecialEquipmentControllerService, UserControllerService];
