@@ -1,0 +1,40 @@
+
+
+<header class="bg-black text-white py-3 shadow-lg rounded-b-lg">
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      <div class="col-auto">
+        <img
+          ngSrc="./assets/logo.jpg"
+          alt="Company Logo"
+          class="img-fluid rounded shadow logo"
+          priority
+          width="728"
+          height="90"
+        />
+      </div>
+
+      <div class="col-md d-none d-md-block"></div>
+      <div class="col-12 col-md-auto">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-end">
+          <app-car-config-user-input></app-car-config-user-input>
+          @if(isLoggedIn){
+            <button
+              type="button"
+              class="btn btn-primary rounded-pill shadow-lg"
+              (click)="onLoginClick()">
+              Login
+            </button>
+          } @else {
+            <button
+              type="button"
+              class="btn btn-primary rounded-pill shadow-lg"
+              (click)="onLogoffClick()">
+              Login
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

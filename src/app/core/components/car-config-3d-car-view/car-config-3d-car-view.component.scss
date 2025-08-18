@@ -1,0 +1,18 @@
+.scene-container {
+  // Use a flexbox container to center the canvas.
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // Make the container fill the entire viewport.
+  width: 30vw;
+  height: 30vh;
+  background-color: #111827; // Matches the scene background for a seamless look.
+  overflow: hidden; // Prevents scrollbars
+}
+
+.car-scene-canvas {
+  // The canvas element itself should fill its parent container.
+  width: 100% !important;
+  height: 100% !important;
+  display: block; // Removes extra space below the canvas element
+}

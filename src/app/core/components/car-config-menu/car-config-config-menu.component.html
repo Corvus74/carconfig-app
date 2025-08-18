@@ -1,0 +1,17 @@
+<div class="container text-center">
+  @if (showCarEngine()) {
+
+        <app-car-config-engine-menu [carEngines]="baseConfig.carEngines"></app-car-config-engine-menu>
+
+  }
+  @if (showCarColor()) {
+      <app-car-config-color [carColor]="baseConfig.carColors"></app-car-config-color>
+  }
+  @if (showCarRims()) {
+      <app-car-config-rim-menu [carRims]="baseConfig.carRims"></app-car-config-rim-menu>
+  }
+  @if (showSpecialEquipment()) {
+      <app-car-config-special-equipment-menu
+        [specialEquipment]="baseConfig.specialEquipment"></app-car-config-special-equipment-menu>
+  }
+</div>

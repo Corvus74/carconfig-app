@@ -1,0 +1,23 @@
+<div class="border border-primary">
+<div class="row bg-light">
+  <div class="col">
+    <h1>+</h1>
+  </div>
+  <div class="col">
+    <h4> Auswahl Motor Leistung</h4>
+  </div>
+</div>
+
+@for (carEngine of carEngines; track carEngine.name){
+   <div class="grid-container">
+     <app-car-config-engine-menu-item
+       [title]="carEngine.name"
+       [description]="carEngine.description"
+       [value]="carEngine.price"
+       [isSelected]="carEngine.price === selectedValue"
+       (itemSelected)="onItemSelected($event)"
+     ></app-car-config-engine-menu-item>
+     </div>
+ }
+</div>
+

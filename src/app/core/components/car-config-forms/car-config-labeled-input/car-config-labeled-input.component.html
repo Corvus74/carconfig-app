@@ -1,0 +1,11 @@
+<div class="form-group mb-3">
+  <label [for]="inputId" class="form-label fw-bold">{{ label }}</label>
+  <input
+    [type]="type"
+    [id]="inputId"
+    [placeholder]="placeholder"
+    class="form-control"
+    [(ngModel)]="value"
+    (ngModelChange)="onValueChange($event)"
+  />
+</div>
