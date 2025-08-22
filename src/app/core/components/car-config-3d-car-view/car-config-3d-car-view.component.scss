@@ -1,11 +1,17 @@
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  gap: 1rem;
+}
 .scene-container {
   // Use a flexbox container to center the canvas.
   display: flex;
   justify-content: center;
   align-items: center;
   // Make the container fill the entire viewport.
-  width: 30vw;
-  height: 30vh;
+  width: 100%;
+  height: 20vh;
   background-color: #111827; // Matches the scene background for a seamless look.
   overflow: hidden; // Prevents scrollbars
 }
@@ -16,3 +22,4 @@
   height: 100% !important;
   display: block; // Removes extra space below the canvas element
 }
+

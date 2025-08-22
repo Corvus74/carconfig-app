@@ -10,8 +10,7 @@
 
 
 export interface CarRimDto { 
-    id?: number;
-    name?: string;
+    rimName?: string;
     model?: string;
     description?: string;
     productId?: string;

@@ -10,10 +10,24 @@
 
 
 export interface SpecialEquipmentDto { 
-    name?: string;
+    equipmentName?: string;
     model?: string;
     description?: string;
     productId?: string;
+    specialEquipmentType?: SpecialEquipmentDto.SpecialEquipmentTypeEnum;
     price?: number;
 }
+export namespace SpecialEquipmentDto {
+    export const SpecialEquipmentTypeEnum = {
+        Multimedia: 'MULTIMEDIA',
+        Seats: 'SEATS',
+        Heating: 'HEATING',
+        AirCondition: 'AIR_CONDITION',
+        NavigationSystem: 'NAVIGATION_SYSTEM',
+        SteeringWheel: 'STEERING_WHEEL',
+        Misc: 'MISC'
+    } as const;
+    export type SpecialEquipmentTypeEnum = typeof SpecialEquipmentTypeEnum[keyof typeof SpecialEquipmentTypeEnum];
+}
+
 

@@ -1,29 +1,25 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {firstValueFrom} from 'rxjs';
-import {BaseConfigDto, PoolControllerService} from '../../api';
-import {appConfig} from '../../../app.config';
+import {Component} from '@angular/core';
 import {CarConfigHeaderComponent} from '../../components/car-config-header/car-config-header.component';
-import {CarConfigSidebar} from '../../components/car-config-sidebar/car-config-sidebar';
-import {CarConfigCarCanvas} from '../../components/cconf-car-model/car-config-car-canvas';
+import {CarConfigConfigMenuComponent} from '../../components/car-config-menu/car-config-config-menu.component';
+import {CarConfig3dCarViewComponent} from '../../components/car-config-3d-car-view/car-config-3d-car-view.component';
 import {CarConfigOrderComponent} from '../../components/car-config-order/car-config-order.component';
+import {
+  CarConfigCarInformationComponent
+} from '../../components/car-config-car-information/car-config-car-information.component';
 
 @Component({
   selector: 'app-car-config-main',
   imports: [
     CarConfigHeaderComponent,
-    CarConfigSidebar,
-    CarConfigCarCanvas,
-    CarConfigOrderComponent
+    CarConfigConfigMenuComponent,
+    CarConfig3dCarViewComponent,
+    CarConfigOrderComponent,
+    CarConfigCarInformationComponent
   ],
   templateUrl: './car-config-main.component.html',
   styleUrl: './car-config-main.component.scss'
 })
 export class CarConfigMainComponent {
-  protected baseConfig: BaseConfigDto = {};
-  private isLoading = false;
-
-  constructor(private readonly poolControllerService: PoolControllerService) {
-  }
 
 }
 

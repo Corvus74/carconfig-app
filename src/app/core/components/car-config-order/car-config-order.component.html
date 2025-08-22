@@ -1,3 +1,89 @@
 <div>
-  <h4> Current price</h4>
+  <h4> Current Order</h4>
+  <div class="container text-lg-start">
+    <div class="row">
+      <div class="col">
+        Position:
+      </div>
+      <div class="col">
+        Description
+      </div>
+      <div class="col">
+        Price
+      </div>
+    </div>
+    @if (engineData) {
+      <div class="row">
+        <div class="col">
+          Engine :
+        </div>
+        <div class="col">
+          {{ engineData.model }}
+        </div>
+        <div class="col">
+          {{ toCurrencyFormat(engineData.price) }}
+        </div>
+      </div>
+    }
+    @if (colorData) {
+      <div class="row">
+        <div class="col">
+          Color:
+        </div>
+        <div class="col">
+          {{colorData.colorName}}
+        </div>
+        <div class="col">
+          {{toCurrencyFormat(colorData.price)}}
+        </div>
+      </div>
+    }
+    @if (rimData?.model) {
+      <div class="row">
+        <div class="col">
+          Rim :
+        </div>
+        <div class="col">
+        </div>
+        <div class="col">
+          {{toCurrencyFormat(rimData?.price)}}
+        </div>
+      </div>
+    }
+    @if ((specialEquipments) &&(specialEquipments.length > 0)) {
+      @for (specialEquip of specialEquipments; track specialEquip) {
+
+        <div class="row">
+          <div class="col">
+            {{specialEquip.equipmentName}}
+          </div>
+          <div class="col">
+
+          </div>
+          <div class="col">
+            {{toCurrencyFormat(specialEquip.price)}}
+          </div>
+        </div>
+      }
+    }
+    <div class="row">
+      <div class="col">
+        Total Price:
+      </div>
+      <div class="col">
+      </div>
+      @if (totalPrice) {
+        <div class="col">
+          {{toCurrencyFormat(totalPrice)}}
+        </div>
+      } @else {
+        <div class="col">
+          0,00 €
+        </div>
+      }
+
+    </div>
+  </div>
+
 </div>
+

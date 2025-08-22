@@ -1,6 +1,9 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {CarEngineDto} from '../../../api';
-import {CarConfigEngineMenuItemComponent} from '../../car-config-forms/car-config-engine-menu-item/car-config-engine-menu-item.component';
+import {
+  CarConfigEngineMenuItemComponent
+} from './car-config-engine-menu-item/car-config-engine-menu-item.component';
+import {CarConfigChangeService} from '../../../service/car-config-change.service';
 
 @Component({
   selector: 'app-car-config-engine-menu',
@@ -10,13 +13,36 @@ import {CarConfigEngineMenuItemComponent} from '../../car-config-forms/car-confi
   templateUrl: './car-config-engine-menu.component.html',
   styleUrl: './car-config-engine-menu.component.scss'
 })
-export class CarConfigEngineMenuComponent {
+export class CarConfigEngineMenuComponent implements AfterViewInit{
   @Input() carEngines: CarEngineDto[] | undefined
   @Input() selectedValue: any;
-  @Output() selectedValueChange = new EventEmitter<any>();
+  @ViewChild('container') container: ElementRef | undefined;
 
-  onItemSelected(value: any): void {
+  constructor(private readonly carConfigChanged:CarConfigChangeService) {
+  }
+  ngAfterViewInit() {
+
+  }
+
+  onItemSelected(value: CarEngineDto): void {
     this.selectedValue = value;
-    this.selectedValueChange.emit(this.selectedValue);
+    this.carConfigChanged.updateEngineData(value);
+  }
+
+  scroll(direction: 'left' | 'right') {
+    if (this.container) {
+      const container = this.container.nativeElement;
+      const scrollAmount = 200; // Adjust this value to change how much it scrolls
+
+      if (direction === 'left') {
+        container.scrollLeft -= scrollAmount;
+      } else {
+        container.scrollLeft += scrollAmount;
+      }
+    }
+  }
+
+  nextClick() {
+
   }
 }

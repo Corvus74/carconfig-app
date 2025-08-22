@@ -11,9 +11,19 @@
 
 export interface CarColorDto { 
     id?: number;
-    name?: string;
+    colorName?: string;
     description?: string;
     productId?: string;
     price?: number;
+    materialType?: CarColorDto.MaterialTypeEnum;
+    colorCodeHex?: string;
 }
+export namespace CarColorDto {
+    export const MaterialTypeEnum = {
+        Matte: 'MATTE',
+        Glossy: 'GLOSSY'
+    } as const;
+    export type MaterialTypeEnum = typeof MaterialTypeEnum[keyof typeof MaterialTypeEnum];
+}
+
 

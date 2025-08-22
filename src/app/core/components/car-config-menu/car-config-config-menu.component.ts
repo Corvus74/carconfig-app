@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {BaseConfigDto, PoolControllerService} from '../../api';
+import {BaseConfigDto, CarEngineDto, ConfigWebControllerService} from '../../api';
 import {firstValueFrom} from 'rxjs';
 import {CarConfigEngineMenuComponent} from './car-config-engine-menu/car-config-engine-menu.component';
 import {CarConfigRimMenuComponent} from './car-config-rim-menu/car-config-rim-menu.component';
-import {CarConfigColorMenuComponent} from './car-config-color-menu/car-config-color-menu..component';
+import {CarConfigColorMenuComponent} from './car-config-color-menu/car-config-color-menu.component';
 import {
   CarConfigSpecialEquipmentMenuComponent
 } from './car-config-special-equipment-menu/car-config-special-equipment-menu.component';
@@ -22,9 +22,20 @@ import {
 export class CarConfigConfigMenuComponent implements OnInit {
   protected baseConfig: BaseConfigDto = {};
   private isLoading = false;
+  constructor(private readonly configWebControllerService: ConfigWebControllerService) {
+  }
 
+  tabs = [
+    { id: 1,label: 'Car Engines'},
+    { id: 2,label: 'Car Colors'},
+    { id: 3,label: 'Car Rims' },
+    { id: 4,label: 'Special Equipment' }
+  ];
 
-  constructor(private readonly poolControllerService: PoolControllerService) {
+  activeTab = 1; // Initialize with the first tab as active
+
+  selectTab(index: number): void {
+    this.activeTab = index;
   }
 
   ngOnInit(): void {
@@ -40,7 +51,7 @@ export class CarConfigConfigMenuComponent implements OnInit {
     try {
       this.isLoading = true;
       this.baseConfig = await firstValueFrom(
-        this.poolControllerService.getBaseConfiguration()
+        this.configWebControllerService.getBaseConfiguration()
       );
       return "Baseconfig loaded";
 

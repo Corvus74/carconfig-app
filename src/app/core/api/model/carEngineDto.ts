@@ -10,10 +10,26 @@
 
 
 export interface CarEngineDto { 
-    name?: string;
     description?: string;
+    fuelType?: CarEngineDto.FuelTypeEnum;
+    engineType?: string;
     productId?: string;
     model?: string;
     price?: number;
+    displacementL?: number;
+    cylinders?: number;
+    horsepowerKw?: number;
+    torqueNm?: number;
+    drivetrain?: string;
+    co2?: number;
 }
+export namespace CarEngineDto {
+    export const FuelTypeEnum = {
+        Gasoline: 'GASOLINE',
+        Hybrid: 'HYBRID',
+        Electric: 'ELECTRIC'
+    } as const;
+    export type FuelTypeEnum = typeof FuelTypeEnum[keyof typeof FuelTypeEnum];
+}
+
 

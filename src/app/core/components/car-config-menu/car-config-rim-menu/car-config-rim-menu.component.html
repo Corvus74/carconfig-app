@@ -1,13 +1,28 @@
-<div class="border border-primary">
+<div class="border border-primary grid-container">
   <div class="row bg-light">
-    <div class="col">
-      <h1>+</h1>
-    </div>
-    <div class="col">
-      <h4> Auswahl Motor Leistung</h4>
+
+      <h4> Auswahl Felgen</h4>
+  </div>
+  <div class="row">
+
+    <div class="col-12">
+      <div class="slider-wrapper-parent">
+        <button class="scroll-button left-button">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div #container class="engine-menu-container">
+          @for (carRim of carRims; track carRim.rimName) {
+            <app-car-config-rim-menu-item
+              [value]="carRim"
+              [isSelected]="carRim === selectedValue"
+              (itemSelected)="onItemSelected($event)"
+            ></app-car-config-rim-menu-item>
+          }
+        </div>
+        <button class="scroll-button right-button">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
     </div>
   </div>
-@for (carRim of carRims; track carRim.name){
-  <h4>{{carRim.name}}</h4>
-}
 </div>

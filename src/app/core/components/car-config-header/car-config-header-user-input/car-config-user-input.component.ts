@@ -3,7 +3,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {CarConfigLabeledInputComponent} from '../../car-config-forms/car-config-labeled-input/car-config-labeled-input.component';
 
 @Component({
-  selector: 'app-car-config-user-input',
+  selector: 'app-car-config-header-user-input',
   imports: [
     ReactiveFormsModule,
     CarConfigLabeledInputComponent

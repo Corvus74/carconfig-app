@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import {IMAGE_CONFIG, NgOptimizedImage} from '@angular/common';
-import {CarConfigUserInput} from './cconf-user-input/car-config-user-input';
+import {CarConfigUserInputComponent} from './car-config-header-user-input/car-config-user-input.component';
 
 @Component({
   selector: 'app-car-config-header',
   imports: [
     NgOptimizedImage,
-    CarConfigUserInput
+    CarConfigUserInputComponent
   ],
-  templateUrl: './cconf-header.html',
+  templateUrl: './car-config-header.component.html',
   styleUrl: './car-config-header.component.scss',
   providers:[  {    provide: IMAGE_CONFIG,    useValue: {      placeholderResolution: 40    }  }]
 })

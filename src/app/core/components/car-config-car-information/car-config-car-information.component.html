@@ -1,0 +1,66 @@
+<div class="container text-center">
+
+  <div class="row">
+    <div class="col">
+      Engine Model:
+    </div>
+    @if (engineData) {
+      <div class="col">
+        {{ engineData.model }}
+      </div>
+    } @else {
+      <div class="col">
+        Please choose an engine first !!
+      </div>
+    }
+  </div>
+  <div class="row">
+    <div class="col">
+      Colorname:
+    </div>
+    @if (colorData) {
+      <div class="col">
+        {{ colorData.colorName }}
+      </div>
+    } @else {
+      <div class="col">
+        Please choose a color first !!
+      </div>
+    }
+  </div>
+  <div class="row">
+    <div class="col">
+      Rim :
+    </div>
+    @if (rimData) {
+    <div class="col">
+      {{ rimData.rimName }}
+    </div>
+    } @else {
+      <div class="col">
+        Please choose a rim first !!
+      </div>
+    }
+  </div>
+  <div class="row">
+    <div class="col">
+      Special Equipments:
+    </div>
+    @if (specialEquipment) {
+    <div class="col">
+      <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+
+      </ul>
+    </div>
+      } @else {
+      <div class="col">
+        Please choose your 5 Equipments first !!
+      </div>
+    }
+
+  </div>
+</div>
+

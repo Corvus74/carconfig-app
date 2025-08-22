@@ -1,23 +1,32 @@
-<div class="border border-primary">
-<div class="row bg-light">
-  <div class="col">
-    <h1>+</h1>
+<div class="border border-primary grid-container">
+  <div class="row bg-light">
+    <h5>Choose the motor</h5>
   </div>
-  <div class="col">
-    <h4> Auswahl Motor Leistung</h4>
+  <div class="row">
+    <div class="slider-wrapper-parent">
+      <button class="scroll-button left-button">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <div #container class="engine-menu-container">
+        @for (carEngine of carEngines; track carEngine.model) {
+          <app-car-config-engine-menu-item
+            [value]="carEngine"
+            [isSelected]="carEngine === selectedValue"
+            (itemSelected)="onItemSelected($event)"
+          ></app-car-config-engine-menu-item>
+        }
+      </div>
+      <button class="scroll-button right-button">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <button
+      type="button"
+      class="btn btn-primary rounded-pill shadow-lg"
+      (click)="nextClick()">
+      Next
+    </button>
   </div>
 </div>
-
-@for (carEngine of carEngines; track carEngine.name){
-   <div class="grid-container">
-     <app-car-config-engine-menu-item
-       [title]="carEngine.name"
-       [description]="carEngine.description"
-       [value]="carEngine.price"
-       [isSelected]="carEngine.price === selectedValue"
-       (itemSelected)="onItemSelected($event)"
-     ></app-car-config-engine-menu-item>
-     </div>
- }
-</div>
-

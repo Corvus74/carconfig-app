@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CarConfigColorMenuComponent } from './car-config-color-menu..component';
+import { CarConfigColorMenuComponent } from './car-config-color-menu.component';
 
 describe('CarConfigColorMenuComponent', () => {
   let component: CarConfigColorMenuComponent;

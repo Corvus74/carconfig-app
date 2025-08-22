@@ -13,7 +13,7 @@
 
   &.selected {
     border-color: #007bff;
-    background-color: #eaf5ff;
+    background-color: #c3c3c3;
     box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
   }
 
@@ -22,9 +22,20 @@
     font-size: 1.1em;
     margin-bottom: 0.5rem;
   }
-
+  .label-info {
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-bottom: 0.5rem;
+  }
   .description {
     font-size: 0.9em;
     color: #555;
   }
+}
+.slide{
+  flex-shrink: 0; /* Prevents items from shrinking */
+  width: 20vw; /* Example width, adjust as needed */
+  height: 40vh;
+  border: 1px solid blue;
+  margin: 10px;
 }

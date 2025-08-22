@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {CarRimDto} from '../../../../api';
 
 @Component({
   selector: 'app-car-config-rim-menu-item',
@@ -7,11 +8,9 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   styleUrl: './car-config-rim-menu-item.component.scss'
 })
 export class CarConfigRimMenuItemComponent {
-  @Input() title: string | undefined = '';
-  @Input() description: string | undefined = '';
-  @Input() value: any;
+  @Input() value: CarRimDto={};
   @Input() isSelected: boolean = false;
-  @Output() itemSelected = new EventEmitter<any>();
+  @Output() itemSelected = new EventEmitter<CarRimDto>();
 
   onClick(): void {
     this.itemSelected.emit(this.value);
