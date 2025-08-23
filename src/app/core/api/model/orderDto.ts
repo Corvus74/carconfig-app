@@ -17,9 +17,9 @@ import { CarRimOrderDto } from './carRimOrderDto';
 
 export interface OrderDto { 
     orderId?: string;
-    userId?: OrderUserDto;
-    carEngineId?: CarEngineOrderDto;
-    carRimsOrder?: CarRimOrderDto;
+    orderUser?: OrderUserDto;
+    carEngineOrder?: CarEngineOrderDto;
+    carRimOrder?: CarRimOrderDto;
     carColorOrder?: CarColorOrderDto;
     orderStatus?: OrderStatusDto;
     description?: string;

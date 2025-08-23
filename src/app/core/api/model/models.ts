@@ -7,6 +7,7 @@ export * from './carRimDto';
 export * from './carRimOrderDto';
 export * from './orderDto';
 export * from './orderStatusDto';
+export * from './orderUpdateDto';
 export * from './orderUserDto';
 export * from './responseDto';
 export * from './specialEquipmentDto';

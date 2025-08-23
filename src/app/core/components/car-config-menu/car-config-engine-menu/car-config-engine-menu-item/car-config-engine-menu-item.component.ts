@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CarEngineDto} from '../../../../api';
+import {formatCurrency} from '@angular/common';
 
 @Component({
   selector: 'app-car-config-engine-menu-item',
@@ -18,10 +19,11 @@ export class CarConfigEngineMenuItemComponent {
     this.itemSelected.emit(this.value);
   }
 
-  getCalculatedPrice(price: number | undefined) {
-    if(price){
-      return  price/100 + "€"
+  toCurrencyFormat(price: number | undefined) {
+    if (price) {
+      return formatCurrency(price/100,"de-DE","€","EUR")
     }
-    return "";
+    return ""
+
   }
 }

@@ -11,7 +11,7 @@ import { OrderStatusDto } from './orderStatusDto';
 
 
 export interface CarRimOrderDto { 
-    productId?: string;
+    carRimOrder?: any | null;
     orderStatusDto?: OrderStatusDto;
 }
 

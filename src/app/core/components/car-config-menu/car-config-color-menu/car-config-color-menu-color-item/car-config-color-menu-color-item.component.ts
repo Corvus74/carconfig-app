@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CarColorDto} from '../../../../api';
 import {CarConfigColorviewCircle} from '../../../../common/car-config-colorview-circle/car-config-colorview-circle';
+import {formatCurrency} from '@angular/common';
 
 @Component({
   selector: 'app-car-config-color-menu-color-item',
@@ -28,5 +29,12 @@ export class CarConfigColorMenuColorItemComponent implements OnInit {
 
   onClick(): void {
     this.itemSelected.emit(this.value);
+  }
+
+  toCurrencyFormat(price: number | undefined) {
+    if (price) {
+      return formatCurrency(price/100,"de-DE","€","EUR")
+    }
+    return ""
   }
 }

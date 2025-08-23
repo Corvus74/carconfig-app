@@ -24,6 +24,7 @@ model/carRimOrderDto.ts
 model/models.ts
 model/orderDto.ts
 model/orderStatusDto.ts
+model/orderUpdateDto.ts
 model/orderUserDto.ts
 model/responseDto.ts
 model/specialEquipmentDto.ts

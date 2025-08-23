@@ -8,10 +8,11 @@
  * Do not edit the class manually.
  */
 import { OrderStatusDto } from './orderStatusDto';
+import { CarColorDto } from './carColorDto';
 
 
 export interface CarColorOrderDto { 
-    productId?: string;
+    carColorDto?: CarColorDto;
     orderStatusDto?: OrderStatusDto;
 }
 

@@ -4,7 +4,8 @@
   </div>
   <div class="row">
     <div class="col-12">
-
+    </div>
+    <div class="row">
       <div class="row">
         <div class="col-12">
           <div class="slider-wrapper-parent">
@@ -13,7 +14,7 @@
             </button>
             <div #container class="engine-menu-container">
               @for (carColor of carColor; track carColor.productId) {
-                @if (optionStyle === carColor.materialType) {
+                @if (CarColorDto.MaterialTypeEnum.Matte === carColor.materialType) {
                   <app-car-config-color-menu-color-item
                     [value]="carColor"
                     [isSelected]="carColor === selectedValue"
@@ -27,26 +28,31 @@
             </button>
           </div>
         </div>
-      </div>
-      <div class="engine-menu-container">
-        <app-car-config-color-menu-style-item
-          [title]="glossyOptionName"
-          [description]="glossyOptionDescription"
-          [value]="CarColorDto.MaterialTypeEnum.Glossy"
-          [isSelected]="carColor === selectedValue"
-          (itemSelected)="onColorStyleChange($event)"
-        ></app-car-config-color-menu-style-item>
-        <app-car-config-color-menu-style-item
-          [title]="matteOptionName"
-          [description]="matteOptionDescription"
-          [value]="CarColorDto.MaterialTypeEnum.Matte"
-          [isSelected]="carColor === selectedValue"
-          (itemSelected)="onColorStyleChange($event)"
-        ></app-car-config-color-menu-style-item>
+        <div class="row">
 
+          <div class="col-12">
+            <div class="slider-wrapper-parent">
+              <button class="scroll-button left-button">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <div #container class="engine-menu-container">
+                @for (carColor of carColor; track carColor.productId) {
+                  @if (CarColorDto.MaterialTypeEnum.Glossy === carColor.materialType) {
+                    <app-car-config-color-menu-color-item
+                      [value]="carColor"
+                      [isSelected]="carColor === selectedValue"
+                      (itemSelected)="onItemSelected($event)"
+                    ></app-car-config-color-menu-color-item>
+                  }
+                }
+              </div>
+              <button class="scroll-button right-button">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
 

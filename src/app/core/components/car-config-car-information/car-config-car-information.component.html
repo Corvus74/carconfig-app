@@ -33,9 +33,9 @@
       Rim :
     </div>
     @if (rimData) {
-    <div class="col">
-      {{ rimData.rimName }}
-    </div>
+      <div class="col">
+        {{ rimData.rimName }}
+      </div>
     } @else {
       <div class="col">
         Please choose a rim first !!
@@ -47,15 +47,16 @@
       Special Equipments:
     </div>
     @if (specialEquipment) {
-    <div class="col">
-      <ul>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-
-      </ul>
-    </div>
-      } @else {
+      <div class="col">
+        <ul>
+          @for (equipment of specialEquipment; track specialEquipment) {
+            <li>
+              {{ equipment.equipmentName }}
+            </li>
+          }
+        </ul>
+      </div>
+    } @else {
       <div class="col">
         Please choose your 5 Equipments first !!
       </div>

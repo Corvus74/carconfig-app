@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CarRimDto} from '../../../../api';
+import {formatCurrency} from '@angular/common';
 
 @Component({
   selector: 'app-car-config-rim-menu-item',
@@ -14,5 +15,12 @@ export class CarConfigRimMenuItemComponent {
 
   onClick(): void {
     this.itemSelected.emit(this.value);
+  }
+
+  toCurrencyFormat(price: number | undefined) {
+    if (price) {
+      return formatCurrency(price/100,"de-DE","€","EUR")
+    }
+    return ""
   }
 }
