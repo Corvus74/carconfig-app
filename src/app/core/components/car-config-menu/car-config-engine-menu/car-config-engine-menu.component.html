@@ -1,32 +1,30 @@
 <div class="border border-primary grid-container">
-  <div class="row bg-light">
-    <h5>Choose the motor</h5>
-  </div>
   <div class="row">
     <div class="slider-wrapper-parent">
-      <button class="scroll-button left-button">
-        <i class="bi bi-chevron-right"></i>
+      <button
+        class="scroll-button left-button"
+        type="button"
+        aria-label="Scroll to left"
+        (click)="scroll('left')">
+        <i class="bi bi-chevron-left"></i>
       </button>
       <div #container class="engine-menu-container">
-        @for (carEngine of carEngines; track carEngine.model) {
+        @for (carEngine of carEngines; track carEngine.productId) {
           <app-car-config-engine-menu-item
             [value]="carEngine"
             [isSelected]="carEngine === selectedValue"
-            (itemSelected)="onItemSelected($event)"
+            (carEngineSelected)="onItemSelected($event)"
           ></app-car-config-engine-menu-item>
         }
       </div>
-      <button class="scroll-button right-button">
+      <button
+        class="scroll-button right-button"
+        type="button"
+        aria-label="Scroll to right"
+        (click)="scroll('right')">
         <i class="bi bi-chevron-right"></i>
       </button>
     </div>
   </div>
-  <div class="row">
-    <button
-      type="button"
-      class="btn btn-primary rounded-pill shadow-lg"
-      (click)="nextClick()">
-      Next
-    </button>
-  </div>
 </div>
+

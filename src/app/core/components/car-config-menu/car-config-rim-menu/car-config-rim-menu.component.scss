@@ -5,12 +5,12 @@
 }
 /* This class wraps everything and is positioned relative to the parent */
 .slider-wrapper-parent {
-  position: relative;
+ // position: relative;
   width: 100%;
 }
 
 /* This is your flexbox slider container */
-.engine-menu-container {
+.rim-menu-container {
   display: flex;
   flex-direction: row-reverse;
   flex-wrap: nowrap;
@@ -20,10 +20,10 @@
   scroll-behavior: smooth;
 }
 
-.engine-menu-container .slide {
+.rim-menu-container .slide {
   flex-shrink: 0; /* Prevents items from shrinking */
   width: 200px; /* Example width, adjust as needed */
-  height: 150px;
+  height: 100px;
   background-color: lightblue;
   border: 1px solid blue;
   margin: 10px;

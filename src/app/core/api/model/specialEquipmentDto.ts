@@ -11,14 +11,14 @@
 
 export interface SpecialEquipmentDto { 
     equipmentName?: string;
-    model?: string;
     description?: string;
     productId?: string;
-    specialEquipmentType?: SpecialEquipmentDto.SpecialEquipmentTypeEnum;
+    categoryType?: SpecialEquipmentDto.CategoryTypeEnum;
+    equipmentLocation?: SpecialEquipmentDto.EquipmentLocationEnum;
     price?: number;
 }
 export namespace SpecialEquipmentDto {
-    export const SpecialEquipmentTypeEnum = {
+    export const CategoryTypeEnum = {
         Multimedia: 'MULTIMEDIA',
         Seats: 'SEATS',
         Heating: 'HEATING',
@@ -27,7 +27,12 @@ export namespace SpecialEquipmentDto {
         SteeringWheel: 'STEERING_WHEEL',
         Misc: 'MISC'
     } as const;
-    export type SpecialEquipmentTypeEnum = typeof SpecialEquipmentTypeEnum[keyof typeof SpecialEquipmentTypeEnum];
+    export type CategoryTypeEnum = typeof CategoryTypeEnum[keyof typeof CategoryTypeEnum];
+    export const EquipmentLocationEnum = {
+        Interior: 'INTERIOR',
+        Exterior: 'EXTERIOR'
+    } as const;
+    export type EquipmentLocationEnum = typeof EquipmentLocationEnum[keyof typeof EquipmentLocationEnum];
 }
 
 

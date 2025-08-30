@@ -1,0 +1,30 @@
+<div class="card">
+  <div class="card-header">
+    <div class="card-header">
+      <h6>
+        Order Status for {{ title }} and the product name {{ productName }}
+      </h6>
+    </div>
+    <div class="card border border-primary">
+      <div class="row">
+        <div class="col">
+          Status :
+        </div>
+        <div class="col">{{ orderStatus?.orderStatus }}</div>
+      </div>
+      <div class="row">
+        <div class="col">
+          Shipped At :
+        </div>
+        <div class="col">{{ orderStatus?.shippingDate | date: 'dd.MM.yyyy HH:mm' }}</div>
+      </div>
+      <div class="row">
+        <div class="col">
+          Delivery time :
+        </div>
+        <div class="col">
+          {{ orderStatus?.shippingDate | date: 'dd.MM.yyyy HH:mm' }}</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,58 +1,23 @@
-<div class="border border-primary grid-container">
-  <div class="row bg-light">
-    <h5> Choose the color</h5>
-  </div>
-  <div class="row">
-    <div class="col-12">
-    </div>
-    <div class="row">
-      <div class="row">
-        <div class="col-12">
-          <div class="slider-wrapper-parent">
-            <button class="scroll-button left-button">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <div #container class="engine-menu-container">
-              @for (carColor of carColor; track carColor.productId) {
-                @if (CarColorDto.MaterialTypeEnum.Matte === carColor.materialType) {
-                  <app-car-config-color-menu-color-item
-                    [value]="carColor"
-                    [isSelected]="carColor === selectedValue"
-                    (itemSelected)="onItemSelected($event)"
-                  ></app-car-config-color-menu-color-item>
-                }
-              }
-            </div>
-            <button class="scroll-button right-button">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-          </div>
-        </div>
-        <div class="row">
 
-          <div class="col-12">
-            <div class="slider-wrapper-parent">
-              <button class="scroll-button left-button">
-                <i class="fas fa-chevron-left"></i>
-              </button>
-              <div #container class="engine-menu-container">
-                @for (carColor of carColor; track carColor.productId) {
-                  @if (CarColorDto.MaterialTypeEnum.Glossy === carColor.materialType) {
-                    <app-car-config-color-menu-color-item
-                      [value]="carColor"
-                      [isSelected]="carColor === selectedValue"
-                      (itemSelected)="onItemSelected($event)"
-                    ></app-car-config-color-menu-color-item>
-                  }
-                }
-              </div>
-              <button class="scroll-button right-button">
-                <i class="fas fa-chevron-right"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="row border border-primary color-menu-container">
+  </div>
+
+  @if (carColorBase.length >= 0) {
+    <app-car-color-menu-sub [carColorSub]="carColorBase" [titleName]="carColorBaseTitleName"
+                            (selectionChange)="selectionChange.emit()"></app-car-color-menu-sub>
+  }
+  @if (carColorGlossy.length >= 0) {
+    <app-car-color-menu-sub [carColorSub]="carColorGlossy"
+                            [titleName]="carColorGlossyTitleName"
+                            (selectionChange)="selectionChange.emit()"
+    ></app-car-color-menu-sub>
+  }
+  @if (carColorMatte.length >= 0) {
+    <app-car-color-menu-sub [carColorSub]="carColorMatte"
+                            [titleName]="carColorMatteTitleName" (selectionChange)="selectionChange.emit()">
+    </app-car-color-menu-sub>
+  }
+
+
 
 

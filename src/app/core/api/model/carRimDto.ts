@@ -14,6 +14,7 @@ export interface CarRimDto {
     model?: string;
     description?: string;
     productId?: string;
+    innerDiameter?: number;
     price?: number;
 }
 

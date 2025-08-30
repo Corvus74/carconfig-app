@@ -10,7 +10,7 @@
 }
 
 /* This is your flexbox slider container */
-.engine-menu-container {
+.color-menu-container {
   display: flex;
   flex-direction: row-reverse;
   flex-wrap: nowrap;
@@ -20,7 +20,7 @@
   scroll-behavior: smooth;
 }
 
-.engine-menu-container .slide {
+.color-menu-container .slide {
   flex-shrink: 0; /* Prevents items from shrinking */
   width: 200px; /* Example width, adjust as needed */
   height: 150px;
@@ -78,5 +78,94 @@
 .tabs-content {
   border: 1px solid #ccc;
   border-top: none;
-  padding: 20px;
+  padding: 15px;
 }
+
+tabs-container {
+  display: flex;
+  flex-direction: column;
+  /* Optional: wenn die Tabs im verfügbaren Bereich bleiben sollen */
+  max-height: 80vh; /* passe nach Bedarf an oder entferne, falls du 100% Höhe steuerst */
+}
+
+.tabs-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--bs-body-bg, #fff);
+  /* optional spacing */
+  padding-bottom: 0.25rem;
+}
+
+.tabs-content {
+  /* lässt den Content den restlichen Platz einnehmen */
+  flex: 1 1 auto;
+  min-height: 0; /* wichtig, damit overflow innen funktioniert */
+}
+
+.tab-panel {
+  /* keine eigene Scrollbar hier */
+}
+
+tabs-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh; /* anpassbar */
+}
+
+.tabs-header {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--bs-body-bg, #fff);
+  padding: 0.25rem 0;
+  border-bottom: 1px solid rgba(0,0,0,.075);
+}
+tabs-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh; /* anpassbar */
+}
+
+.tabs-header {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--bs-body-bg, #fff);
+  padding: 0.25rem 0;
+  border-bottom: 1px solid rgba(0,0,0,.075);
+}
+
+
+
+/* Einziger Scroll-Bereich für den kompletten Tab-Inhalt */
+.tab-content-scroll {
+  max-height: 70vh; /* oder: height: 100%; wenn der Parent eine feste Höhe hat */
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding-right: 0.25rem;
+
+  /* optional: schönere Scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,.3) transparent;
+}
+
+.tab-content-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.tab-content-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,.3);
+  border-radius: 8px;
+}
+
+// Mobile: etwas mehr Höhe zulassen
+@media (max-width: 768px) {
+  .tabs-container {
+    max-height: 85vh;
+  }
+  .tab-content-scroll {
+    max-height: 78vh;
+  }
+}
+

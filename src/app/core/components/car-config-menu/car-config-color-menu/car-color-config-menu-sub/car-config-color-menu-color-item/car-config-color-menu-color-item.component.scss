@@ -1,0 +1,43 @@
+.color-list-item {
+  cursor: pointer;
+  border: 1px solid #ccc!important;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+  flex-direction: column;
+  width: 100%;
+  background: #ffffff;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  &.selected {
+    border-color: #007bff;
+    background-color: #c3c3c3;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+  }
+
+  .model-name {
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 0.5rem;
+  }
+
+  .carColorPrice {
+    font-size: 0.9em;
+    color: #555;
+  }
+}
+
+/* Custom CSS for fixed size modal */
+.modal-content.fixed-size {
+  width: 320px; /* Equivalent to w-80 from Tailwind */
+}
+/* Custom styles for the button to override Bootstrap's default button padding */
+.btn-primary.rounded-circle.p-0 {
+  padding: 0 !important;
+}
+.button-info{
+  border: 0;
+}

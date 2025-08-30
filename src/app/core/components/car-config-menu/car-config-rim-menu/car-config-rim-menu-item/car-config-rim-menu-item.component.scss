@@ -1,4 +1,4 @@
-.grid-item {
+.rim-list-item {
   cursor: pointer;
   border: 1px solid #ccc;
   padding: 1rem;
@@ -6,6 +6,8 @@
   transition: all 0.2s ease-in-out;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  background: #ffffff !important;
 
   &:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -17,24 +19,32 @@
     box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
   }
 
-  .title {
-    font-weight: bold;
+  .model-name {
+    font-weight: lighter;
     font-size: 1.1em;
     margin-bottom: 0.5rem;
   }
 
-  .description {
+
+  .car-rim-rice {
     font-size: 0.9em;
     color: #555;
   }
 }
-
-.slide{
-  flex-shrink: 0; /* Prevents items from shrinking */
-  width: 200px; /* Example width, adjust as needed */
-  height: 150px;
-  background-color: lightblue;
-  border: 1px solid blue;
-  margin: 10px;
+.image-rim{
+  width: 60%;
+  height: 60%;
+  object-fit: scale-down;
 }
 
+
+.diameter-name {
+  font-weight: lighter;
+  font-size: 1.1em;
+  margin-bottom: 0.5rem;
+}
+.rim-name{
+  font-weight: normal;
+  font-size: 1.1em;
+  margin-bottom: 0.5rem;
+}

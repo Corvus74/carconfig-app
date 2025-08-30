@@ -1,63 +1,51 @@
-import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output,} from '@angular/core';
 import {CarColorDto} from '../../../api';
-import {
-  CarConfigColorMenuStyleItemComponent
-} from './car-config-color-menu-style-item/car-config-color-menu-style-item.component';
-import {CarConfigChangeService} from '../../../service/car-config-change.service';
-import {
-  CarConfigColorMenuColorItemComponent
-} from './car-config-color-menu-color-item/car-config-color-menu-color-item.component';
+import {CarConfigColorMenuSubComponent} from './car-color-config-menu-sub/car-config-color-menu-sub.component';
 
 @Component({
   selector: 'app-car-config-color-menu',
   imports: [
-    CarConfigColorMenuStyleItemComponent,
-    CarConfigColorMenuColorItemComponent
+    CarConfigColorMenuSubComponent
   ],
   templateUrl: './car-config-color-menu.component.html',
   styleUrl: './car-config-color-menu.component.scss'
 })
-export class CarConfigColorMenuComponent {
-  @Input() carColor: CarColorDto[] | undefined
+export class CarConfigColorMenuComponent implements OnInit {
+  @Input() carColorInit: CarColorDto[] | undefined
   @Input() selectedValue: CarColorDto | undefined;
   @Input() selectedMaterialType: CarColorDto.MaterialTypeEnum | undefined;
-  @ViewChild('container') container: ElementRef | undefined;
 
-  protected readonly CarColorDto = CarColorDto;
-  matteOptionName: string | undefined = "Matte";
-  matteOptionDescription: string | undefined;
-  glossyOptionDescription: string | undefined = "Metalic";
-  glossyOptionName: string | undefined;
-  optionStyle: CarColorDto.MaterialTypeEnum = CarColorDto.MaterialTypeEnum.Glossy
+  carColorBase: CarColorDto[] = []
+  carColorGlossy: CarColorDto[] = [];
+  carColorMatte: CarColorDto[] = [];
+  CarColorDto = CarColorDto;
+  carColorBaseTitleName: string = "Base Colors";
+  carColorGlossyTitleName: string = "Metallic Colors";
+  carColorMatteTitleName: string = "Matte Colors";
 
-  constructor(private readonly carConfigChangeService: CarConfigChangeService) {
+  constructor() {
+  }
+  @Output() selectionChange = new EventEmitter<unknown>();
 
+  ngOnInit(): void {
+    this.createSubMenus()
   }
 
-  ngAfterViewInit() {
-
-  }
-
-  onItemSelected(value: CarColorDto): void {
-    this.selectedValue = value;
-    this.carConfigChangeService.updateCarColorData(value)
-  }
-
-  scroll(direction: 'left' | 'right') {
-    if (this.container) {
-      const container = this.container.nativeElement;
-      const scrollAmount = 200; // Adjust this value to change how much it scrolls
-
-      if (direction === 'left') {
-        container.scrollLeft -= scrollAmount;
-      } else {
-        container.scrollLeft += scrollAmount;
+  createSubMenus() {
+    if (this.carColorInit) {
+      for (let carColor of this.carColorInit) {
+        if (carColor.paintingType === CarColorDto.PaintingTypeEnum.Base) {
+          this.carColorBase.push(carColor);
+          continue;
+        }
+        if (carColor.materialType === CarColorDto.MaterialTypeEnum.Glossy) {
+          this.carColorGlossy.push(carColor);
+        }
+        if (carColor.materialType === CarColorDto.MaterialTypeEnum.Matte) {
+          this.carColorMatte.push(carColor);
+        }
       }
     }
   }
-
-
-  onColorStyleChange(colorStyle: CarColorDto.MaterialTypeEnum) {
-    this.optionStyle = colorStyle;
-  }
 }
+

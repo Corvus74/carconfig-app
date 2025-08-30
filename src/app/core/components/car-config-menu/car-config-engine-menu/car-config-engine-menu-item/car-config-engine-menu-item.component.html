@@ -1,23 +1,27 @@
-<div
-  class="grid-item slide"
+<button
+  class="grid-item slide bg-light"
   [class.selected]="isSelected"
-  (click)="onClick()"
+  (click)="selectCarEngine()"
+  onKeyDown="selectCarEngine();"
 >
 
   <div class="container text-center">
     <div class="row">
-      <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" width="5vw" height="5vh">
-        <circle r="245" cx="400" cy="400" fill="#7FDB70" stroke="#41B82E" stroke-width="10"/>
-      </svg>
+      <div class="border border-primary col image-content">
+        <div class="imageText">Image of engine</div>
+        <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" width="4vw" height="4vh">
+          <circle r="245" cx="400" cy="400" fill="#7FDB70" stroke="#41B82E" stroke-width="10"/>
+        </svg>
+      </div>
     </div>
     <div class="row">
       <div class="title">{{ value?.model }}</div>
     </div>
   </div>
-    <div class="container text-lg-start">
+  <div class="container text-lg-start">
     <div class="row">
       <div class=" col">
-        <div class="label-info">Fuel Type:</div>
+        <div class="label-small">Fuel Type:</div>
       </div>
       <div class=" col">
         <div class="description">{{ value?.fuelType }}</div>
@@ -25,7 +29,7 @@
     </div>
     <div class="row">
       <div class=" col">
-        <div class="label-info">Engine Type:</div>
+        <div class="label-small">Engine Type:</div>
       </div>
       <div class=" col">
         <div class="description">{{ value?.engineType }}</div>
@@ -33,7 +37,7 @@
     </div>
     <div class="row">
       <div class=" col">
-        <div class="label-info">Displacement (l):</div>
+        <div class="label-small">Displacement (l):</div>
       </div>
       <div class=" col">
         <div class="description">{{ value?.displacementL }}</div>
@@ -41,7 +45,7 @@
     </div>
     <div class="row">
       <div class=" col">
-        <div class="label-info">Cylinders (l):</div>
+        <div class="label-small">Cylinders (l):</div>
       </div>
       <div class=" col">
         <div class="description">{{ value?.cylinders }}</div>
@@ -49,7 +53,7 @@
     </div>
     <div class="row">
       <div class=" col">
-        <div class="label-info">Horsepower (l):</div>
+        <div class="label-small">Horsepower (l):</div>
       </div>
       <div class=" col">
         <div class="description">{{ value?.horsepowerKw }}</div>
@@ -57,7 +61,7 @@
     </div>
     <div class="row">
       <div class=" col">
-        <div class="label-info">Torqe (Nm):</div>
+        <div class="label-small">Torqe (Nm):</div>
       </div>
       <div class=" col">
         <div class="description">{{ value?.torqueNm }}</div>
@@ -65,7 +69,7 @@
     </div>
     <div class="row">
       <div class=" col">
-        <div class="label-info">Drivetrain:</div>
+        <div class="label-small">Drivetrain:</div>
       </div>
       <div class=" col">
         <div class="description">{{ value?.drivetrain }}</div>
@@ -73,7 +77,7 @@
     </div>
     <div class="row">
       <div class=" col">
-        <div class="label-info">CO2 Emmisions:</div>
+        <div class="label-small">CO2 Emmisions:</div>
       </div>
       <div class=" col">
         <div class="description">{{ value?.co2 }}</div>
@@ -81,19 +85,20 @@
     </div>
     <div class="row">
       <div class="col">
-        <div class="label-info">Description:</div>
+        <div class="label-small">Price:</div>
       </div>
       <div class="col">
-        <div class="description">{{ value?.description }}</div>
+        <div class="description">{{ toCurrencyFormat(value?.price) }}</div>
       </div>
-    </div>
       <div class="row">
         <div class="col">
-          <div class="label-info">Price:</div>
         </div>
         <div class="col">
-          <div class="description">{{ toCurrencyFormat(value?.price) }}</div>
+          <button (click)="handleIconClick($event)" class="button-info bg-transparent border-none text-gray-500 hover:text-blue-500 transition-colors duration-200">
+            <i class="bi bi-info-circle text-4xl"></i>
+          </button>
         </div>
       </div>
+    </div>
   </div>
-</div>
+</button>

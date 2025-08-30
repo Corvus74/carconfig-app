@@ -1,0 +1,29 @@
+<app-car-config-header></app-car-config-header>
+
+@if (orderInfo.carOrderId) {
+  <div class="card">
+    <div class="card-body">
+      <div class="container text-center">
+        <div class="row">
+          <div class="col">
+            <app-car-config-order-overview [orderInfo]="orderInfo"></app-car-config-order-overview>
+
+          </div>
+          <div class="col">
+            <app-car-config-3d-car-view></app-car-config-3d-car-view>
+            <app-car-config-car-information></app-car-config-car-information>
+            <app-car-config-order [createNewOrder]="true" [updateOrDeleteOrder]="true"></app-car-config-order>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="row">
+    <div class="col">
+      OrderInfo does not exist for order Id {{ orderId }} Please try again with other OrderId
+    </div>
+  </div>
+}
+
+

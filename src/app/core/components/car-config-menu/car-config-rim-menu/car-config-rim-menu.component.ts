@@ -17,30 +17,17 @@ export class CarConfigRimMenuComponent{
   @Input() carRims: CarRimDto[] | undefined
   @Input() selectedValue: CarRimDto |undefined;
   @ViewChild('container') container: ElementRef | undefined;
+  @Output() selectionChange = new EventEmitter<void>();
 
 
   constructor(private readonly carConfigChangeService:CarConfigChangeService) {
-  }
-  ngAfterViewInit() {
-
   }
 
   onItemSelected(value: CarRimDto): void {
     this.selectedValue = value;
     this.carConfigChangeService.updateCarRimData(value)
+    this.selectionChange.emit();
   }
 
-  scroll(direction: 'left' | 'right') {
-    if (this.container) {
-      const container = this.container.nativeElement;
-      const scrollAmount = 200; // Adjust this value to change how much it scrolls
-
-      if (direction === 'left') {
-        container.scrollLeft -= scrollAmount;
-      } else {
-        container.scrollLeft += scrollAmount;
-      }
-    }
-  }
 
 }

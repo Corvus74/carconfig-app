@@ -1,3 +1,11 @@
+.imageText {
+  font-family: 'Courier New', monospace;
+}
+
+.image-content {
+height: 15vh;
+}
+
 .grid-item {
   cursor: pointer;
   border: 1px solid #ccc;
@@ -6,6 +14,8 @@
   transition: all 0.2s ease-in-out;
   display: flex;
   flex-direction: column;
+  background-color: #ffffff !important;
+  height: 80%;
 
   &:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -13,29 +23,33 @@
 
   &.selected {
     border-color: #007bff;
-    background-color: #c3c3c3;
+    background-color: #c3c3c3 !important;
     box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
   }
 
-  .title {
+  .model-name {
     font-weight: bold;
     font-size: 1.1em;
     margin-bottom: 0.5rem;
   }
-  .label-info {
+  .label-small {
     font-weight: bold;
     font-size: 0.9em;
     margin-bottom: 0.5rem;
   }
-  .description {
+  .carColorPrice {
     font-size: 0.9em;
     color: #555;
   }
+
 }
 .slide{
   flex-shrink: 0; /* Prevents items from shrinking */
   width: 20vw; /* Example width, adjust as needed */
-  height: 40vh;
+  height: 43vh;
   border: 1px solid blue;
   margin: 10px;
+}
+.button-info{
+  border: 0;
 }

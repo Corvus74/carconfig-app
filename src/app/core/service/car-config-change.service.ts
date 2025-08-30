@@ -9,16 +9,16 @@ import {CarRimDto} from '../api/model/carRimDto';
   providedIn: 'root'
 })
 export class CarConfigChangeService {
-  private _engineData = new BehaviorSubject<CarEngineDto>({});
-  private _colorData = new BehaviorSubject<CarColorDto>({});
-  private _rimData = new BehaviorSubject<CarRimDto>({});
-  private _specialEquipmentData = new BehaviorSubject<SpecialEquipmentDto[]>([{}]);
+  private readonly _engineData = new BehaviorSubject<CarEngineDto>({});
+  private readonly _colorData = new BehaviorSubject<CarColorDto>({});
+  private readonly _rimData = new BehaviorSubject<CarRimDto>({});
+  private readonly _specialEquipmentData = new BehaviorSubject<SpecialEquipmentDto[]>([{}]);
 
   // Observable stream for components to subscribe to
   public engineData$ = this._engineData.asObservable();
   public colorData$ = this._colorData.asObservable();
   public rimDataData$ = this._rimData.asObservable();
-  public specialEquiomentData$ = this._specialEquipmentData.asObservable();
+  public specialEquipmentData$ = this._specialEquipmentData.asObservable();
 
   constructor() { }
 

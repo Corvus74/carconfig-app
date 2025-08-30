@@ -1,0 +1,33 @@
+<button
+  class="color-list-item"
+  [class.selected]="isSelected"
+  (click)="onClick()"
+  onKeyDown="onClick();"
+>
+  <div class="container text-center">
+    <div class="row">
+      <div class="col">
+        <app-car-config-colorview-circle [fillColor]="colorCodeHex"
+                                         [materialType]="value?.materialType"></app-car-config-colorview-circle>
+      </div>
+      <div class="col">
+        <div class="carColorPrice">{{ value?.colorName }}</div>
+      </div>
+      <div class="col">
+        @if (priceIsAvailable(value)) {
+          <div class="carColorPrice">{{ toCurrencyFormat(value?.price) }}</div>
+        } @else {
+          <div class="carColorPrice">inkl</div>
+        }
+      </div>
+      <div class="col">
+         @if (value?.description){
+           <button (click)="handleIconClick($event)" class="button-info bg-transparent border-none text-gray-500 hover:text-blue-500 transition-colors duration-200">
+             <i class="bi bi-info-circle text-4xl"></i>
+           </button>
+         }
+      </div>
+    </div>
+  </div>
+</button>
+

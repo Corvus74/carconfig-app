@@ -1,0 +1,40 @@
+<div class="card">
+  <div class="card-header">
+    <h6>
+      Order Status for {{ title }}
+    </h6>
+  </div>
+  <div class="card border border-primary">
+    @for (equipmentOrder of specialEquipmentOrders; track equipmentOrder.specialEquipmentOrderId) {
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header">
+            <h6>
+              Order Status for Product {{ equipmentOrder.specialEquipment?.equipmentName }}
+            </h6>
+          </div>
+          <div class="card border border-primary">
+            <div class="row">
+              <div class="col">
+                Status :
+              </div>
+              <div class="col">{{ equipmentOrder.orderStatus?.orderStatus }}</div>
+            </div>
+            <div class="row">
+              <div class="col">
+                Shipped At :
+              </div>
+              <div class="col">{{ equipmentOrder.orderStatus?.shippingDate | date: 'dd.MM.yyyy HH:mm' }}</div>
+            </div>
+            <div class="row">
+              <div class="col">
+                Shipping time :
+              </div>
+              <div class="col">{{ equipmentOrder.orderStatus?.deliveryDate | date: 'dd.MM.yyyy HH:mm' }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

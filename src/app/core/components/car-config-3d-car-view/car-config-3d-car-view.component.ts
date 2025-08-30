@@ -12,7 +12,8 @@ import {CarColorDto} from '../../api';
 @Component({
   selector: 'app-car-config-3d-car-view',
   templateUrl: './car-config-3d-car-view.component.html',
-  styleUrl: './car-config-3d-car-view.component.scss'
+  styleUrl: './car-config-3d-car-view.component.scss',
+  standalone: true,
 })
 export class CarConfig3dCarViewComponent implements OnInit, OnDestroy {
 // @ViewChild gets a reference to the canvas element from the HTML template.
@@ -37,16 +38,8 @@ export class CarConfig3dCarViewComponent implements OnInit, OnDestroy {
     envMapIntensity: 1.5,
   };
 
-  private readonly colorDef = new Map();
-
   // --- Lifecycle Hooks ---
   constructor(private readonly carConfigChangedService: CarConfigChangeService) {
-    this.colorDef.set("Black", "#000000")
-    this.colorDef.set("Red", "#cf1515")
-    this.colorDef.set("Blue", "#0518f0")
-    this.colorDef.set("Yellow", "#f5d000")
-    this.colorDef.set("Orange", "#f59300")
-    this.colorDef.set("White", "#ffffff")
   }
 
   /**
@@ -69,6 +62,7 @@ export class CarConfig3dCarViewComponent implements OnInit, OnDestroy {
 
       }
     )
+    this.onWindowResize();
   }
 
   updateColor() {
@@ -90,6 +84,7 @@ export class CarConfig3dCarViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.renderer.dispose();
+    this.carColorSubscription?.unsubscribe();
   }
 
   private initScene(): void {
@@ -164,7 +159,7 @@ export class CarConfig3dCarViewComponent implements OnInit, OnDestroy {
             // The original material might be a MeshPhysicalMaterial
             if (this.carBodyMaterial.type === 'MeshPhysicalMaterial') {
               // If so, cast it to the correct type
-              this.carBodyMaterial = child.material as any as THREE.MeshStandardMaterial;
+              this.carBodyMaterial = child.material as THREE.MeshStandardMaterial;
             }
             // Set the initial properties you want to control
             this.carBodyMaterial.metalness = this.carBodyMaterialProperties.metalness;

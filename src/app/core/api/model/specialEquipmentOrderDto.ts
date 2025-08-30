@@ -8,11 +8,12 @@
  * Do not edit the class manually.
  */
 import { SpecialEquipmentDto } from './specialEquipmentDto';
-import { OrderStatusDto } from './orderStatusDto';
+import { CarOrderStatusDto } from './carOrderStatusDto';
 
 
 export interface SpecialEquipmentOrderDto { 
-    specialEquipmentDto?: SpecialEquipmentDto;
-    orderStatusDto?: OrderStatusDto;
+    specialEquipmentOrderId?: string;
+    specialEquipment?: SpecialEquipmentDto;
+    orderStatus?: CarOrderStatusDto;
 }
 

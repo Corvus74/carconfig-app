@@ -10,12 +10,12 @@
 
 
 export interface CarColorDto { 
-    id?: number;
     colorName?: string;
     description?: string;
     productId?: string;
     price?: number;
     materialType?: CarColorDto.MaterialTypeEnum;
+    paintingType?: CarColorDto.PaintingTypeEnum;
     colorCodeHex?: string;
 }
 export namespace CarColorDto {
@@ -24,6 +24,12 @@ export namespace CarColorDto {
         Glossy: 'GLOSSY'
     } as const;
     export type MaterialTypeEnum = typeof MaterialTypeEnum[keyof typeof MaterialTypeEnum];
+    export const PaintingTypeEnum = {
+        Base: 'BASE',
+        Special: 'SPECIAL',
+        Premium: 'PREMIUM'
+    } as const;
+    export type PaintingTypeEnum = typeof PaintingTypeEnum[keyof typeof PaintingTypeEnum];
 }
 
 

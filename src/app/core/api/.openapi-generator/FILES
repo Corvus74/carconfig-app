@@ -1,4 +1,5 @@
 .gitignore
+.openapi-generator-ignore
 README.md
 api.base.service.ts
 api.module.ts
@@ -8,8 +9,8 @@ api/carEngineWebController.service.ts
 api/carRimsWebController.service.ts
 api/configWebController.service.ts
 api/orderController.service.ts
+api/orderUserController.service.ts
 api/specialEquipmentWebController.service.ts
-api/userController.service.ts
 configuration.ts
 encoder.ts
 git_push.sh
@@ -19,12 +20,13 @@ model/carColorDto.ts
 model/carColorOrderDto.ts
 model/carEngineDto.ts
 model/carEngineOrderDto.ts
+model/carOrderDto.ts
+model/carOrderStatusDto.ts
+model/carOrderUpdateDto.ts
 model/carRimDto.ts
 model/carRimOrderDto.ts
 model/models.ts
-model/orderDto.ts
-model/orderStatusDto.ts
-model/orderUpdateDto.ts
+model/orderUpdateResponseDto.ts
 model/orderUserDto.ts
 model/responseDto.ts
 model/specialEquipmentDto.ts

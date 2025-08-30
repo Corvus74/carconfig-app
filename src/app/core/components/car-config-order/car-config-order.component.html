@@ -12,56 +12,57 @@
         Price
       </div>
     </div>
-    @if (engineData) {
+    @if (engineData?.productId) {
       <div class="row">
         <div class="col">
           Engine :
         </div>
         <div class="col">
-          {{ engineData.model }}
+          {{ engineData?.model }}
         </div>
         <div class="col">
-          {{ toCurrencyFormat(engineData.price) }}
+          {{ toCurrencyFormat(engineData?.price) }}
         </div>
       </div>
     }
-    @if (colorData) {
+    @if (colorData?.productId) {
       <div class="row">
         <div class="col">
           Color:
         </div>
         <div class="col">
-          {{colorData.colorName}}
+          {{ colorData?.colorName }}
         </div>
         <div class="col">
-          {{toCurrencyFormat(colorData.price)}}
+          {{ toCurrencyFormat(colorData?.price) }}
         </div>
       </div>
     }
-    @if (rimData?.model) {
+    @if (rimData?.productId) {
       <div class="row">
         <div class="col">
           Rim :
         </div>
         <div class="col">
+          {{ rimData?.rimName }}
         </div>
         <div class="col">
-          {{toCurrencyFormat(rimData?.price)}}
+          {{ toCurrencyFormat(rimData?.price) }}
         </div>
       </div>
     }
-    @if ((specialEquipments) &&(specialEquipments.length > 0)) {
-      @for (specialEquip of specialEquipments; track specialEquip) {
+    @if (showSpecialEquipment()) {
+      @for (specialEquip of specialEquipments; track specialEquip.productId) {
 
         <div class="row">
           <div class="col">
-            {{specialEquip.equipmentName}}
+            {{ specialEquip.categoryType }}
           </div>
           <div class="col">
-
+            {{ specialEquip.equipmentName }}
           </div>
           <div class="col">
-            {{toCurrencyFormat(specialEquip.price)}}
+            {{ toCurrencyFormat(specialEquip.price) }}
           </div>
         </div>
       }
@@ -74,15 +75,50 @@
       </div>
       @if (totalPrice) {
         <div class="col">
-          {{toCurrencyFormat(totalPrice)}}
+          {{ toCurrencyFormat(totalPrice) }}
         </div>
       } @else {
         <div class="col">
           0,00 €
         </div>
       }
-
     </div>
+    @if (canCreateNewOrder()) {
+      <div class="row">
+        <div class="col">
+          <button type="button"
+                  class="btn btn-primary rounded-pill shadow-lg"
+                  (click)="onOrderConfirmClick()">Send Order
+          </button>
+        </div>
+      </div>
+    }
+    @if (showRearmOrderButton()) {
+      <div class="row">
+        <div class="col">
+          <button type="button"
+                  class="btn btn-outline-primary rounded-pill shadow-lg"
+                  (click)="onRearmOrder()">Rearm Order
+          </button>
+        </div>
+      </div>
+    }
+    @if (canModifyOrderButtons()) {
+      <div class="row">
+        <div class="col">
+          <button type="button"
+                  class="btn btn-primary rounded-pill shadow-lg"
+                  (click)="onOrderConfirmClick()">Cancel Order
+          </button>
+        </div>
+        <div class="col">
+          <button type="button"
+                  class="btn btn-primary rounded-pill shadow-lg"
+                  (click)="onOrderConfirmClick()">Delete Order
+          </button>
+        </div>
+      </div>
+    }
   </div>
 
 </div>

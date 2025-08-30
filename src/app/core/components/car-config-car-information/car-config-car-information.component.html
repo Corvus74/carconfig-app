@@ -1,12 +1,12 @@
-<div class="container text-center">
-
+<div class="container text-center border border-primary mt-2">
+  <h5>Car Information</h5>
   <div class="row">
     <div class="col">
       Engine Model:
     </div>
-    @if (engineData) {
+    @if (this.engineData?.productId) {
       <div class="col">
-        {{ engineData.model }}
+        {{ engineData?.model }}
       </div>
     } @else {
       <div class="col">
@@ -18,9 +18,9 @@
     <div class="col">
       Colorname:
     </div>
-    @if (colorData) {
+    @if (colorData?.productId) {
       <div class="col">
-        {{ colorData.colorName }}
+        {{ colorData?.colorName }}
       </div>
     } @else {
       <div class="col">
@@ -32,9 +32,9 @@
     <div class="col">
       Rim :
     </div>
-    @if (rimData) {
+    @if (rimData?.productId) {
       <div class="col">
-        {{ rimData.rimName }}
+        {{ rimData?.rimName }}
       </div>
     } @else {
       <div class="col">
@@ -46,22 +46,26 @@
     <div class="col">
       Special Equipments:
     </div>
-    @if (specialEquipment) {
+    @if (showSpecialEquipment()) {
       <div class="col">
-        <ul>
-          @for (equipment of specialEquipment; track specialEquipment) {
-            <li>
-              {{ equipment.equipmentName }}
-            </li>
-          }
-        </ul>
+        {{ generateChoosenText()}}
       </div>
     } @else {
       <div class="col">
         Please choose your 5 Equipments first !!
       </div>
     }
-
+    @if (showSpecialEquipment()) {
+      @for (equipment of specialEquipment; track equipment.productId) {
+        <div class="row">
+          <div class="col">
+          </div>
+          <div class="col">
+            {{ equipment.equipmentName }}
+          </div>
+        </div>
+      }
+    }
   </div>
 </div>
 

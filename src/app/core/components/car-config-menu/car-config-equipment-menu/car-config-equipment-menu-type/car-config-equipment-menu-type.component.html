@@ -1,0 +1,87 @@
+<div class="row bg-body bg-dark">
+  <div class="card shadow-lg">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center p-3"
+         (click)="showLocationMenu()"
+         (keydown.enter)="showLocationMenu()"
+         tabindex="0"
+         role="button"
+         [attr.aria-expanded]="titleName"
+         style="cursor: pointer;">
+      <h5 class="mb-0 d-flex align-items-center">
+        <i class="me-2"></i>
+        {{ titleName }}
+      </h5>
+    </div>
+  </div>
+  @if (locationMenuShown) {
+    @if (specialEquipmentAirconList.length > 0) {
+      <div class="row">
+        <app-car-config-equipment-menu-category
+          [titleName]="airconTitleName"
+          [specialEquipmentListInit]="specialEquipmentAirconList"
+        >
+        </app-car-config-equipment-menu-category>
+      </div>
+    }
+    @if (specialEquipmentMultiMediaList.length > 0) {
+      <!-- Multimedia Category -->
+      <div class="row">
+        <app-car-config-equipment-menu-category
+          [titleName]="multiMediaTitleName"
+          [specialEquipmentListInit]="specialEquipmentMultiMediaList"
+        >
+        </app-car-config-equipment-menu-category>
+      </div>
+    }
+    @if (specialEquipmentSeatsList.length > 0) {
+      <!-- Seats Category -->
+      <div class="row">
+        <app-car-config-equipment-menu-category
+          [titleName]="seatsTitleName"
+          [specialEquipmentListInit]="specialEquipmentSeatsList"
+        >
+        </app-car-config-equipment-menu-category>
+      </div>
+    }
+    @if (specialEquipmentHeatingList.length > 0) {
+      <div class="row">
+        <app-car-config-equipment-menu-category
+          [titleName]="heatingTitleName"
+          [specialEquipmentListInit]="specialEquipmentHeatingList"
+        >
+        </app-car-config-equipment-menu-category>
+      </div>
+    }
+    @if (specialEquipmentNaviList.length > 0) {
+      <!-- Navigation System Category -->
+      <div class="row">
+        <app-car-config-equipment-menu-category
+          [titleName]="naviTitleName"
+          [specialEquipmentListInit]="specialEquipmentNaviList"
+        >
+
+        </app-car-config-equipment-menu-category>
+      </div>
+    }
+    @if (specialEquipmentSteeringWheelList.length > 0) {
+      <!-- Steering Wheel Category -->
+      <div class="row">
+        <app-car-config-equipment-menu-category
+          [titleName]="steeringWheelTitleName"
+          [specialEquipmentListInit]="specialEquipmentSteeringWheelList"
+        >
+        </app-car-config-equipment-menu-category>
+      </div>
+    }
+    @if (specialEquipmentMiscList.length > 0) {
+      <!-- Misc Category -->
+      <div class="row">
+        <app-car-config-equipment-menu-category
+          [titleName]="miscTitleName"
+          [specialEquipmentListInit]="specialEquipmentMiscList"
+        >
+        </app-car-config-equipment-menu-category>
+      </div>
+    }
+  }
+</div>

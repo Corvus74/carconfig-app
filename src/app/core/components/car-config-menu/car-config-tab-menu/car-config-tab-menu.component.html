@@ -1,0 +1,73 @@
+<div class="tabs-container">
+  <div class="tabs-header">
+    @for (tab of tabInfos; track tab.id;) {
+      @if (tab.id <= maxUnlockedTabId) {
+        <button
+          class="tab-button"
+          [class.active]="activeTab === tab.id"
+          (click)="selectTab(tab.id)">
+          {{ tab.label }}
+        </button>
+      }
+    }
+  </div>
+
+  <div class="tabs-content">
+    @for (tab of tabInfos; track tab.id;) {
+      @if (tab.id === activeTab && tab.id <= maxUnlockedTabId) {
+        <div class="tab-panel">
+          <div class="row bg-light sub-content-header">
+            <h5> Choose your {{tab.label}}</h5>
+          </div>
+          <section class="tab-content-scroll" #tabScroll [attr.aria-label]="tab.label">
+
+            <div class="container text-center">
+              @if (showCarEngine() && activeTab===1) {
+                <app-car-config-engine-menu
+                  [carEngines]="baseConfig.carEngines">
+                </app-car-config-engine-menu>
+              }
+
+              @if (showCarColor() && activeTab===2) {
+                <app-car-config-color-menu
+                  [carColorInit]="baseConfig.carColors">
+                </app-car-config-color-menu>
+              }
+
+              @if (showCarRims() && activeTab===3) {
+                <app-car-config-rim-menu
+                  [carRims]="baseConfig.carRims">
+                </app-car-config-rim-menu>
+              }
+
+              @if (showSpecialEquipment() && activeTab===4) {
+                <app-car-config-special-equipment-menu
+                  [specialEquipmentListInit]="baseConfig.specialEquipment">
+                </app-car-config-special-equipment-menu>
+              }
+            </div>
+          </section>
+          <!-- Sticky Bottom Bar: Prev / Scroll / Next -->
+          <div class="tab-bottom-bar">
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              (click)="goToPreviousTab()"
+              [disabled]="!hasPreviousTab()">
+              Previous
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="goToNextTab()"
+              [disabled]="!canProceedFromActiveTab()">
+              Next
+            </button>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>
+

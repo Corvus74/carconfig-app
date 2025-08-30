@@ -17,9 +17,11 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { OrderDto } from '../model/orderDto';
+import { CarOrderDto } from '../model/carOrderDto';
 // @ts-ignore
-import { OrderUpdateDto } from '../model/orderUpdateDto';
+import { CarOrderUpdateDto } from '../model/carOrderUpdateDto';
+// @ts-ignore
+import { OrderUpdateResponseDto } from '../model/orderUpdateResponseDto';
 // @ts-ignore
 import { ResponseDto } from '../model/responseDto';
 
@@ -40,16 +42,16 @@ export class OrderControllerService extends BaseService {
     }
 
     /**
-     * @param orderUpdateDto 
+     * @param carOrderUpdateDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createOrder(orderUpdateDto: OrderUpdateDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResponseDto>;
-    public createOrder(orderUpdateDto: OrderUpdateDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResponseDto>>;
-    public createOrder(orderUpdateDto: OrderUpdateDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResponseDto>>;
-    public createOrder(orderUpdateDto: OrderUpdateDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (orderUpdateDto === null || orderUpdateDto === undefined) {
-            throw new Error('Required parameter orderUpdateDto was null or undefined when calling createOrder.');
+    public createOrder(carOrderUpdateDto: CarOrderUpdateDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<OrderUpdateResponseDto>;
+    public createOrder(carOrderUpdateDto: CarOrderUpdateDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OrderUpdateResponseDto>>;
+    public createOrder(carOrderUpdateDto: CarOrderUpdateDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OrderUpdateResponseDto>>;
+    public createOrder(carOrderUpdateDto: CarOrderUpdateDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (carOrderUpdateDto === null || carOrderUpdateDto === undefined) {
+            throw new Error('Required parameter carOrderUpdateDto was null or undefined when calling createOrder.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -88,10 +90,10 @@ export class OrderControllerService extends BaseService {
 
         let localVarPath = `/order/create`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<ResponseDto>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<OrderUpdateResponseDto>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: orderUpdateDto,
+                body: carOrderUpdateDto,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -107,10 +109,10 @@ export class OrderControllerService extends BaseService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteOrder(orderId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<ResponseDto>;
-    public deleteOrder(orderId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResponseDto>>;
-    public deleteOrder(orderId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResponseDto>>;
-    public deleteOrder(orderId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public deleteOrder(orderId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<ResponseDto>;
+    public deleteOrder(orderId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResponseDto>>;
+    public deleteOrder(orderId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResponseDto>>;
+    public deleteOrder(orderId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
         }
@@ -140,7 +142,7 @@ export class OrderControllerService extends BaseService {
             }
         }
 
-        let localVarPath = `/order/delete/${this.configuration.encodeParam({name: "orderId", value: orderId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int32"})}`;
+        let localVarPath = `/order/delete/${this.configuration.encodeParam({name: "orderId", value: orderId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<ResponseDto>('delete', `${basePath}${localVarPath}`,
             {
@@ -160,12 +162,12 @@ export class OrderControllerService extends BaseService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getOrder(orderId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<OrderDto>;
-    public getOrder(orderId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OrderDto>>;
-    public getOrder(orderId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OrderDto>>;
-    public getOrder(orderId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getOrderByOrderId(orderId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CarOrderDto>;
+    public getOrderByOrderId(orderId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CarOrderDto>>;
+    public getOrderByOrderId(orderId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CarOrderDto>>;
+    public getOrderByOrderId(orderId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (orderId === null || orderId === undefined) {
-            throw new Error('Required parameter orderId was null or undefined when calling getOrder.');
+            throw new Error('Required parameter orderId was null or undefined when calling getOrderByOrderId.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -193,9 +195,9 @@ export class OrderControllerService extends BaseService {
             }
         }
 
-        let localVarPath = `/order/${this.configuration.encodeParam({name: "orderId", value: orderId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/order/byId/${this.configuration.encodeParam({name: "orderId", value: orderId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<OrderDto>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<CarOrderDto>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -209,16 +211,16 @@ export class OrderControllerService extends BaseService {
     }
 
     /**
-     * @param orderUpdateDto 
+     * @param carOrderUpdateDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateOrder(orderUpdateDto: OrderUpdateDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResponseDto>;
-    public updateOrder(orderUpdateDto: OrderUpdateDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResponseDto>>;
-    public updateOrder(orderUpdateDto: OrderUpdateDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResponseDto>>;
-    public updateOrder(orderUpdateDto: OrderUpdateDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (orderUpdateDto === null || orderUpdateDto === undefined) {
-            throw new Error('Required parameter orderUpdateDto was null or undefined when calling updateOrder.');
+    public updateOrder(carOrderUpdateDto: CarOrderUpdateDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<OrderUpdateResponseDto>;
+    public updateOrder(carOrderUpdateDto: CarOrderUpdateDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OrderUpdateResponseDto>>;
+    public updateOrder(carOrderUpdateDto: CarOrderUpdateDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OrderUpdateResponseDto>>;
+    public updateOrder(carOrderUpdateDto: CarOrderUpdateDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (carOrderUpdateDto === null || carOrderUpdateDto === undefined) {
+            throw new Error('Required parameter carOrderUpdateDto was null or undefined when calling updateOrder.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -257,10 +259,10 @@ export class OrderControllerService extends BaseService {
 
         let localVarPath = `/order/update`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<ResponseDto>('put', `${basePath}${localVarPath}`,
+        return this.httpClient.request<OrderUpdateResponseDto>('put', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: orderUpdateDto,
+                body: carOrderUpdateDto,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

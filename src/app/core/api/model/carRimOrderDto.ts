@@ -7,11 +7,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OrderStatusDto } from './orderStatusDto';
+import { CarRimDto } from './carRimDto';
+import { CarOrderStatusDto } from './carOrderStatusDto';
 
 
 export interface CarRimOrderDto { 
-    carRimOrder?: any | null;
-    orderStatusDto?: OrderStatusDto;
+    carRimOrderId?: string;
+    carRim?: CarRimDto;
+    orderStatus?: CarOrderStatusDto;
 }
 
