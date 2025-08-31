@@ -5,12 +5,16 @@
          (keydown.enter)="showCategoryMenu()"
          tabindex="0"
          role="button"
-         [attr.aria-expanded]="titleName"
+         [attr.aria-expanded]="categoryMenuShown"
          style="cursor: pointer;">
       <h5 class="mb-0 d-flex align-items-center">
         <i class="ri-truck-line me-2"></i>
         {{ titleName }}
       </h5>
+      <i class="bi fs-5 me-2"
+         [class.bi-chevron-down]="!categoryMenuShown"
+         [class.bi-chevron-up]="categoryMenuShown"
+         aria-hidden="true"></i>
     </div>
   </div>
   @if (categoryMenuShown) {
@@ -54,4 +58,3 @@
     </div>
   }
 </div>
-

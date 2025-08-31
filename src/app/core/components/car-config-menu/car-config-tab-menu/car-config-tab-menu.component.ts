@@ -166,21 +166,21 @@ export class CarConfigTabMenuComponent implements OnInit, OnDestroy{
   private onEngineSelected(): void {
     if(!this.tabsStatus.tabEngine){
       this.tabsStatus.tabEngine = true;
-      this.carTabMenuChangeService.updateTaStatus(this.tabsStatus)
+      this.carTabMenuChangeService.updateTabStatus(this.tabsStatus)
     }
   }
 
   private onColorSelected(): void {
     if(!this.tabsStatus.tabColor){
       this.tabsStatus.tabColor = true;
-      this.carTabMenuChangeService.updateTaStatus(this.tabsStatus)
+      this.carTabMenuChangeService.updateTabStatus(this.tabsStatus)
     }
   }
 
   private onRimsSelected(): void {
     if(!this.tabsStatus.tabRim){
       this.tabsStatus.tabRim = true;
-      this.carTabMenuChangeService.updateTaStatus(this.tabsStatus)
+      this.carTabMenuChangeService.updateTabStatus(this.tabsStatus)
     }
 
   }
@@ -188,7 +188,7 @@ export class CarConfigTabMenuComponent implements OnInit, OnDestroy{
   private onSpecialSelected(): void {
     if(!this.tabsStatus.tabSpecialEquipment){
       this.tabsStatus.tabSpecialEquipment = true;
-      this.carTabMenuChangeService.updateTaStatus(this.tabsStatus)
+      this.carTabMenuChangeService.updateTabStatus(this.tabsStatus)
     }
   }
 }

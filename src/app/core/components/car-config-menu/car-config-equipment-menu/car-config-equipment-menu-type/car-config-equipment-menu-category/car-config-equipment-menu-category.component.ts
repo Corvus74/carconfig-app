@@ -34,8 +34,6 @@ export class CarConfigEquipmentMenuCategoryComponent implements OnInit, OnDestro
   selectedIds = signal<Set<string>>(new Set());
   selectedCategories = signal<Set<SpecialEquipmentDto.CategoryTypeEnum>>(new Set());
   categoryMenuShown: boolean=false;
-
-
   constructor(private readonly carConfigChangeService: CarConfigChangeService) {
   }
 

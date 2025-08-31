@@ -14,6 +14,7 @@ import {CarConfigUserInputComponent} from './car-config-header-user-input/car-co
 })
 export class CarConfigHeaderComponent {
   isLoggedIn: boolean=false;
+  showUserInput: boolean=false;
   /**
    * Method to handle the button click event.
    */

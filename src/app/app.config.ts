@@ -1,30 +1,53 @@
 import {
-  ApplicationConfig, inject, InjectionToken, LOCALE_ID, provideAppInitializer,
-  provideBrowserGlobalErrorListeners,
-  provideZoneChangeDetection
+  ApplicationConfig, InjectionToken, isDevMode, LOCALE_ID,
+  provideBrowserGlobalErrorListeners, provideZoneChangeDetection
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import {provideRouter} from '@angular/router';
 
-import { routes } from './app.routes';
+import {routes} from './app.routes';
 import {provideHttpClient} from '@angular/common/http';
 
 
 // This is your shared service that will hold the config
 export interface RuntimeConfig {
   apiBaseUrl: string;
-  featureFlags?: Record<string, boolean>;
+  apiOrderUrl: string;
+  // Add other runtime variables here if needed
 }
 
 export const RUNTIME_CONFIG = new InjectionToken<RuntimeConfig>('RUNTIME_CONFIG');
 
-let runtimeConfig!: RuntimeConfig;
-function loadRuntimeConfig(): Promise<void> {
-  return fetch('/assets/runtime-config.json', { cache: 'no-store' })
-    .then(resp => {
-      if (!resp.ok) throw new Error(`Failed to load runtime-config.json: ${resp.status}`);
-      return resp.json() as Promise<RuntimeConfig>;
-    })
-    .then(cfg => { runtimeConfig = cfg; });
+/**
+ * Factory function to provide the runtime configuration.
+ * It reads the configuration from the global `window.env` object,
+ * which is created by the `env.js` script at container startup.
+ */
+export function provideRuntimeConfig(): RuntimeConfig {
+  // For local development, the API base URL should be an empty string
+  // so that requests are sent to the same origin (e.g., /api/...). The Angular
+  // dev server's proxy will then forward these requests to the backend.
+  if (isDevMode()) {
+    console.log('Running in development mode, using proxy for API calls.');
+    // Use relative paths so that the proxy can intercept the requests.
+    return { apiBaseUrl: '', apiOrderUrl: '' };
+  }
+
+  // For production (Docker), read from the injected env.js
+  const env = (window as any).env;
+
+  // A simple check to see if the global env object and its properties are available.
+  const runtimeVarsAvailable = env && env.apiUrl && env.apiOrderUrl;
+
+  if (!runtimeVarsAvailable) {
+    console.error('ERROR: Runtime environment variables from env.js are not available!');
+    // Provide a sensible default or throw an error to fail fast
+    return { apiBaseUrl: 'http://error.invalid/api', apiOrderUrl: 'http://error.invalid/order' };
+  }
+
+  return {
+    apiBaseUrl: env.apiUrl,
+    apiOrderUrl: env.apiOrderUrl
+  };
 }
 
 
@@ -32,11 +55,9 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),
     provideBrowserGlobalErrorListeners(),
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideZoneChangeDetection({eventCoalescing: true}),
     provideRouter(routes),
-    provideAppInitializer(() => loadRuntimeConfig()),
-
-    { provide: RUNTIME_CONFIG, useValue: runtimeConfig },
-    { provide: LOCALE_ID, useValue: 'de-DE'}
+    {provide: RUNTIME_CONFIG, useFactory: provideRuntimeConfig},
+    {provide: LOCALE_ID, useValue: 'de-DE'}
   ]
 };

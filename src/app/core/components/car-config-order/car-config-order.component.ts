@@ -13,6 +13,8 @@ import {CarConfigOrderModal} from './car-config-order-modal/car-config-order-mod
 import {CarConfigGeneralFunctionsService} from '../../service/car-config-general-functions.service';
 import {CarConfigMenuTabs} from '../../models/CarConfigMenuTabs';
 import {CarTabMenuChangeService} from '../../service/car-config-menu-tabs.service';
+import {CarConfigApiService} from '../../service/car-config-api.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-car-config-order',
@@ -23,6 +25,7 @@ import {CarTabMenuChangeService} from '../../service/car-config-menu-tabs.servic
 export class CarConfigOrderComponent implements OnInit, OnDestroy {
   @Input() createNewOrder!: boolean;
   @Input() updateOrDeleteOrder!: boolean;
+  @Input() showOrderMenu:boolean = false;
   engineData: CarEngineDto | undefined;
   colorData: CarColorDto | undefined;
   rimData: CarRimDto | undefined;
@@ -32,18 +35,19 @@ export class CarConfigOrderComponent implements OnInit, OnDestroy {
   private carColorSubscription: Subscription | undefined;
   private carRimSubscription: Subscription | undefined;
   private tabMenuSubscription: Subscription | undefined;
+
   private receivedOrderNumber: string | undefined;
-
   private carSpecialEquipmentsSubscription: Subscription | undefined;
+
   totalPrice = 0
-
   isSending: boolean = false;
-
   constructor(private readonly carConfigChangedService: CarConfigChangeService,
               private readonly orderControllerService: OrderControllerService,
               private readonly carConfigOrderModal: CarConfigOrderModal,
               private readonly carConfigGeneralFunctionsService: CarConfigGeneralFunctionsService,
-              private readonly carTabMenuChangeService: CarTabMenuChangeService) {
+              private readonly carTabMenuChangeService: CarTabMenuChangeService,
+              private readonly carConfigApiService: CarConfigApiService,
+              private readonly router:Router) {
   } // Dialog statt alter Modal-"Service"
   ngOnDestroy(): void {
     this.carEngineSubscription?.unsubscribe();
@@ -84,6 +88,9 @@ export class CarConfigOrderComponent implements OnInit, OnDestroy {
     this.tabMenuSubscription = this.carTabMenuChangeService.carConfigTabInfoData$.subscribe(
       (data) => {
         this.carMenuTabs = data;
+        if(data?.showOrder){
+          this.showOrderMenu = true;
+        }
       }
     )
   }
@@ -142,7 +149,7 @@ export class CarConfigOrderComponent implements OnInit, OnDestroy {
   }
 
   async showLinkOrderNumber(orderId: string) {
-    let url = +"/order/" + orderId
+    let url = this.carConfigApiService.getApiOrderUrl() + "/" + orderId
     await this.carConfigOrderModal.open("OrderLink to your order", url, true);
   }
 
@@ -171,27 +178,16 @@ export class CarConfigOrderComponent implements OnInit, OnDestroy {
   }
 
   private createOrder(): CarOrderUpdateDto {
-    let carOrder: CarOrderUpdateDto = {};
-    carOrder.carColorProductId = this.colorData?.productId;
-    carOrder.carEngineProductId = this.engineData?.productId;
-    carOrder.carRimsProductId = this.rimData?.productId;
-    carOrder.specialEquipmentProductIds = this.getSpecialEquipmentProductIds();
-    return carOrder;
+    return {
+      carColorProductId: this.colorData?.productId,
+      carEngineProductId: this.engineData?.productId,
+      carRimsProductId: this.rimData?.productId,
+      specialEquipmentProductIds: this.getSpecialEquipmentProductIds()
+    };
   }
 
-  private getSpecialEquipmentProductIds(): string[] | undefined {
-    if (this.specialEquipments) {
-
-      let specialEquipmentsIdList: string[] = [];
-      for (let specialEquip of this.specialEquipments) {
-        const specialEquipmentProductId = specialEquip?.productId;
-        if (specialEquipmentProductId) {
-          specialEquipmentsIdList.push(specialEquipmentProductId);
-        }
-      }
-      return specialEquipmentsIdList;
-    }
-    return undefined;
+  private getSpecialEquipmentProductIds(): string[] {
+    return this.specialEquipments?.map(eq => eq.productId).filter((id): id is string => !!id) ?? [];
   }
 
   showSpecialEquipment() {
@@ -232,5 +228,51 @@ export class CarConfigOrderComponent implements OnInit, OnDestroy {
   }
   onRearmOrder() {
     this.receivedOrderNumber = "";
+  }
+
+  onModifyOrder() {
+    // Navigating to the root allows the user to modify the configuration
+    // while keeping the current state.
+    this.router.navigateByUrl('/');
+  }
+
+  onDeleteOrder() {
+    this.handleOrderDeletion();
+  }
+
+  private async handleOrderDeletion(): Promise<void> {
+    const confirmed = await this.carConfigOrderModal.open(
+      'Delete Order',
+      'Are you sure you want to delete this order? This action cannot be undone.'
+    );
+
+    if (confirmed) {
+      try {
+        this.isSending = true;
+        // Assumes a `deleteOrder` method exists on your OrderControllerService.
+        // You may need to adjust the method name based on your OpenAPI spec.
+        /*await firstValueFrom(
+          this.orderControllerService.deleteOrder(this.receivedOrderNumber)
+        );*/
+
+        // On successful deletion, reset all application state and navigate.
+        this.resetApplicationState();
+
+      } catch (error) {
+        console.error('Error deleting the order:', error);
+        await this.carConfigOrderModal.open('Error', 'Could not delete the order. Please try again later.', true);
+      } finally {
+        this.isSending = false;
+      }
+    }
+  }
+
+  private resetApplicationState(): void {
+    // It's a best practice for stateful services to have a reset method.
+    // You should add these methods to clear the configuration.
+    this.carConfigChangedService.reset();
+    this.carTabMenuChangeService.reset();
+    this.onRearmOrder(); // Resets local component state
+    this.router.navigateByUrl('/');
   }
 }

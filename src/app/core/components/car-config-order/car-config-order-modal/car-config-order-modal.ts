@@ -14,14 +14,14 @@ import {Modal} from 'bootstrap';
 export class CarConfigOrderModal {
   constructor() {}
 
-  open(title:string, message: string,onlyOneButton:boolean=false): Promise<boolean> {
+  open(title:string, message: string,showModalForConfirmLink:boolean=false): Promise<boolean> {
     // Bootstrap-Modal-Container erzeugen
     const modalEl = document.createElement('div');
     modalEl.className = 'modal fade';
     modalEl.tabIndex = -1;
     modalEl.setAttribute('aria-hidden', 'true');
-    if(onlyOneButton){
-      modalEl.innerHTML= this.getCodeForOneButtonModal(title,message);
+    if(showModalForConfirmLink){
+      modalEl.innerHTML= this.showModalForConfirmLink(title,message);
     }
     else {
       modalEl.innerHTML = this.getCodeForTwoButtonModal(title,message)
@@ -74,7 +74,7 @@ export class CarConfigOrderModal {
     return div.innerHTML;
   }
 
-  private getCodeForOneButtonModal(title:string, message:string) {
+  private showModalForConfirmLink(title:string, message:string) {
     return  `
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -83,10 +83,14 @@ export class CarConfigOrderModal {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>${this.escapeHtml(message)}</p>
+            <p>Your order has been successfully submitted. Please copy the underlying link and send it to the customer. Or copy it.
+            After clicking on the link the order will be closed.</p>
+           <p>
+            <a href=${message}>${this.escapeHtml(message)}</a>
+            </p>
           </div>
           <div class="modal-footer">
-            <button id="confirmBtn" type="button" class="btn btn-primary">Submit</button>
+            <button id="confirmBtn" type="button" class="btn btn-primary">Ok</button>
           </div>
         </div>
       </div>

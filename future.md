@@ -1,9 +1,10 @@
-name: CI - Build, Test, and Publish
+# Future thinking
+Using AWS ECR and GitHub Actions
+for this replace the Dockerfile with the following
 
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+
+````
+name: CI - Build, Test, and Publish
 
 on:
   schedule:
@@ -16,10 +17,8 @@ on:
     branches: [ "main" ]
 
 env:
-  # Use ghcr.io for the container registry
-  REGISTRY: ghcr.io
-  # The image name will be your-github-username/repository-name in lowercase
-  IMAGE_NAME: ${{ github.repository }}
+  # IMPORTANT: Change this to your ECR repository name if it's different
+  ECR_REPOSITORY: carconfig-app
 
 jobs:
   test:
@@ -44,28 +43,30 @@ jobs:
   build-and-push-image:
     name: Build and Push Docker Image
     needs: test # This ensures this job only runs if the 'test' job succeeds
-    runs-on: ubuntu-latest
-    # Grant permissions for the GITHUB_TOKEN to push to ghcr.io
     permissions:
       contents: read
-      packages: write
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Log in to the Container registry
-        uses: docker/login-action@v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -77,3 +78,4 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+````

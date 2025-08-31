@@ -1,125 +1,134 @@
-<div>
-  <h4> Current Order</h4>
-  <div class="container text-lg-start">
-    <div class="row">
-      <div class="col">
-        Position:
-      </div>
-      <div class="col">
-        Description
-      </div>
-      <div class="col">
-        Price
-      </div>
-    </div>
-    @if (engineData?.productId) {
+@if (showOrderMenu) {
+  <div class="card container text-center border border-primary mt-2">
+    <h4> Current Order</h4>
+    <div class="container text-lg-start">
       <div class="row">
         <div class="col">
-          Engine :
+          Position:
         </div>
         <div class="col">
-          {{ engineData?.model }}
+          Description
         </div>
         <div class="col">
-          {{ toCurrencyFormat(engineData?.price) }}
+          Price
         </div>
       </div>
-    }
-    @if (colorData?.productId) {
-      <div class="row">
-        <div class="col">
-          Color:
-        </div>
-        <div class="col">
-          {{ colorData?.colorName }}
-        </div>
-        <div class="col">
-          {{ toCurrencyFormat(colorData?.price) }}
-        </div>
-      </div>
-    }
-    @if (rimData?.productId) {
-      <div class="row">
-        <div class="col">
-          Rim :
-        </div>
-        <div class="col">
-          {{ rimData?.rimName }}
-        </div>
-        <div class="col">
-          {{ toCurrencyFormat(rimData?.price) }}
-        </div>
-      </div>
-    }
-    @if (showSpecialEquipment()) {
-      @for (specialEquip of specialEquipments; track specialEquip.productId) {
-
+      @if (engineData?.productId) {
         <div class="row">
           <div class="col">
-            {{ specialEquip.categoryType }}
+            Engine :
           </div>
           <div class="col">
-            {{ specialEquip.equipmentName }}
+            {{ engineData?.model }}
           </div>
           <div class="col">
-            {{ toCurrencyFormat(specialEquip.price) }}
+            {{ toCurrencyFormat(engineData?.price) }}
           </div>
         </div>
       }
-    }
-    <div class="row">
-      <div class="col">
-        Total Price:
-      </div>
-      <div class="col">
-      </div>
-      @if (totalPrice) {
-        <div class="col">
-          {{ toCurrencyFormat(totalPrice) }}
+      @if (colorData?.productId) {
+        <div class="row">
+          <div class="col">
+            Color:
+          </div>
+          <div class="col">
+            {{ colorData?.colorName }}
+          </div>
+          <div class="col">
+            {{ toCurrencyFormat(colorData?.price) }}
+          </div>
         </div>
-      } @else {
+      }
+      @if (rimData?.productId) {
+        <div class="row">
+          <div class="col">
+            Rim :
+          </div>
+          <div class="col">
+            {{ rimData?.rimName }}
+          </div>
+          <div class="col">
+            {{ toCurrencyFormat(rimData?.price) }}
+          </div>
+        </div>
+      }
+      @if (showSpecialEquipment()) {
+        @for (specialEquip of specialEquipments; track specialEquip.productId) {
+
+          <div class="row">
+            <div class="col">
+              {{ specialEquip.categoryType }}
+            </div>
+            <div class="col">
+              {{ specialEquip.equipmentName }}
+            </div>
+            <div class="col">
+              {{ toCurrencyFormat(specialEquip.price) }}
+            </div>
+          </div>
+        }
+      }
+      <div class="row">
         <div class="col">
-          0,00 €
+          Total Price:
+        </div>
+        <div class="col">
+        </div>
+        @if (totalPrice) {
+          <div class="col">
+            {{ toCurrencyFormat(totalPrice) }}
+          </div>
+        } @else {
+          <div class="col">
+            0,00 €
+          </div>
+        }
+      </div>
+      @if (canCreateNewOrder()) {
+        <div class="row">
+          <div class="col">
+          </div>
+          <div class="col text-start ps-4">
+            <div class="d-grid gap-2 col-6 mx-auto my-3">
+              <button type="button" class="btn btn-primary" (click)="onOrderConfirmClick()">
+                <i class="bi bi-cart-check-fill me-2"></i> Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+
+      }
+      @if (showRearmOrderButton()) {
+        <div class="row">
+          <div class="col">
+            <button type="button"
+                    class="btn btn-outline-primary rounded-pill shadow-lg"
+                    (click)="onRearmOrder()">Rearm Order
+            </button>
+          </div>
+        </div>
+      }
+      @if (canModifyOrderButtons()) {
+        <div class="row">
+          <div class="col text-start ps-4">
+            <div class="d-grid gap-2 col-6 mx-auto my-3">
+            <button type="button"
+                    class="btn btn-primary shadow-lg "
+                    (click)="onModifyOrder()">Modify Order
+            </button>
+            </div>
+          </div>
+          <div class="col text-start ps-4">
+            <div class="d-grid gap-2 col-6 mx-auto my-3">
+            <button type="button"
+                    class="btn btn-primary  shadow-lg"
+                    (click)="onDeleteOrder()">Delete Order
+            </button>
+            </div>
+          </div>
         </div>
       }
     </div>
-    @if (canCreateNewOrder()) {
-      <div class="row">
-        <div class="col">
-          <button type="button"
-                  class="btn btn-primary rounded-pill shadow-lg"
-                  (click)="onOrderConfirmClick()">Send Order
-          </button>
-        </div>
-      </div>
-    }
-    @if (showRearmOrderButton()) {
-      <div class="row">
-        <div class="col">
-          <button type="button"
-                  class="btn btn-outline-primary rounded-pill shadow-lg"
-                  (click)="onRearmOrder()">Rearm Order
-          </button>
-        </div>
-      </div>
-    }
-    @if (canModifyOrderButtons()) {
-      <div class="row">
-        <div class="col">
-          <button type="button"
-                  class="btn btn-primary rounded-pill shadow-lg"
-                  (click)="onOrderConfirmClick()">Cancel Order
-          </button>
-        </div>
-        <div class="col">
-          <button type="button"
-                  class="btn btn-primary rounded-pill shadow-lg"
-                  (click)="onOrderConfirmClick()">Delete Order
-          </button>
-        </div>
-      </div>
-    }
+
   </div>
-
-</div>
-
+}

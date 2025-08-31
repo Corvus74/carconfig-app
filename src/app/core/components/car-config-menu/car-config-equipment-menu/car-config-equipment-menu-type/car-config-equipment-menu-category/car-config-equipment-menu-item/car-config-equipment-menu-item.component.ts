@@ -4,7 +4,6 @@ import {
   CarConfigCommonInfoModal
 } from '../../../../../../common/car-config-common-info-modal/car-config-common-info-modal';
 import {CarConfigGeneralFunctionsService} from '../../../../../../service/car-config-general-functions.service';
-import {formatCurrency} from '@angular/common';
 
 @Component({
   selector: 'app-car-config-equipment-menu-item',

@@ -35,4 +35,11 @@ export class CarConfigChangeService {
   updateSpecialEquipmentData(data: SpecialEquipmentDto[]): void {
     this._specialEquipmentData.next(data);
   }
+
+  reset() {
+    this._engineData.next({});
+    this._colorData.next({});
+    this._rimData.next({});
+    this._specialEquipmentData.next([{}]);
+  }
 }

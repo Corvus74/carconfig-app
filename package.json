@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "generate-api": "npx @openapitools/openapi-generator-cli generate -i http://localhost:8090/api/v3/api-docs -g typescript-angular -o src/app/core/api --additional-properties=withInterfaces=true",
+    "start": "ng serve --configuration development",
+    "generate-api": "rimraf src/app/core/api && npx @openapitools/openapi-generator-cli generate -i openapi/api-docs.yaml -g typescript-angular -o src/app/core/api --additional-properties=withInterfaces=true",
+    "generate-api:live": "npx @openapitools/openapi-generator-cli generate -i http://localhost:8090/api/v3/api-docs -g typescript-angular -o src/app/core/api --additional-properties=withInterfaces=true",
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -23,12 +24,12 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/cdk": "^20.1.6",
+    "@angular/cdk": "^20.1.7",
     "@angular/common": "^20.1.7",
     "@angular/compiler": "^20.1.7",
     "@angular/core": "^20.1.7",
     "@angular/forms": "^20.1.7",
-    "@angular/material": "^20.1.6",
+    "@angular/material": "^20.1.7",
     "@angular/platform-browser": "^20.1.7",
     "@angular/router": "^20.1.7",
     "@loaders.gl/draco": "^4.3.4",
@@ -37,18 +38,15 @@
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.7",
     "bootstrap-icons": "^1.13.1",
-    "draco3d": "^1.5.7",
-    "draco3dgltf": "^1.5.7",
     "rxjs": "~7.8.0",
-    "three": "^0.179.1",
-    "three-full": "^28.0.2",
-    "three-orbit-controls": "^82.1.0",
+    "three": "^0.179.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular/build": "^20.1.6",
-    "@angular/cli": "^20.1.6",
+    "@angular-devkit/build-angular": "^20.1.7",
+    "@angular/build": "^20.1.7",
+    "@angular/cli": "^20.1.7",
     "@angular/compiler-cli": "^20.1.7",
     "@angular/localize": "^20.1.7",
     "@openapitools/openapi-generator-cli": "^2.22.0",
@@ -61,6 +59,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "rimraf": "^5.0.7",
     "typescript": "~5.8.2"
   }
 }

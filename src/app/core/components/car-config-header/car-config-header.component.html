@@ -13,8 +13,9 @@
           height="90"
         />
       </div>
-
+@if(showUserInput){
       <div class="col-md d-none d-md-block"></div>
+
       <div class="col-12 col-md-auto">
         <div class="d-flex flex-column flex-md-row align-items-center justify-content-end">
           <app-car-config-header-user-input></app-car-config-header-user-input>
@@ -35,6 +36,7 @@
           }
         </div>
       </div>
+}
     </div>
   </div>
 </header>

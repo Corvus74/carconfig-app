@@ -3,5 +3,6 @@ export interface CarConfigMenuTabs {
   tabRim?: boolean,
   tabColor?: boolean,
   tabSpecialEquipment?:boolean,
+  showOrder?:boolean,
   activeTab?:number,
 }

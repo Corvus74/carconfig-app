@@ -11,32 +11,29 @@
         Created By :
       </div>
       <div class="col">{{ orderInfo.orderUser?.userName }}</div>
-      <div class="row">
-      </div>
-      <div class="row">
-        <div class="col">
-          Created At :
-        </div>
-        <div class="col">{{ orderInfo.createdAt | date: 'dd.MM.yyyy HH:mm' }}</div>
-      </div>
-
-      <div class="row">
-        <div class="col">
-          Updated At :
-        </div>
-        <div class="col">{{ orderInfo.createdAt | date: 'dd.MM.yyyy HH:mm' }}</div>
-      </div>
-      <app-car-config-order-overview-status [title]="engineTitle"
-                                            [productName]="orderInfo.carEngineOrder?.carEngine?.model"
-                                            [orderStatus]="orderInfo.carEngineOrder?.orderStatus"></app-car-config-order-overview-status>
-      <app-car-config-order-overview-status [title]="colorTitle"
-                                            [productName]="orderInfo.carColorOrder?.carColor?.colorName"
-                                            [orderStatus]="orderInfo.carColorOrder?.orderStatus"></app-car-config-order-overview-status>
-      <app-car-config-order-overview-status [title]="rimTitle"
-                                            [productName]="orderInfo.carRimOrder?.carRim?.model"
-                                            [orderStatus]="orderInfo.carRimOrder?.orderStatus"></app-car-config-order-overview-status>
-      <app-car-config-order-overview-status-equipment [title]="specialEquipmentTitle"
-                                            [specialEquipmentOrders]="orderInfo.specialEquipmentOrders"></app-car-config-order-overview-status-equipment>
     </div>
+    <div class="row">
+      <div class="col">
+        Created At :
+      </div>
+      <div class="col">{{ orderInfo.createdAt | date: 'dd.MM.yyyy HH:mm' }}</div>
+    </div>
+    <div class="row">
+      <div class="col">
+        Updated At :
+      </div>
+      <div class="col">{{ orderInfo.updatedAt | date: 'dd.MM.yyyy HH:mm' }}</div>
+    </div>
+    <app-car-config-order-overview-status [title]="engineTitle"
+                                          [productName]="orderInfo.carEngineOrder?.carEngine?.model"
+                                          [orderStatus]="orderInfo.carEngineOrder?.orderStatus"></app-car-config-order-overview-status>
+    <app-car-config-order-overview-status [title]="colorTitle"
+                                          [productName]="orderInfo.carColorOrder?.carColor?.colorName"
+                                          [orderStatus]="orderInfo.carColorOrder?.orderStatus"></app-car-config-order-overview-status>
+    <app-car-config-order-overview-status [title]="rimTitle"
+                                          [productName]="orderInfo.carRimOrder?.carRim?.model"
+                                          [orderStatus]="orderInfo.carRimOrder?.orderStatus"></app-car-config-order-overview-status>
+    <app-car-config-order-overview-status-equipment [title]="specialEquipmentTitle"
+                                                    [specialEquipmentOrders]="orderInfo.specialEquipmentOrders"></app-car-config-order-overview-status-equipment>
   </div>
 </div>

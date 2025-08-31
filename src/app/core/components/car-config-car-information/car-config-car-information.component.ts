@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CarColorDto, CarEngineDto, CarRimDto, SpecialEquipmentDto} from '../../api';
 import {CarConfigChangeService} from '../../service/car-config-change.service';
 import {Subscription} from 'rxjs';
+import {CarTabMenuChangeService} from '../../service/car-config-menu-tabs.service';
+import {CarConfigMenuTabs} from '../../models/CarConfigMenuTabs';
 
 @Component({
   selector: 'app-car-config-car-information',
@@ -14,12 +16,15 @@ export class CarConfigCarInformationComponent implements OnInit, OnDestroy {
   colorData: CarColorDto | undefined;
   rimData: CarRimDto | undefined;
   specialEquipment: SpecialEquipmentDto[] | undefined;
+  carMenuTabs: CarConfigMenuTabs  | undefined;
   private carEngineSubscription: Subscription | undefined;
   private carColorSubscription: Subscription | undefined;
   private carRimSubscription: Subscription | undefined;
   private carSpecialEquipmentSubscription: Subscription | undefined;
+  private carTabMenuChangeSubscription: Subscription | undefined;
 
-  constructor(private readonly carConfigChangedService: CarConfigChangeService) {
+  constructor(private readonly carConfigChangedService: CarConfigChangeService,
+              private readonly carTabMenuChangeService: CarTabMenuChangeService) {
   }
 
   ngOnInit(): void {
@@ -45,6 +50,11 @@ export class CarConfigCarInformationComponent implements OnInit, OnDestroy {
         this.specialEquipment = data;
       }
     );
+    this.carTabMenuChangeSubscription = this.carTabMenuChangeService.carConfigTabInfoData$.subscribe(
+      (data) => {
+        this.carMenuTabs = data;
+      }
+    )
   }
 
   ngOnDestroy(): void {
@@ -52,6 +62,7 @@ export class CarConfigCarInformationComponent implements OnInit, OnDestroy {
       this.carColorSubscription?.unsubscribe();
       this.carRimSubscription?.unsubscribe();
       this.carSpecialEquipmentSubscription?.unsubscribe();
+      this.carTabMenuChangeSubscription?.unsubscribe();
 
   }
 
@@ -64,5 +75,21 @@ export class CarConfigCarInformationComponent implements OnInit, OnDestroy {
 
   generateChoosenText() {
     return "( " + this.specialEquipment?.length + " of 5 Equipments selected)";
+  }
+
+  showCarInfo() {
+    return !this.carMenuTabs?.showOrder;
+  }
+
+  showFinishedOrder() {
+    return this.carMenuTabs?.tabSpecialEquipment;
+  }
+
+  onEarlyFinishedOrder() {
+    if(this.carMenuTabs){
+      this.carMenuTabs.showOrder = true;
+      this.carTabMenuChangeService.updateTabStatus(this.carMenuTabs)
+    }
+
   }
 }

@@ -74,11 +74,19 @@ export class CarConfig3dCarViewComponent implements OnInit, OnDestroy {
   }
 
   private updateColorStyle() {
-    if (this.colorData?.materialType === CarColorDto.MaterialTypeEnum.Glossy) {
-      this.changeCarMaterialProperties(1.0, 0.2);
+    // Exit early if the material isn't ready yet.
+    // This method will be called again by the model loader once it's ready.
+    if (!this.carBodyMaterial || !this.colorData?.materialType) {
+      return;
     }
-    if (this.colorData?.materialType === CarColorDto.MaterialTypeEnum.Matte) {
-      this.changeCarMaterialProperties(0.5, 0.8);
+
+    switch (this.colorData.materialType) {
+      case CarColorDto.MaterialTypeEnum.Glossy:
+        this.changeCarMaterialProperties(1.0, 0.2);
+        break;
+      case CarColorDto.MaterialTypeEnum.Matte:
+        this.changeCarMaterialProperties(0.5, 0.8);
+        break;
     }
   }
 
@@ -90,8 +98,6 @@ export class CarConfig3dCarViewComponent implements OnInit, OnDestroy {
   private initScene(): void {
     // Scene setup
     this.scene = new THREE.Scene();
-    //this.scene.background = new THREE.Color(0x222222);
-    this.scene.background = new THREE.Color(0x0320fc);
 
     // Camera setup
     const aspect = this.rendererContainer.nativeElement.clientWidth / this.rendererContainer.nativeElement.clientHeight;
@@ -113,6 +119,8 @@ export class CarConfig3dCarViewComponent implements OnInit, OnDestroy {
     new RGBELoader()
       .load('assets/quarry_01_1k.hdr', (texture) => {
         texture.mapping = THREE.EquirectangularReflectionMapping;
+        // Use the same texture for the background and the environment map for reflections.
+        this.scene.background = texture;
         this.scene.environment = texture;
       });
     // Window resize handling
@@ -129,13 +137,27 @@ export class CarConfig3dCarViewComponent implements OnInit, OnDestroy {
     directionalLight.position.set(2, 5, 3);
     this.scene.add(directionalLight);
 
-    // Add a simple ground plane
-    const planeGeometry = new THREE.PlaneGeometry(100, 100);
-    const planeMaterial = new THREE.MeshStandardMaterial({color: 0x444444, side: THREE.DoubleSide});
-    const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-    plane.rotation.x = Math.PI / 2;
-    plane.position.y = -0.5;
-    this.scene.add(plane);
+    // Create a road mesh
+    const textureLoader = new THREE.TextureLoader();
+    // Note: You will need to add a 'road_texture.jpg' file to your 'src/assets' folder.
+    textureLoader.load('assets/asphalt_02_ao_1k.jpg', (texture) => {
+      // Configure the texture to repeat, which is ideal for a long road.
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      texture.repeat.set(1, 10); // Repeat the texture 10 times along its length
+
+      const roadGeometry = new THREE.PlaneGeometry(10, 200); // A long, thin plane
+      const roadMaterial = new THREE.MeshStandardMaterial({
+        map: texture,
+        roughness: 0.8, // Make the road less shiny
+        metalness: 0.2
+      });
+
+      const road = new THREE.Mesh(roadGeometry, roadMaterial);
+      road.rotation.x = -Math.PI / 2; // Rotate the plane to be horizontal
+      road.position.y = -0.0; // Position it just below the car's wheels
+      this.scene.add(road);
+    });
   }
 
   private loadCarModel(): void {
@@ -143,43 +165,41 @@ export class CarConfig3dCarViewComponent implements OnInit, OnDestroy {
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath('assets/draco/gltf/'); // Path to the Draco decoder
     loader.setDRACOLoader(dracoLoader);
+
     loader.load('assets/ferrari.glb', (gltf) => {
       this.carModel = gltf.scene;
       this.scene.add(this.carModel);
       this.carModel.scale.set(1.5, 1.5, 1.5);
 
-      // Find the car body mesh to change its material
+      // Find the car body mesh and wheels
       this.carModel.traverse((child) => {
         if (child instanceof THREE.Mesh) {
-          //console.log("Found mesh with name:", child.name, "and material type:", child.material.type);
+        //  console.log("Found mesh with name:", child.name, "and material type:", child.material.type);
           if (child.name === 'body') {
-            // Get a reference to the existing material on the mesh
-            this.carBodyMaterial = child.material as THREE.MeshStandardMaterial;
+            // It's a best practice to clone the material to avoid modifying the original
+            // material, which might be shared across other models.
+            this.carBodyMaterial = (child.material as THREE.MeshStandardMaterial).clone();
+            child.material = this.carBodyMaterial;
 
-            // The original material might be a MeshPhysicalMaterial
-            if (this.carBodyMaterial.type === 'MeshPhysicalMaterial') {
-              // If so, cast it to the correct type
-              this.carBodyMaterial = child.material as THREE.MeshStandardMaterial;
-            }
-            // Set the initial properties you want to control
+            // Set the initial properties
             this.carBodyMaterial.metalness = this.carBodyMaterialProperties.metalness;
             this.carBodyMaterial.roughness = this.carBodyMaterialProperties.roughness;
           }
-          if (child.name.includes('wheel_fr')) {
+          // A more efficient way to find all wheels
+          if (child.name.startsWith('wheel')) {
             this.wheels.push(child);
           }
-          if (child.name.includes('wheel_fl')) {
-            this.wheels.push(child);
-          }
-          if (child.name.includes('wheel_rr')) {
-            this.wheels.push(child);
-          }
-          if (child.name.includes('wheel_rl')) {
+          if (child.name.startsWith('rim')) {
             this.wheels.push(child);
           }
         }
 
       });
+
+      // CRITICAL FIX: Now that the model is loaded and we have a reference to the material,
+      // apply the currently selected color and style. This prevents the race condition.
+      this.updateColor();
+      this.updateColorStyle();
     });
   }
 
@@ -190,7 +210,7 @@ export class CarConfig3dCarViewComponent implements OnInit, OnDestroy {
 
     // Animate the wheels' rotation
     this.wheels.forEach(wheel => {
-      wheel.rotation.x += -0.01; // Adjust the rotation speed here
+      wheel.rotation.x += -0.02; // Adjust the rotation speed here
     });
   };
 

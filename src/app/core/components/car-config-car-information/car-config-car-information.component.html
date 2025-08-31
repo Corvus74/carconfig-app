@@ -1,71 +1,85 @@
 <div class="container text-center border border-primary mt-2">
-  <h5>Car Information</h5>
-  <div class="row">
-    <div class="col">
-      Engine Model:
+  @if (showCarInfo()) {
+    <h5>Car Information</h5>
+    <div class="row">
+      <div class="col">
+        Engine Model:
+      </div>
+      @if (this.engineData?.productId) {
+        <div class="col text-start ps-4">
+          {{ engineData?.model }}
+        </div>
+      } @else {
+        <div class="col">
+          Please choose an engine first !!
+        </div>
+      }
     </div>
-    @if (this.engineData?.productId) {
+    <div class="row">
       <div class="col">
-        {{ engineData?.model }}
+        Colorname:
       </div>
-    } @else {
-      <div class="col">
-        Please choose an engine first !!
-      </div>
-    }
-  </div>
-  <div class="row">
-    <div class="col">
-      Colorname:
+      @if (colorData?.productId) {
+        <div class="col text-start ps-4">
+          {{ colorData?.colorName }}
+        </div>
+      } @else {
+        <div class="col">
+          Please choose a color first !!
+        </div>
+      }
     </div>
-    @if (colorData?.productId) {
+    <div class="row">
       <div class="col">
-        {{ colorData?.colorName }}
+        Rim :
       </div>
-    } @else {
-      <div class="col">
-        Please choose a color first !!
-      </div>
-    }
-  </div>
-  <div class="row">
-    <div class="col">
-      Rim :
+      @if (rimData?.productId) {
+        <div class="col text-start ps-4">
+          {{ rimData?.rimName }}
+        </div>
+      } @else {
+        <div class="col ">
+          Please choose a rim first !!
+        </div>
+      }
     </div>
-    @if (rimData?.productId) {
+    <div class="row">
       <div class="col">
-        {{ rimData?.rimName }}
+        Special Equipments:
       </div>
-    } @else {
-      <div class="col">
-        Please choose a rim first !!
-      </div>
-    }
-  </div>
-  <div class="row">
-    <div class="col">
-      Special Equipments:
+      @if (showSpecialEquipment()) {
+        <div class="col text-start ps-4">
+          {{ generateChoosenText() }}
+        </div>
+      } @else {
+        <div class="col">
+          Please choose your 5 Equipments first !!
+        </div>
+      }
     </div>
-    @if (showSpecialEquipment()) {
-      <div class="col">
-        {{ generateChoosenText()}}
-      </div>
-    } @else {
-      <div class="col">
-        Please choose your 5 Equipments first !!
-      </div>
-    }
+    <!-- Display the list of chosen equipment -->
     @if (showSpecialEquipment()) {
       @for (equipment of specialEquipment; track equipment.productId) {
         <div class="row">
-          <div class="col">
-          </div>
-          <div class="col">
-            {{ equipment.equipmentName }}
+          <div class="col"></div> <!-- Empty col for alignment -->
+          <div class="col text-start ps-4">
+            - {{ equipment.equipmentName }}
           </div>
         </div>
       }
     }
-  </div>
+    <!-- Show the confirm order button only when the configuration is complete -->
+    @if (showFinishedOrder()) {
+      <div class="row">
+        <div class="col"></div>
+        <div class="col text-start ps-4">
+          <div class="d-grid gap-2 col-6 mx-auto my-3">
+            <button type="button" class="btn btn-primary" (click)="onEarlyFinishedOrder()">
+              <i class="bi bi-cart-check-fill me-2"></i>Show Order
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  }
 </div>
-

@@ -13,7 +13,11 @@ export class CarTabMenuChangeService {
   constructor() { }
 
   // Method to update the data and notify all subscribers
-  updateTaStatus(carConfigMenuTabs: CarConfigMenuTabs): void {
+  updateTabStatus(carConfigMenuTabs: CarConfigMenuTabs): void {
     this._carConfigTabInfoData.next(carConfigMenuTabs);
+  }
+
+  reset() {
+    this._carConfigTabInfoData.next({});
   }
 }
