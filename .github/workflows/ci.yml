@@ -7,8 +7,9 @@ on:
     branches: [ "master" ]
 
 jobs:
-  ci_validation:
-    name: 'Build, Test, and Validate Dockerfile'
+  # Job 1: Build the Angular application to ensure it compiles correctly.
+  build:
+    name: '1. Build Angular App'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -26,8 +27,35 @@ jobs:
       - name: Build Angular app
         run: npm run build
 
+  # Job 2: Run unit tests. This job will only start if the 'build' job succeeds.
+  test:
+    name: '2. Run Angular Tests'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.5.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Run Angular tests
         run: npm test -- --watch=false --browsers=ChromeHeadless
+
+  # Job 3: Validate the Docker build. This job will only start if the 'test' job succeeds.
+  validate_docker:
+    name: '3. Validate Docker Build'
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -38,8 +66,7 @@ jobs:
           context: .
           # We only build the image to validate the Dockerfile. We don't push it.
           push: false
-          # 'load: true' makes the image available to subsequent steps if needed,
-          # but is mainly here to ensure the build completes.
+          # 'load: true' ensures the build completes and the image is loaded into the local Docker daemon.
           load: true
           # Use the GitHub Actions cache for Docker layers to speed up builds.
           cache-from: type=gha
