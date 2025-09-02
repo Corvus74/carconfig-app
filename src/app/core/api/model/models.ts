@@ -10,6 +10,8 @@ export * from './carRimDto';
 export * from './carRimOrderDto';
 export * from './orderUpdateResponseDto';
 export * from './orderUserDto';
+export * from './productInfoDetailDto';
+export * from './productInfoDto';
 export * from './responseDto';
 export * from './specialEquipmentDto';
 export * from './specialEquipmentOrderDto';

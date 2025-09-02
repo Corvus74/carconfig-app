@@ -9,7 +9,7 @@ import {
   SpecialEquipmentDto
 } from '../../api';
 import {firstValueFrom, Subscription} from 'rxjs';
-import {CarConfigOrderModal} from './car-config-order-modal/car-config-order-modal';
+import {CarConfigOrderModal, ModalOptions} from './car-config-order-modal/car-config-order-modal';
 import {CarConfigGeneralFunctionsService} from '../../service/car-config-general-functions.service';
 import {CarConfigMenuTabs} from '../../models/CarConfigMenuTabs';
 import {CarTabMenuChangeService} from '../../service/car-config-menu-tabs.service';
@@ -25,7 +25,7 @@ import {Router} from '@angular/router';
 export class CarConfigOrderComponent implements OnInit, OnDestroy {
   @Input() createNewOrder!: boolean;
   @Input() updateOrDeleteOrder!: boolean;
-  @Input() showOrderMenu:boolean = false;
+  @Input() showOrderMenu: boolean = false;
   engineData: CarEngineDto | undefined;
   colorData: CarColorDto | undefined;
   rimData: CarRimDto | undefined;
@@ -41,13 +41,14 @@ export class CarConfigOrderComponent implements OnInit, OnDestroy {
 
   totalPrice = 0
   isSending: boolean = false;
+
   constructor(private readonly carConfigChangedService: CarConfigChangeService,
               private readonly orderControllerService: OrderControllerService,
               private readonly carConfigOrderModal: CarConfigOrderModal,
               private readonly carConfigGeneralFunctionsService: CarConfigGeneralFunctionsService,
               private readonly carTabMenuChangeService: CarTabMenuChangeService,
               private readonly carConfigApiService: CarConfigApiService,
-              private readonly router:Router) {
+              private readonly router: Router) {
   } // Dialog statt alter Modal-"Service"
   ngOnDestroy(): void {
     this.carEngineSubscription?.unsubscribe();
@@ -88,7 +89,7 @@ export class CarConfigOrderComponent implements OnInit, OnDestroy {
     this.tabMenuSubscription = this.carTabMenuChangeService.carConfigTabInfoData$.subscribe(
       (data) => {
         this.carMenuTabs = data;
-        if(data?.showOrder){
+        if (data?.showOrder) {
           this.showOrderMenu = true;
         }
       }
@@ -140,9 +141,13 @@ export class CarConfigOrderComponent implements OnInit, OnDestroy {
 
 
   async onOrderConfirmClick() {
-    const confirmed = await this.carConfigOrderModal.open("Confirm order",
-      'Please confirm your order. Do you want to continue with the order?'
-    );
+
+    let modalOrderConfirm:ModalOptions={
+      modalType :"CONFIRM_ORDER",
+      title:"Confirm order",
+      message: 'Please confirm your order. Do you want to continue with the order?'
+    }
+    const confirmed = await this.carConfigOrderModal.open(modalOrderConfirm);
     if (confirmed) {
       await this.saveDeliveryToServer().then(orderId => this.showLinkOrderNumber(orderId)).catch(err => console.error(err));
     }
@@ -150,7 +155,12 @@ export class CarConfigOrderComponent implements OnInit, OnDestroy {
 
   async showLinkOrderNumber(orderId: string) {
     let url = this.carConfigApiService.getApiOrderUrl() + "/" + orderId
-    await this.carConfigOrderModal.open("OrderLink to your order", url, true);
+    let modalOrderLink:ModalOptions={
+      modalType :"CONFIRM_ORDER",
+      title:"OrderLink to your order",
+      message: url
+    }
+    await this.carConfigOrderModal.open(modalOrderLink);
   }
 
 
@@ -209,7 +219,7 @@ export class CarConfigOrderComponent implements OnInit, OnDestroy {
   canCreateNewOrder() {
     const correctUnlockedTab = this.carMenuTabs?.tabRim;
     if (correctUnlockedTab) {
-      if(!this.receivedOrderLink() && !this.createNewOrder){
+      if (!this.receivedOrderLink() && !this.createNewOrder) {
         return true;
       }
     }
@@ -226,6 +236,7 @@ export class CarConfigOrderComponent implements OnInit, OnDestroy {
     }
     return false;
   }
+
   onRearmOrder() {
     this.receivedOrderNumber = "";
   }
@@ -241,16 +252,18 @@ export class CarConfigOrderComponent implements OnInit, OnDestroy {
   }
 
   private async handleOrderDeletion(): Promise<void> {
-    const confirmed = await this.carConfigOrderModal.open(
-      'Delete Order',
-      'Are you sure you want to delete this order? This action cannot be undone.'
-    );
+    let modalOption:ModalOptions={
+      modalType :"Show_DELETE",
+      title:'Delete Order',
+      message: 'Are you sure you want to delete this order? This action cannot be undone.'
+    }
+
+    const confirmed = await this.carConfigOrderModal.open(modalOption);
 
     if (confirmed) {
       try {
         this.isSending = true;
-        // Assumes a `deleteOrder` method exists on your OrderControllerService.
-        // You may need to adjust the method name based on your OpenAPI spec.
+
         /*await firstValueFrom(
           this.orderControllerService.deleteOrder(this.receivedOrderNumber)
         );*/
@@ -260,7 +273,13 @@ export class CarConfigOrderComponent implements OnInit, OnDestroy {
 
       } catch (error) {
         console.error('Error deleting the order:', error);
-        await this.carConfigOrderModal.open('Error', 'Could not delete the order. Please try again later.', true);
+
+        let modalCancelError:ModalOptions={
+          modalType :"Show_DELETE",
+          title:'Error',
+          message: 'Could not delete the order. Please try again later.',
+        }
+        await this.carConfigOrderModal.open(modalCancelError);
       } finally {
         this.isSending = false;
       }
@@ -268,11 +287,34 @@ export class CarConfigOrderComponent implements OnInit, OnDestroy {
   }
 
   private resetApplicationState(): void {
-    // It's a best practice for stateful services to have a reset method.
-    // You should add these methods to clear the configuration.
+
     this.carConfigChangedService.reset();
     this.carTabMenuChangeService.reset();
     this.onRearmOrder(); // Resets local component state
     this.router.navigateByUrl('/');
+  }
+
+  async onShareClick() {
+    // Get the existing equipment IDs, ensuring it's always an array.
+    const equipmentIds = this.getSpecialEquipmentProductIds();
+
+    // Create a new array with a fixed length of 5, padding with a placeholder if needed.
+    const paddedIds = Array.from({ length: 5 }, (_, i) => equipmentIds[i] || 'none');
+
+    // Join the padded array to create the URL path segment.
+    const specialEquipmentPath = paddedIds.join('/');
+
+    const url: string = this.carConfigApiService.getApiProductUrl() + "/" +
+      (this.engineData?.productId || 'none') + "/" +
+      (this.colorData?.productId || 'none') + "/" +
+      (this.rimData?.productId || 'none') + "/" +
+      specialEquipmentPath;
+
+    let modalOption: ModalOptions = {
+      modalType: "SHOW_SHARE_LINK",
+      title: "Shareable Link",
+      message: url
+    };
+    await this.carConfigOrderModal.open(modalOption);
   }
 }

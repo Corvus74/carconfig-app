@@ -12,6 +12,7 @@ import {provideHttpClient} from '@angular/common/http';
 export interface RuntimeConfig {
   apiBaseUrl: string;
   apiOrderUrl: string;
+  apiProductViewUrl: string;
   // Add other runtime variables here if needed
 }
 
@@ -29,24 +30,25 @@ export function provideRuntimeConfig(): RuntimeConfig {
   if (isDevMode()) {
     console.log('Running in development mode, using proxy for API calls.');
     // Use relative paths so that the proxy can intercept the requests.
-    return { apiBaseUrl: '', apiOrderUrl: '' };
+    return { apiBaseUrl: '', apiOrderUrl: '', apiProductViewUrl: '' };
   }
 
   // For production (Docker), read from the injected env.js
   const env = (window as any).env;
 
   // A simple check to see if the global env object and its properties are available.
-  const runtimeVarsAvailable = env && env.apiUrl && env.apiOrderUrl;
+  const runtimeVarsAvailable = env && env.apiUrl && env.apiOrderUrl && env.apiProductViewUrl;
 
   if (!runtimeVarsAvailable) {
     console.error('ERROR: Runtime environment variables from env.js are not available!');
     // Provide a sensible default or throw an error to fail fast
-    return { apiBaseUrl: 'http://error.invalid/api', apiOrderUrl: 'http://error.invalid/order' };
+    return { apiBaseUrl: 'http://error.invalid/api', apiOrderUrl: 'http://error.invalid/order', apiProductViewUrl: 'http://error.invalid/product' };
   }
 
   return {
     apiBaseUrl: env.apiUrl,
-    apiOrderUrl: env.apiOrderUrl
+    apiOrderUrl: env.apiOrderUrl,
+    apiProductViewUrl: env.apiProductViewUrl
   };
 }
 

@@ -15,6 +15,12 @@ const PROXY_CONFIG = {
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
+  },
+  "/product": {
+    "target": "http://localhost:8090", // Assuming order API is on the same server
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
   }
 };
 

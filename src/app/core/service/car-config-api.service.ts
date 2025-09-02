@@ -11,6 +11,7 @@ export class CarConfigApiService {
   // 2. Use the base URL from the injected config
   private readonly apiUrl = this.config.apiBaseUrl;
   private readonly apiOrderUrl = this.config.apiOrderUrl;
+  private readonly apiProductViewUrl = this.config.apiProductViewUrl;
 
   constructor() {
     console.log(`API Service initialized with URL: ${this.apiUrl}`);
@@ -18,6 +19,10 @@ export class CarConfigApiService {
 
   public getApiOrderUrl(){
     return this.apiOrderUrl;
+  }
+
+  public getApiProductUrl(){
+    return this.apiProductViewUrl;
   }
 
 }

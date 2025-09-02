@@ -10,19 +10,19 @@
 
 
 export interface CarOrderStatusDto { 
-    orderStatus?: CarOrderStatusDto.OrderStatusEnum;
+    currentStatus?: CarOrderStatusDto.CurrentStatusEnum;
     shippingDate?: string;
     deliveryDate?: string;
 }
 export namespace CarOrderStatusDto {
-    export const OrderStatusEnum = {
+    export const CurrentStatusEnum = {
         Received: 'RECEIVED',
         Pending: 'PENDING',
         Cancelled: 'CANCELLED',
         InProgress: 'IN_PROGRESS',
         Completed: 'COMPLETED'
     } as const;
-    export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
+    export type CurrentStatusEnum = typeof CurrentStatusEnum[keyof typeof CurrentStatusEnum];
 }
 
 

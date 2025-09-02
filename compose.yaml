@@ -10,9 +10,10 @@ services:
       # This is the runtime environment variable for your Angular app.
       # The entrypoint.sh script will use this value.
       API_URL: http://localhost:8080/api
-      ORDER_API_URL: http://localhost:8080/order
+      ORDER_API_URL: http://localhost:4200/order
+      PRODUCT_VIEW_API_URL: http://localhost:4200/product
     ports:
-      - 8080:8080
+      - 4200:8080
     # A healthcheck tells Docker that your application is ready to accept traffic.
     # This is crucial for orchestrating multiple services that depend on each other.
     healthcheck:

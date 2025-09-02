@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 api.base.service.ts
 api.module.ts
@@ -10,6 +9,7 @@ api/carRimsWebController.service.ts
 api/configWebController.service.ts
 api/orderController.service.ts
 api/orderUserController.service.ts
+api/productInfoWebController.service.ts
 api/specialEquipmentWebController.service.ts
 configuration.ts
 encoder.ts
@@ -28,6 +28,8 @@ model/carRimOrderDto.ts
 model/models.ts
 model/orderUpdateResponseDto.ts
 model/orderUserDto.ts
+model/productInfoDetailDto.ts
+model/productInfoDto.ts
 model/responseDto.ts
 model/specialEquipmentDto.ts
 model/specialEquipmentOrderDto.ts

@@ -1,7 +1,23 @@
-import {ChangeDetectionStrategy, Component, Inject, Injectable} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Injectable} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Modal} from 'bootstrap';
+import ModalTypeEnum = ModalOptions.ModalTypeEnum;
 
+export interface ModalOptions {
+  modalType: ModalTypeEnum,
+  title:string,
+  message: string,
+}
+
+export namespace ModalOptions{
+  export const ModalTypeEnum = {
+    ConfirmOrder: 'CONFIRM_ORDER',
+    ShowShareLink: 'SHOW_SHARE_LINK',
+    ShowEdit: 'SHOW_EDIT',
+    ShowDelete: 'Show_DELETE'
+  } as const;
+  export type ModalTypeEnum = typeof ModalTypeEnum[keyof typeof ModalTypeEnum];
+}
 @Component({
   selector: 'app-car-config-order-modal',
   standalone: true,
@@ -14,18 +30,21 @@ import {Modal} from 'bootstrap';
 export class CarConfigOrderModal {
   constructor() {}
 
-  open(title:string, message: string,showModalForConfirmLink:boolean=false): Promise<boolean> {
-    // Bootstrap-Modal-Container erzeugen
+  open(modalOptions:ModalOptions): Promise<boolean> {
     const modalEl = document.createElement('div');
     modalEl.className = 'modal fade';
     modalEl.tabIndex = -1;
     modalEl.setAttribute('aria-hidden', 'true');
-    if(showModalForConfirmLink){
-      modalEl.innerHTML= this.showModalForConfirmLink(title,message);
+    if (modalOptions.modalType === ModalOptions.ModalTypeEnum.ConfirmOrder) {
+      modalEl.innerHTML = this.showModalForConfirmLink(modalOptions);
     }
-    else {
-      modalEl.innerHTML = this.getCodeForTwoButtonModal(title,message)
+    if (modalOptions.modalType === ModalOptions.ModalTypeEnum.ShowShareLink) {
+      modalEl.innerHTML = this.showModalForSharingLink(modalOptions);
     }
+    else{
+      modalEl.innerHTML = this.getCodeForTwoButtonModal(modalOptions);
+    }
+
     document.body.appendChild(modalEl);
 
     const bsModal = new Modal(modalEl, {
@@ -74,19 +93,19 @@ export class CarConfigOrderModal {
     return div.innerHTML;
   }
 
-  private showModalForConfirmLink(title:string, message:string) {
+  private showModalForConfirmLink(modalOptions:ModalOptions) {
     return  `
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">${this.escapeHtml(title)}</h5>
+            <h5 class="modal-title">${this.escapeHtml(modalOptions.title)}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <p>Your order has been successfully submitted. Please copy the underlying link and send it to the customer. Or copy it.
             After clicking on the link the order will be closed.</p>
            <p>
-            <a href=${message}>${this.escapeHtml(message)}</a>
+            <a href=${modalOptions.message}>${this.escapeHtml(modalOptions.message)}</a>
             </p>
           </div>
           <div class="modal-footer">
@@ -96,16 +115,16 @@ export class CarConfigOrderModal {
       </div>
     `;
   }
-  private getCodeForTwoButtonModal(title:string, message:string) {
+  private getCodeForTwoButtonModal(modalOptions: ModalOptions) {
     return  `
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">${this.escapeHtml(title)}</h5>
+            <h5 class="modal-title">${this.escapeHtml(modalOptions.title)}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>${this.escapeHtml(message)}</p>
+            <p>${this.escapeHtml(modalOptions.message)}</p>
           </div>
           <div class="modal-footer">
             <button id="cancelBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -115,5 +134,27 @@ export class CarConfigOrderModal {
       </div>
     `;
   }
+  private showModalForSharingLink(modaloptions:ModalOptions) {
+    return  `
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">${this.escapeHtml(modaloptions.title)}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Please Copy your link for sharing.</p>
+           <p>
+            <a href=${modaloptions.message}>${this.escapeHtml(modaloptions.message)}</a>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button id="confirmBtn" type="button" class="btn btn-primary">Ok</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
 }
 

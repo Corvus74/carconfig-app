@@ -86,7 +86,10 @@
       </div>
       @if (canCreateNewOrder()) {
         <div class="row">
-          <div class="col">
+          <div class="col text-start ps-4">
+            <button type="button" class="btn btn-primary" (click)="onShareClick()">
+              <i class="bi bi-share me-2"></i> Share
+            </button>
           </div>
           <div class="col text-start ps-4">
             <div class="d-grid gap-2 col-6 mx-auto my-3">

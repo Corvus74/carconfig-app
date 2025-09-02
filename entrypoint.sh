@@ -12,12 +12,13 @@ OUTPUT_FILE="/usr/share/nginx/html/assets/env.js"
 # The :? operator will cause the script to exit with an error if API_URL is unset or empty.
 : "${API_URL:?Please set the API_URL environment variable.}"
 : "${ORDER_API_URL:?Please set the ORDER_API_URL environment variable.}"
-export API_URL ORDER_API_URL
+: "${PRODUCT_VIEW_API_URL:?Please set the PRODUCT_VIEW_API_URL environment variable.}"
+export API_URL ORDER_API_URL ORDER_API_URL PRODUCT_VIEW_API_URL
 
 # Use envsubst to perform the substitution.
 # The 'envsubst' command will replace ${API_URL} in the template file
 # with the value of the API_URL environment variable.
-envsubst '${API_URL},${ORDER_API_URL}' < "$TEMPLATE_FILE" > "$OUTPUT_FILE"
+envsubst '${API_URL},${ORDER_API_URL},${PRODUCT_VIEW_API_URL}' < "$TEMPLATE_FILE" > "$OUTPUT_FILE"
 
 # The original command for the nginx container is `nginx -g 'daemon off;'`.
 # "$@" passes all arguments passed to this script to the `exec` command.

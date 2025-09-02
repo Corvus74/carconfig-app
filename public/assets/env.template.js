@@ -4,4 +4,5 @@
   // Environment variables are injected at runtime by the entrypoint script
   window.env.apiUrl = "${API_URL}";
   window.env.apiOrderUrl = "${ORDER_API_URL}";
+  window.env.apiProductViewUrl = "${PRODUCT_VIEW_API_URL}";
 })(this);
