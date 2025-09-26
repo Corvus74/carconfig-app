@@ -6,6 +6,7 @@ import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
 import {provideHttpClient} from '@angular/common/http';
+import {provideApi} from './core/api';
 
 
 // This is your shared service that will hold the config
@@ -59,7 +60,9 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({eventCoalescing: true}),
     provideRouter(routes),
+    provideApi(provideRuntimeConfig().apiBaseUrl),
     {provide: RUNTIME_CONFIG, useFactory: provideRuntimeConfig},
     {provide: LOCALE_ID, useValue: 'de-DE'}
+
   ]
 };
