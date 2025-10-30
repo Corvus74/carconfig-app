@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG NODE_VERSION=24.5.0
+ARG NODE_VERSION=25.1.0
 ARG NGINX_VERSION=stable-alpine
 
 

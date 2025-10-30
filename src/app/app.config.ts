@@ -31,7 +31,7 @@ export function provideRuntimeConfig(): RuntimeConfig {
   if (isDevMode()) {
     console.log('Running in development mode, using proxy for API calls.');
     // Use relative paths so that the proxy can intercept the requests.
-    return { apiBaseUrl: '', apiOrderUrl: '', apiProductViewUrl: '' };
+    return { apiBaseUrl: 'http://localhost:8090/api', apiOrderUrl: 'http://localhost:4200/order', apiProductViewUrl: 'http://localhost:4200/product' };
   }
 
   // For production (Docker), read from the injected env.js
