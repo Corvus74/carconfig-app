@@ -1,10 +1,10 @@
 <div class="tabs-container">
   <div class="tabs-header">
     @for (tab of tabInfos; track tab.id) {
-      @if (tab.id <= maxUnlockedTabId) {
+      @if (tab.id <= tabStore.maxUnlockedTabId) {
         <button
           class="tab-button"
-          [class.active]="activeTab === tab.id"
+          [class.active]="tabStore.activeTab() === tab.id"
           (click)="selectTab(tab.id)">
           {{ tab.label }}
         </button>
@@ -14,7 +14,7 @@
 
   <div class="tabs-content">
     @for (tab of tabInfos; track tab.id) {
-      @if (tab.id === activeTab && tab.id <= maxUnlockedTabId) {
+      @if (tab.id === tabStore.activeTab() && tab.id <= tabStore.maxUnlockedTabId) {
         <div class="tab-panel">
           <div class="row bg-light sub-content-header">
             <h5> Choose your {{ tab.label }}</h5>
@@ -22,27 +22,27 @@
           <section class="tab-content-scroll" #tabScroll [attr.aria-label]="tab.label">
 
             <div class="container text-center">
-              @if (showCarEngine() && activeTab === 1) {
+              @if (showCarEngine() && tabStore.activeTab() === 1) {
                 <app-car-config-engine-menu
-                  [carEngines]="baseConfig().carEngines">
+                  [carEngines]="baseConfig.carEngines">
                 </app-car-config-engine-menu>
               }
 
-              @if (showCarColor() && activeTab === 2) {
+              @if (showCarColor() && tabStore.activeTab() === 2) {
                 <app-car-config-color-menu
-                  [carColorInit]="baseConfig().carColors">
+                  [carColorInit]="baseConfig.carColors">
                 </app-car-config-color-menu>
               }
 
-              @if (showCarRims() && activeTab === 3) {
+              @if (showCarRims() && tabStore.activeTab() === 3) {
                 <app-car-config-rim-menu
-                  [carRims]="baseConfig().carRims">
+                  [carRims]="baseConfig.carRims">
                 </app-car-config-rim-menu>
               }
 
-              @if (showSpecialEquipment() && activeTab === 4) {
+              @if (showSpecialEquipment() && tabStore.activeTab() === 4) {
                 <app-car-config-special-equipment-menu
-                  [specialEquipmentListInit]="baseConfig().specialEquipment">
+                  [specialEquipmentListInit]="baseConfig.specialEquipment">
                 </app-car-config-special-equipment-menu>
               }
             </div>
@@ -56,7 +56,7 @@
                     type="button"
                     class="btn btn-outline-secondary"
                     (click)="goToPreviousTab()"
-                    [disabled]="!hasPreviousTab()">
+                    [disabled]="!(tabStore.activeTab() > 1)">
                     Previous
                   </button>
                 }

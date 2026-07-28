@@ -19,7 +19,7 @@ import { CarConfigMenuTabs } from '../../../models/CarConfigMenuTabs';
   styleUrls: ['./car-config-tab-menu.component.scss']
 })
 export class CarConfigTabMenuComponent implements OnInit {
-  private readonly tabStore = inject(CarConfigTabStore);
+  readonly tabStore = inject(CarConfigTabStore);
 
   @Input('baseConfig') set baseConfigInput(value: BaseConfigDto | null) { this.tabStore.setBaseConfig(value); }
 
