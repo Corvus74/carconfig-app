@@ -4,9 +4,8 @@ import { CarConfigEngineMenuComponent } from "../car-config-engine-menu/car-conf
 import { CarConfigRimMenuComponent } from "../car-config-rim-menu/car-config-rim-menu.component";
 import { CarConfigEquipmentMenuComponent } from "../car-config-equipment-menu/car-config-equipment-menu.component";
 import { BaseConfigDto } from '../../../api';
-import { CarTabMenuChangeService } from '../../../service/car-config-menu-tabs.service';
+import { CarConfigTabStore } from '../../../service/car-config-tab.store';
 import { CarConfigMenuTabs } from '../../../models/CarConfigMenuTabs';
-import { CarConfigChangeService } from '../../../service/car-config-change.service';
 
 @Component({
   selector: 'app-car-config-tab-menu',
@@ -20,48 +19,21 @@ import { CarConfigChangeService } from '../../../service/car-config-change.servi
   styleUrls: ['./car-config-tab-menu.component.scss']
 })
 export class CarConfigTabMenuComponent implements OnInit {
-  readonly baseConfig = signal<BaseConfigDto | null>(null);
-  @Input('baseConfig') set baseConfigInput(value: BaseConfigDto | null) { this.baseConfig.set(value); }
-  readonly tabsStatus = signal<CarConfigMenuTabs>({ tabEngine: false, tabColor: false, tabRim: false, tabSpecialEquipment: false, activeTab: 1 });
+  private readonly tabStore = inject(CarConfigTabStore);
+
+  @Input('baseConfig') set baseConfigInput(value: BaseConfigDto | null) { this.tabStore.setBaseConfig(value); }
+
   @ViewChild('tabScroll') tabScroll?: ElementRef<HTMLElement>;
 
-  private readonly carConfigChangeService = inject(CarConfigChangeService);
-  private readonly carTabMenuChangeService = inject(CarTabMenuChangeService);
-
-  // active tab as signal
-  private readonly _activeTab = signal<number>(1);
-  get activeTab() { return this._activeTab(); }
+  // active tab getter
+  get activeTab() { return this.tabStore.activeTab(); }
+  get tabsStatus() { return this.tabStore.tabsStatus(); }
+  get baseConfig() { return this.tabStore.baseConfig(); }
 
   // no manual unsubscribe needed when using effects
 
   ngOnInit(): void {
-    effect(() => {
-      const data = this.carConfigChangeService.engineData();
-      if (data?.productId) this.onEngineSelected();
-    });
-
-    effect(() => {
-      const data = this.carConfigChangeService.colorData();
-      if (data?.productId) this.onColorSelected();
-    });
-
-    effect(() => {
-      const data = this.carConfigChangeService.rimData();
-      if (data?.productId) this.onRimsSelected();
-    });
-
-    effect(() => {
-      const data = this.carConfigChangeService.specialEquipmentData();
-      const equipmentFirstElem = data?.[0]?.productId;
-      if (equipmentFirstElem) this.onSpecialSelected();
-    });
-
-    effect(() => {
-      const data = this.carTabMenuChangeService.carConfigTabInfoData();
-      this.tabsStatus.set(data ?? {});
-      const active = data?.activeTab;
-      if (active !== undefined && active !== null) this._activeTab.set(active);
-    });
+    // Store handles effects and syncing with change services
   }
 
   tabInfos = [
@@ -72,64 +44,51 @@ export class CarConfigTabMenuComponent implements OnInit {
   ];
 
   selectTab(index: number): void {
-    this._activeTab.set(index);
+    this.tabStore.selectTab(index);
   }
 
   showCarEngine() {
-    const config = this.baseConfig();
+    const config = this.baseConfig;
     return !!(config && config.carEngines && config.carEngines.length > 0);
   }
 
   showCarColor() {
-    const config = this.baseConfig();
+    const config = this.baseConfig;
     return !!(config && config.carColors && config.carColors.length > 0);
   }
 
   showCarRims() {
-    const config = this.baseConfig();
+    const config = this.baseConfig;
     return !!(config && config.carRims && config.carRims.length > 0);
   }
 
   showSpecialEquipment() {
-    const config = this.baseConfig();
+    const config = this.baseConfig;
     return !!(config && config.specialEquipment && config.specialEquipment.length > 0);
   }
 
   get maxUnlockedTabId(): number {
-    const ts = this.tabsStatus();
-    if (!ts.tabEngine) return 1;
-    if (!ts.tabColor) return 2;
-    if (!ts.tabRim) return 3;
-    return 4;
+    return this.tabStore.maxUnlockedTabId;
   }
 
   hasPreviousTab(): boolean {
-    return this._activeTab() > 1;
+    return this.tabStore.activeTab() > 1;
   }
 
   goToPreviousTab(): void {
     if (this.hasPreviousTab()) {
-      this.selectTab(this._activeTab() - 1);
+      this.tabStore.goToPreviousTab();
       queueMicrotask(() => this.scrollToTop());
     }
   }
 
   canProceedFromActiveTab(): boolean {
-    const ts = this.tabsStatus();
-    switch (this._activeTab()) {
-      case 1: return ts.tabEngine ?? false;
-      case 2: return ts.tabColor ?? false;
-      case 3: return ts.tabRim ?? false;
-      case 4: return ts.tabSpecialEquipment ?? false;
-      default: return false;
-    }
+    return this.tabStore.canProceedFromActiveTab();
   }
 
   goToNextTab(): void {
-    if (this.canProceedFromActiveTab() && this._activeTab() < this.maxUnlockedTabId) {
-      this.selectTab(this._activeTab() + 1);
-      queueMicrotask(() => this.scrollToTop());
-    }
+    this.tabStore.goToNextTab();
+    queueMicrotask(() => this.scrollToTop());
   }
 
   private scrollToTop(): void {
@@ -138,39 +97,4 @@ export class CarConfigTabMenuComponent implements OnInit {
     el.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  private onEngineSelected(): void {
-    const ts = this.tabsStatus();
-    if (!ts.tabEngine) {
-      const updated = { ...ts, tabEngine: true };
-      this.tabsStatus.set(updated);
-      this.carTabMenuChangeService.updateTabStatus(updated);
-    }
-  }
-
-  private onColorSelected(): void {
-    const ts = this.tabsStatus();
-    if (!ts.tabColor) {
-      const updated = { ...ts, tabColor: true };
-      this.tabsStatus.set(updated);
-      this.carTabMenuChangeService.updateTabStatus(updated);
-    }
-  }
-
-  private onRimsSelected(): void {
-    const ts = this.tabsStatus();
-    if (!ts.tabRim) {
-      const updated = { ...ts, tabRim: true };
-      this.tabsStatus.set(updated);
-      this.carTabMenuChangeService.updateTabStatus(updated);
-    }
-  }
-
-  private onSpecialSelected(): void {
-    const ts = this.tabsStatus();
-    if (!ts.tabSpecialEquipment) {
-      const updated = { ...ts, tabSpecialEquipment: true };
-      this.tabsStatus.set(updated);
-      this.carTabMenuChangeService.updateTabStatus(updated);
-    }
-  }
 }
