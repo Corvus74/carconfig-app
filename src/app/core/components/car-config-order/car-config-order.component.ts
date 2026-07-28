@@ -46,10 +46,6 @@ export class CarConfigOrderComponent implements OnInit {
               private readonly carTabMenuChangeService: CarTabMenuChangeService,
               private readonly carConfigApiService: CarConfigApiService,
               private readonly router: Router) {
-  } // Dialog statt alter Modal-"Service"
-  // no manual unsubscribe required when using effects
-
-  ngOnInit(): void {
     // keep local fields in sync with signals and recalc price when needed
     effect(() => {
       this.engineData = this.carConfigChangedService.engineData();
@@ -74,6 +70,10 @@ export class CarConfigOrderComponent implements OnInit {
         this.showOrderMenu = true;
       }
     });
+  } // Dialog statt alter Modal-"Service"
+  // no manual unsubscribe required when using effects
+
+  ngOnInit(): void {
   }
 
   toCurrencyFormat(price: number | undefined) {

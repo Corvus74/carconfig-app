@@ -20,9 +20,6 @@ export class CarConfigCarInformationComponent implements OnInit {
 
   constructor(private readonly carConfigChangedService: CarConfigChangeService,
               private readonly carTabMenuChangeService: CarTabMenuChangeService) {
-  }
-
-  ngOnInit(): void {
     // use signals via effects to keep local fields in sync
     effect(() => {
       this.engineData = this.carConfigChangedService.engineData();
@@ -39,6 +36,9 @@ export class CarConfigCarInformationComponent implements OnInit {
     effect(() => {
       this.carMenuTabs = this.carTabMenuChangeService.carConfigTabInfoData();
     });
+  }
+
+  ngOnInit(): void {
   }
 
 
