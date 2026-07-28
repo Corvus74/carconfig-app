@@ -28,9 +28,9 @@ export class CarConfigTabMenuComponent implements OnInit {
   private readonly carConfigChangeService = inject(CarConfigChangeService);
   private readonly carTabMenuChangeService = inject(CarTabMenuChangeService);
 
-  // using effects instead of manual subscriptions
-
-  activeTab = 1;
+  // active tab as signal
+  private readonly _activeTab = signal<number>(1);
+  get activeTab() { return this._activeTab(); }
 
   // no manual unsubscribe needed when using effects
 
@@ -60,7 +60,7 @@ export class CarConfigTabMenuComponent implements OnInit {
       const data = this.carTabMenuChangeService.carConfigTabInfoData();
       this.tabsStatus.set(data ?? {});
       const active = data?.activeTab;
-      if (active) this.activeTab = active;
+      if (active !== undefined && active !== null) this._activeTab.set(active);
     });
   }
 
@@ -72,27 +72,27 @@ export class CarConfigTabMenuComponent implements OnInit {
   ];
 
   selectTab(index: number): void {
-    this.activeTab = index;
+    this._activeTab.set(index);
   }
 
   showCarEngine() {
     const config = this.baseConfig();
-    return !!(config.carEngines && config.carEngines.length > 0);
+    return !!(config && config.carEngines && config.carEngines.length > 0);
   }
 
   showCarColor() {
     const config = this.baseConfig();
-    return !!(config.carColors && config.carColors.length > 0);
+    return !!(config && config.carColors && config.carColors.length > 0);
   }
 
   showCarRims() {
     const config = this.baseConfig();
-    return !!(config.carRims && config.carRims.length > 0);
+    return !!(config && config.carRims && config.carRims.length > 0);
   }
 
   showSpecialEquipment() {
     const config = this.baseConfig();
-    return !!(config.specialEquipment && config.specialEquipment.length > 0);
+    return !!(config && config.specialEquipment && config.specialEquipment.length > 0);
   }
 
   get maxUnlockedTabId(): number {
@@ -104,19 +104,19 @@ export class CarConfigTabMenuComponent implements OnInit {
   }
 
   hasPreviousTab(): boolean {
-    return this.activeTab > 1;
+    return this._activeTab() > 1;
   }
 
   goToPreviousTab(): void {
     if (this.hasPreviousTab()) {
-      this.selectTab(this.activeTab - 1);
+      this.selectTab(this._activeTab() - 1);
       queueMicrotask(() => this.scrollToTop());
     }
   }
 
   canProceedFromActiveTab(): boolean {
     const ts = this.tabsStatus();
-    switch (this.activeTab) {
+    switch (this._activeTab()) {
       case 1: return ts.tabEngine ?? false;
       case 2: return ts.tabColor ?? false;
       case 3: return ts.tabRim ?? false;
@@ -126,8 +126,8 @@ export class CarConfigTabMenuComponent implements OnInit {
   }
 
   goToNextTab(): void {
-    if (this.canProceedFromActiveTab() && this.activeTab < this.maxUnlockedTabId) {
-      this.selectTab(this.activeTab + 1);
+    if (this.canProceedFromActiveTab() && this._activeTab() < this.maxUnlockedTabId) {
+      this.selectTab(this._activeTab() + 1);
       queueMicrotask(() => this.scrollToTop());
     }
   }
