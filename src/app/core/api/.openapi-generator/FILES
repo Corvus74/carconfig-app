@@ -3,6 +3,7 @@ README.md
 api.base.service.ts
 api.module.ts
 api/api.ts
+api/authenticationController.service.ts
 api/carColorWebController.service.ts
 api/carEngineWebController.service.ts
 api/carRimsWebController.service.ts
@@ -25,12 +26,16 @@ model/carOrderStatusDto.ts
 model/carOrderUpdateDto.ts
 model/carRimDto.ts
 model/carRimOrderDto.ts
+model/loginResponse.ts
+model/loginUserDto.ts
 model/models.ts
 model/orderUpdateResponseDto.ts
 model/orderUserDto.ts
 model/productInfoDetailDto.ts
 model/productInfoDto.ts
 model/responseDto.ts
+model/signUpUserRequestDto.ts
+model/signUpUserResponseDto.ts
 model/specialEquipmentDto.ts
 model/specialEquipmentOrderDto.ts
 param.ts

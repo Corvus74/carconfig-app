@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output,} from '@angular/core';
-import {CarColorDto} from '../../../api';
-import {CarConfigColorMenuSubComponent} from './car-color-config-menu-sub/car-config-color-menu-sub.component';
+import { Component, input, output, OnInit } from '@angular/core';
+import { CarColorDto } from '../../../api';
+import { CarConfigColorMenuSubComponent } from './car-color-config-menu-sub/car-config-color-menu-sub.component';
 
 @Component({
   selector: 'app-car-config-color-menu',
@@ -11,11 +11,13 @@ import {CarConfigColorMenuSubComponent} from './car-color-config-menu-sub/car-co
   styleUrl: './car-config-color-menu.component.scss'
 })
 export class CarConfigColorMenuComponent implements OnInit {
-  @Input() carColorInit: CarColorDto[] | undefined
-  @Input() selectedValue: CarColorDto | undefined;
-  @Input() selectedMaterialType: CarColorDto.MaterialTypeEnum | undefined;
+  readonly carColorInit = input<CarColorDto[] | undefined>(undefined);
+  readonly selectedValue = input<CarColorDto | undefined>(undefined);
+  readonly selectedMaterialType = input<CarColorDto.MaterialTypeEnum | undefined>(undefined);
 
-  carColorBase: CarColorDto[] = []
+  readonly selectionChange = output<CarColorDto>();
+
+  carColorBase: CarColorDto[] = [];
   carColorGlossy: CarColorDto[] = [];
   carColorMatte: CarColorDto[] = [];
   CarColorDto = CarColorDto;
@@ -23,17 +25,18 @@ export class CarConfigColorMenuComponent implements OnInit {
   carColorGlossyTitleName: string = "Metallic Colors";
   carColorMatteTitleName: string = "Matte Colors";
 
-  constructor() {
-  }
-  @Output() selectionChange = new EventEmitter<unknown>();
-
   ngOnInit(): void {
-    this.createSubMenus()
+    this.createSubMenus();
+  }
+
+  forwardSelection(color: CarColorDto) {
+    this.selectionChange.emit(color);
   }
 
   createSubMenus() {
-    if (this.carColorInit) {
-      for (let carColor of this.carColorInit) {
+    const initList = this.carColorInit();
+    if (initList) {
+      for (let carColor of initList) {
         if (carColor.paintingType === CarColorDto.PaintingTypeEnum.Base) {
           this.carColorBase.push(carColor);
           continue;
@@ -48,4 +51,3 @@ export class CarConfigColorMenuComponent implements OnInit {
     }
   }
 }
-

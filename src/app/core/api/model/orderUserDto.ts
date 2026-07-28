@@ -12,5 +12,14 @@
 export interface OrderUserDto { 
     userName?: string;
     email?: string;
+    role?: OrderUserDto.RoleEnum;
 }
+export namespace OrderUserDto {
+    export const RoleEnum = {
+        Admin: 'ADMIN',
+        User: 'USER'
+    } as const;
+    export type RoleEnum = typeof RoleEnum[keyof typeof RoleEnum];
+}
+
 

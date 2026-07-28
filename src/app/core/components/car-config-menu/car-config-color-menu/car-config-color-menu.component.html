@@ -4,17 +4,17 @@
 
   @if (carColorBase.length >= 0) {
     <app-car-color-menu-sub [carColorSub]="carColorBase" [titleName]="carColorBaseTitleName"
-                            (selectionChange)="selectionChange.emit()"></app-car-color-menu-sub>
+                            (selectionChange)="forwardSelection($event)"></app-car-color-menu-sub>
   }
   @if (carColorGlossy.length >= 0) {
     <app-car-color-menu-sub [carColorSub]="carColorGlossy"
                             [titleName]="carColorGlossyTitleName"
-                            (selectionChange)="selectionChange.emit()"
+                            (selectionChange)="forwardSelection($event)"
     ></app-car-color-menu-sub>
   }
   @if (carColorMatte.length >= 0) {
     <app-car-color-menu-sub [carColorSub]="carColorMatte"
-                            [titleName]="carColorMatteTitleName" (selectionChange)="selectionChange.emit()">
+                            [titleName]="carColorMatteTitleName" (selectionChange)="forwardSelection($event)">
     </app-car-color-menu-sub>
   }
 

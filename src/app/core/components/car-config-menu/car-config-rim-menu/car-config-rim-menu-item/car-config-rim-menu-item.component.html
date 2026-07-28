@@ -1,41 +1,39 @@
 <button
   class="rim-list-item"
-  [class.selected]="isSelected"
+  [class.selected]="isSelected()"
   (click)="onClick()"
 >
   <div class="row">
     <div class="col">
-    <img src="{{getImage(value.innerDiameter)}}" alt="Rims" class="image-rim" />
+      <img src="{{getImage(value().innerDiameter)}}" alt="Rims" class="image-rim" />
     </div>
 
     <div class="col">
       <div class="row text-lg-start">
-         <div class="col diameter-name">
-          {{ value.innerDiameter+"\"" }}
-         </div>
+        <div class="col diameter-name">
+          {{ value().innerDiameter + '"' }}
+        </div>
       </div>
 
       <div class="row text-lg-start">
         <div class="col rim-name">
-          {{ value.rimName }}
+          {{ value().rimName }}
         </div>
         <div class="row text-lg-start">
           <div class="col model-name">
-            {{ value.model }}
+            {{ value().model }}
           </div>
         </div>
-
       </div>
     </div>
     <div class="col">
-      <div class="car-rim-price">{{toCurrencyFormat(value.price)}}</div>
+      <div class="car-rim-price">{{toCurrencyFormat(value().price)}}</div>
     </div>
     <div class="col">
-    <button (click)="handleIconClick($event)" class="button-info bg-transparent border-none text-gray-500 hover:text-blue-500 transition-colors duration-200">
-      <i class="bi bi-info-circle text-4xl"></i>
-    </button>
+      <button (click)="handleIconClick($event)" class="button-info bg-transparent border-none text-gray-500 hover:text-blue-500 transition-colors duration-200">
+        <i class="bi bi-info-circle text-4xl"></i>
+      </button>
     </div>
   </div>
   <div class="image-container"></div>
-
 </button>

@@ -1,10 +1,8 @@
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {CarColorDto} from '../../../../api';
-import {CarConfigChangeService} from '../../../../service/car-config-change.service';
-import {Subscription} from 'rxjs';
-import {
-  CarConfigColorMenuColorItemComponent
-} from './car-config-color-menu-color-item/car-config-color-menu-color-item.component';
+import { Component, ElementRef, input, output, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { CarColorDto } from '../../../../api';
+import { CarConfigChangeService } from '../../../../service/car-config-change.service';
+import { Subscription } from 'rxjs';
+import { CarConfigColorMenuColorItemComponent } from './car-config-color-menu-color-item/car-config-color-menu-color-item.component';
 
 @Component({
   selector: 'app-car-color-menu-sub',
@@ -15,17 +13,16 @@ import {
   styleUrl: '../car-config-color-menu.component.scss'
 })
 export class CarConfigColorMenuSubComponent implements OnInit, OnDestroy {
-  @Input() carColorSub: CarColorDto[] | undefined;
-  @Input() titleName: string | undefined;
-  @Input() selectedValue: CarColorDto | undefined;
-  @Output() selectionChange = new EventEmitter<void>();
+  readonly carColorSub = input<CarColorDto[] | undefined>(undefined);
+  readonly titleName = input<string | undefined>(undefined);
+  readonly selectionChange = output<CarColorDto>();
   @ViewChild('container') container: ElementRef | undefined;
+
+  private readonly carConfigChangeService = inject(CarConfigChangeService);
   private carColorSubscription: Subscription | undefined;
   readonly CarColorDto = CarColorDto;
 
-  constructor(private readonly carConfigChangeService: CarConfigChangeService) {
-
-  }
+  selectedValue: CarColorDto | undefined;
 
   ngOnInit(): void {
     this.carColorSubscription = this.carConfigChangeService.colorData$.subscribe(
@@ -41,14 +38,14 @@ export class CarConfigColorMenuSubComponent implements OnInit, OnDestroy {
 
   onItemSelected(value: CarColorDto): void {
     this.selectedValue = value;
-    this.carConfigChangeService.updateCarColorData(value)
-    this.selectionChange.emit();
+    this.carConfigChangeService.updateCarColorData(value);
+    this.selectionChange.emit(value);
   }
 
   scroll(direction: 'left' | 'right') {
     if (this.container) {
       const container = this.container.nativeElement;
-      const scrollAmount = 200; // Adjust this value to change how much it scrolls
+      const scrollAmount = 200;
 
       if (direction === 'left') {
         container.scrollLeft -= scrollAmount;

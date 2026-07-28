@@ -1,11 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {CarColorDto} from '../../../../../api';
-import {CarConfigColorviewCircle} from '../../../../../common/car-config-colorview-circle/car-config-colorview-circle';
-import {formatCurrency} from '@angular/common';
-import {
-  CarConfigCommonInfoModal
-} from '../../../../../common/car-config-common-info-modal/car-config-common-info-modal';
-import {CarConfigGeneralFunctionsService} from '../../../../../service/car-config-general-functions.service';
+import { Component, input, output, OnInit, inject } from '@angular/core';
+import { CarColorDto } from '../../../../../api';
+import { CarConfigColorviewCircle } from '../../../../../common/car-config-colorview-circle/car-config-colorview-circle';
+import { CarConfigCommonInfoModal } from '../../../../../common/car-config-common-info-modal/car-config-common-info-modal';
+import { CarConfigGeneralFunctionsService } from '../../../../../service/car-config-general-functions.service';
 
 @Component({
   selector: 'app-car-config-color-menu-color-item',
@@ -16,51 +13,47 @@ import {CarConfigGeneralFunctionsService} from '../../../../../service/car-confi
   styleUrl: './car-config-color-menu-color-item.component.scss'
 })
 export class CarConfigColorMenuColorItemComponent implements OnInit {
+  readonly value = input<CarColorDto | undefined>(undefined);
+  readonly isSelected = input<boolean>(false);
+  readonly itemSelected = output<CarColorDto>();
 
-  @Input() value: CarColorDto | undefined;
-  @Input() isSelected: boolean = false;
-  @Output() itemSelected = new EventEmitter<CarColorDto>();
+  private readonly carConfigCommonInfoModal = inject(CarConfigCommonInfoModal);
+  private readonly carConfigGeneralFunctionsService = inject(CarConfigGeneralFunctionsService);
 
-  colorCodeHex: string = "00000"
+  colorCodeHex = "00000";
 
-  constructor(private readonly carConfigCommonInfoModal:CarConfigCommonInfoModal, private readonly carConfigGeneralFunctionsService:CarConfigGeneralFunctionsService) {
-  }
   ngOnInit(): void {
-    if (this.value) {
-      if (this.value.colorCodeHex) {
-        this.colorCodeHex = this.value.colorCodeHex;
-      }
+    const val = this.value();
+    if (val?.colorCodeHex) {
+      this.colorCodeHex = val.colorCodeHex;
     }
   }
 
   onClick(): void {
-    this.itemSelected.emit(this.value);
+    const val:CarColorDto | undefined = this.value();
+    if (val) {
+      this.itemSelected.emit(val);
+    }
   }
 
-  toCurrencyFormat(price: number | undefined) {
+  toCurrencyFormat(price: number | undefined) :string {
     if (price) {
-      return this.carConfigGeneralFunctionsService.formatCurrency(price)
+      return this.carConfigGeneralFunctionsService.formatCurrency(price);
     }
-    return ""
+    return "";
   }
 
-  priceIsAvailable(value: CarColorDto | undefined) {
-    if(value){
-      if(value.price){
-        return value.price > 0
-      }
-    }
-    return false;
+  priceIsAvailable(value: CarColorDto | undefined) : boolean {
+    return !!(value?.price && value.price > 0);
   }
-  showInfo = false;
 
-
-  handleIconClick(eventObj: MouseEvent) {
+  handleIconClick(eventObj: MouseEvent) : void {
     eventObj.stopPropagation();
-    if (this.value?.description) {
-      let modalInfo = this.value?.colorName ?? "";
+    const val = this.value();
+    if (val?.description) {
+      let modalInfo = val?.colorName ?? "";
       modalInfo = "Info Color for " + modalInfo + ":";
-      this.carConfigCommonInfoModal.open(modalInfo, this.value.description)
+      this.carConfigCommonInfoModal.open(modalInfo, val.description);
     }
   }
 }

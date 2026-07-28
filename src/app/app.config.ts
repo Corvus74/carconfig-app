@@ -5,8 +5,10 @@ import {
 import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
-import {provideHttpClient} from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import {provideApi} from './core/api';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
+
 
 
 // This is your shared service that will hold the config
@@ -56,13 +58,13 @@ export function provideRuntimeConfig(): RuntimeConfig {
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authInterceptor])), // Register the interceptor here
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({eventCoalescing: true}),
     provideRouter(routes),
     provideApi(provideRuntimeConfig().apiBaseUrl),
     {provide: RUNTIME_CONFIG, useFactory: provideRuntimeConfig},
-    {provide: LOCALE_ID, useValue: 'de-DE'}
-
+    {provide: LOCALE_ID, useValue: 'de-DE'},
   ]
 };
+

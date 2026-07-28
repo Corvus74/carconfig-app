@@ -1,6 +1,6 @@
 <div class="tabs-container">
   <div class="tabs-header">
-    @for (tab of tabInfos; track tab.id; ) {
+    @for (tab of tabInfos; track tab.id) {
       @if (tab.id <= maxUnlockedTabId) {
         <button
           class="tab-button"
@@ -13,7 +13,7 @@
   </div>
 
   <div class="tabs-content">
-    @for (tab of tabInfos; track tab.id; ) {
+    @for (tab of tabInfos; track tab.id) {
       @if (tab.id === activeTab && tab.id <= maxUnlockedTabId) {
         <div class="tab-panel">
           <div class="row bg-light sub-content-header">
@@ -24,30 +24,29 @@
             <div class="container text-center">
               @if (showCarEngine() && activeTab === 1) {
                 <app-car-config-engine-menu
-                  [carEngines]="baseConfig.carEngines">
+                  [carEngines]="baseConfig().carEngines">
                 </app-car-config-engine-menu>
               }
 
               @if (showCarColor() && activeTab === 2) {
                 <app-car-config-color-menu
-                  [carColorInit]="baseConfig.carColors">
+                  [carColorInit]="baseConfig().carColors">
                 </app-car-config-color-menu>
               }
 
               @if (showCarRims() && activeTab === 3) {
                 <app-car-config-rim-menu
-                  [carRims]="baseConfig.carRims">
+                  [carRims]="baseConfig().carRims">
                 </app-car-config-rim-menu>
               }
 
               @if (showSpecialEquipment() && activeTab === 4) {
                 <app-car-config-special-equipment-menu
-                  [specialEquipmentListInit]="baseConfig.specialEquipment">
+                  [specialEquipmentListInit]="baseConfig().specialEquipment">
                 </app-car-config-special-equipment-menu>
               }
             </div>
           </section>
-          <!-- Sticky Bottom Bar: Prev / Scroll / Next -->
 
           <div class="tab-bottom-bar">
             <div class="row">
@@ -80,4 +79,3 @@
     }
   </div>
 </div>
-

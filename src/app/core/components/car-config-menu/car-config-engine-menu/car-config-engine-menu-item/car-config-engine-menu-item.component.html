@@ -1,6 +1,6 @@
 <button
   class="grid-item slide bg-light"
-  [class.selected]="isSelected"
+  [class.selected]="isSelected()"
   (click)="selectCarEngine()"
   onKeyDown="selectCarEngine();"
 >
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="title">{{ value?.model }}</div>
+      <div class="title">{{ value()?.model }}</div>
     </div>
   </div>
   <div class="container text-lg-start">
@@ -24,7 +24,7 @@
         <div class="label-small">Fuel Type:</div>
       </div>
       <div class=" col">
-        <div class="description">{{ value?.fuelType }}</div>
+        <div class="description">{{ value()?.fuelType }}</div>
       </div>
     </div>
     <div class="row">
@@ -32,7 +32,7 @@
         <div class="label-small">Engine Type:</div>
       </div>
       <div class=" col">
-        <div class="description">{{ value?.engineType }}</div>
+        <div class="description">{{ value()?.engineType }}</div>
       </div>
     </div>
     <div class="row">
@@ -40,7 +40,7 @@
         <div class="label-small">Displacement (l):</div>
       </div>
       <div class=" col">
-        <div class="description">{{ value?.displacementL }}</div>
+        <div class="description">{{ value()?.displacementL }}</div>
       </div>
     </div>
     <div class="row">
@@ -48,7 +48,7 @@
         <div class="label-small">Cylinders (l):</div>
       </div>
       <div class=" col">
-        <div class="description">{{ value?.cylinders }}</div>
+        <div class="description">{{ value()?.cylinders }}</div>
       </div>
     </div>
     <div class="row">
@@ -56,7 +56,7 @@
         <div class="label-small">Horsepower (l):</div>
       </div>
       <div class=" col">
-        <div class="description">{{ value?.horsepowerKw }}</div>
+        <div class="description">{{ value()?.horsepowerKw }}</div>
       </div>
     </div>
     <div class="row">
@@ -64,7 +64,7 @@
         <div class="label-small">Torqe (Nm):</div>
       </div>
       <div class=" col">
-        <div class="description">{{ value?.torqueNm }}</div>
+        <div class="description">{{ value()?.torqueNm }}</div>
       </div>
     </div>
     <div class="row">
@@ -72,7 +72,7 @@
         <div class="label-small">Drivetrain:</div>
       </div>
       <div class=" col">
-        <div class="description">{{ value?.drivetrain }}</div>
+        <div class="description">{{ value()?.drivetrain }}</div>
       </div>
     </div>
     <div class="row">
@@ -80,7 +80,7 @@
         <div class="label-small">CO2 Emmisions:</div>
       </div>
       <div class=" col">
-        <div class="description">{{ value?.co2 }}</div>
+        <div class="description">{{ value()?.co2 }}</div>
       </div>
     </div>
     <div class="row">
@@ -88,7 +88,7 @@
         <div class="label-small">Price:</div>
       </div>
       <div class="col">
-        <div class="description">{{ toCurrencyFormat(value?.price) }}</div>
+        <div class="description">{{ toCurrencyFormat(value()?.price) }}</div>
       </div>
       <div class="row">
         <div class="col">

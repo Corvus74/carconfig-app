@@ -2,15 +2,16 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  Input,
+  input,
   OnDestroy,
   OnInit,
   signal,
-  ViewChild
+  ViewChild,
+  inject
 } from '@angular/core';
-import {CarConfigChangeService} from '../../../../../service/car-config-change.service';
-import {Subscription} from 'rxjs';
-import {SpecialEquipmentDto} from '../../../../../api';
+import { CarConfigChangeService } from '../../../../../service/car-config-change.service';
+import { Subscription } from 'rxjs';
+import { SpecialEquipmentDto } from '../../../../../api';
 import {
   CarConfigEquipmentMenuItemComponent
 } from './car-config-equipment-menu-item/car-config-equipment-menu-item.component';
@@ -25,30 +26,30 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CarConfigEquipmentMenuCategoryComponent implements OnInit, OnDestroy {
-  @Input() titleName!: string;
-  @Input() specialEquipmentListInit: SpecialEquipmentDto[] = [];
+  readonly titleName = input<string>('');
+  readonly specialEquipmentListInit = input<SpecialEquipmentDto[]>([]);
   @ViewChild('container') container: ElementRef | undefined;
-  carSpecialEquipmentSubscription: Subscription | undefined;
+
+  private readonly carConfigChangeService = inject(CarConfigChangeService);
+  private carSpecialEquipmentSubscription: Subscription | undefined;
+
   selectedEquipments: SpecialEquipmentDto[] = [];
   maxSelection = 5;
   selectedIds = signal<Set<string>>(new Set());
   selectedCategories = signal<Set<SpecialEquipmentDto.CategoryTypeEnum>>(new Set());
-  categoryMenuShown: boolean=false;
-  constructor(private readonly carConfigChangeService: CarConfigChangeService) {
-  }
+  categoryMenuShown = false;
 
   showCategoryMenu() {
     this.categoryMenuShown = !this.categoryMenuShown;
   }
+
   ngOnDestroy(): void {
     this.carSpecialEquipmentSubscription?.unsubscribe();
   }
 
-
   ngOnInit(): void {
     this.carSpecialEquipmentSubscription = this.carConfigChangeService.specialEquipmentData$.subscribe(
       (data) => {
-        // Sanitize: entferne undefined/leer und Items ohne productId
         const sanitized = (data ?? []).filter(
           (e): e is SpecialEquipmentDto => !!e && !!e.productId
         );
@@ -56,15 +57,12 @@ export class CarConfigEquipmentMenuCategoryComponent implements OnInit, OnDestro
         this.selectedEquipments = sanitized;
         this.selectedIds.set(new Set());
         this.selectedIds.update(emptyItems => {
-            const toBeUpdatedItems = new Set(emptyItems);
-            for (const e of sanitized) {
-              // productId ist hier garantiert vorhanden
-              toBeUpdatedItems.add(e.productId!);
-            }
-
-            return toBeUpdatedItems;
+          const toBeUpdatedItems = new Set(emptyItems);
+          for (const e of sanitized) {
+            toBeUpdatedItems.add(e.productId!);
           }
-        )
+          return toBeUpdatedItems;
+        });
       }
     );
   }
@@ -72,17 +70,15 @@ export class CarConfigEquipmentMenuCategoryComponent implements OnInit, OnDestro
   onSelectItem(item: SpecialEquipmentDto): void {
     const id = item?.productId;
     if (!id) {
-      return; // Ignoriere Items ohne ID
+      return;
     }
     this.selectedIds.update(currentItems => {
       const newItemsToModify = new Set(currentItems);
 
       if (newItemsToModify.has(id)) {
-        // Deselektieren
         newItemsToModify.delete(id);
         this.selectedEquipments = this.selectedEquipments.filter(e => e.productId !== id);
       } else {
-        // Selektieren mit Limit
         if (this.selectedEquipments.length < this.maxSelection) {
           if (!this.simpleCheckForCategory(item)) {
             newItemsToModify.add(id);
@@ -106,7 +102,7 @@ export class CarConfigEquipmentMenuCategoryComponent implements OnInit, OnDestro
   scroll(direction: 'left' | 'right') {
     if (this.container) {
       const container = this.container.nativeElement as HTMLElement;
-      const scrollAmount = 200; // Anpassbar
+      const scrollAmount = 200;
 
       if (direction === 'left') {
         container.scrollLeft -= scrollAmount;
@@ -132,8 +128,6 @@ export class CarConfigEquipmentMenuCategoryComponent implements OnInit, OnDestro
     if (categoryItem) {
       return setOfCategory.has(categoryItem);
     }
-    return false
+    return false;
   }
-
-
 }

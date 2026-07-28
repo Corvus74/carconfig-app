@@ -1,45 +1,44 @@
-import { Injectable } from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
-import {CarEngineDto} from '../api/model/carEngineDto';
-import {CarColorDto} from '../api/model/carColorDto';
-import {SpecialEquipmentDto} from '../api/model/specialEquipmentDto';
-import {CarRimDto} from '../api/model/carRimDto';
+import { Injectable, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { CarEngineDto } from '../api/model/carEngineDto';
+import { CarColorDto } from '../api/model/carColorDto';
+import { SpecialEquipmentDto } from '../api/model/specialEquipmentDto';
+import { CarRimDto } from '../api/model/carRimDto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarConfigChangeService {
-  private readonly _engineData = new BehaviorSubject<CarEngineDto>({});
-  private readonly _colorData = new BehaviorSubject<CarColorDto>({});
-  private readonly _rimData = new BehaviorSubject<CarRimDto>({});
-  private readonly _specialEquipmentData = new BehaviorSubject<SpecialEquipmentDto[]>([{}]);
+  readonly engineData = signal<CarEngineDto>({});
+  readonly colorData = signal<CarColorDto>({});
+  readonly rimData = signal<CarRimDto>({});
+  readonly specialEquipmentData = signal<SpecialEquipmentDto[]>([{}]);
 
-  // Observable stream for components to subscribe to
-  public engineData$ = this._engineData.asObservable();
-  public colorData$ = this._colorData.asObservable();
-  public rimDataData$ = this._rimData.asObservable();
-  public specialEquipmentData$ = this._specialEquipmentData.asObservable();
+  public engineData$ = toObservable(this.engineData);
+  public colorData$ = toObservable(this.colorData);
+  public rimDataData$ = toObservable(this.rimData);
+  public specialEquipmentData$ = toObservable(this.specialEquipmentData);
 
-  constructor() { }
-
-  // Method to update the data and notify all subscribers
   updateEngineData(engineData: CarEngineDto): void {
-    this._engineData.next(engineData);
-  }
-  updateCarColorData(data: CarColorDto): void {
-    this._colorData.next(data);
-  }
-  updateCarRimData(data: CarRimDto): void {
-    this._rimData.next(data);
-  }
-  updateSpecialEquipmentData(data: SpecialEquipmentDto[]): void {
-    this._specialEquipmentData.next(data);
+    this.engineData.set(engineData);
   }
 
-  reset() {
-    this._engineData.next({});
-    this._colorData.next({});
-    this._rimData.next({});
-    this._specialEquipmentData.next([{}]);
+  updateCarColorData(data: CarColorDto): void {
+    this.colorData.set(data);
+  }
+
+  updateCarRimData(data: CarRimDto): void {
+    this.rimData.set(data);
+  }
+
+  updateSpecialEquipmentData(data: SpecialEquipmentDto[]): void {
+    this.specialEquipmentData.set(data);
+  }
+
+  reset(): void {
+    this.engineData.set({});
+    this.colorData.set({});
+    this.rimData.set({});
+    this.specialEquipmentData.set([{}]);
   }
 }

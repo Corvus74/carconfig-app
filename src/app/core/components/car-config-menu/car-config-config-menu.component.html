@@ -1,1 +1,3 @@
-<app-car-config-tab-menu [baseConfig]="baseConfig"></app-car-config-tab-menu>
+@if (baseConfig()) {
+  <app-car-config-tab-menu [baseConfig]="baseConfig()!"></app-car-config-tab-menu>
+}

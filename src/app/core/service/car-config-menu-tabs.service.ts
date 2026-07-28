@@ -1,23 +1,20 @@
-import { Injectable } from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
-import {CarConfigMenuTabs} from '../models/CarConfigMenuTabs';
+import { Injectable, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { CarConfigMenuTabs } from '../models/CarConfigMenuTabs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarTabMenuChangeService {
-  private readonly _carConfigTabInfoData = new BehaviorSubject<CarConfigMenuTabs>({});
+  readonly carConfigTabInfoData = signal<CarConfigMenuTabs>({});
 
-  // Observable stream for components to subscribe to
-  public carConfigTabInfoData$ = this._carConfigTabInfoData.asObservable();
-  constructor() { }
+  public carConfigTabInfoData$ = toObservable(this.carConfigTabInfoData);
 
-  // Method to update the data and notify all subscribers
   updateTabStatus(carConfigMenuTabs: CarConfigMenuTabs): void {
-    this._carConfigTabInfoData.next(carConfigMenuTabs);
+    this.carConfigTabInfoData.set(carConfigMenuTabs);
   }
 
-  reset() {
-    this._carConfigTabInfoData.next({});
+  reset(): void {
+    this.carConfigTabInfoData.set({});
   }
 }

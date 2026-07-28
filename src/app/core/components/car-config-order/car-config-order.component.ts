@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnInit, effect} from '@angular/core';
 import {CarConfigChangeService} from '../../service/car-config-change.service';
 import {
   CarColorDto,
@@ -8,7 +8,7 @@ import {
   OrderControllerService,
   SpecialEquipmentDto
 } from '../../api';
-import {firstValueFrom, Subscription} from 'rxjs';
+import {firstValueFrom} from 'rxjs';
 import {CarConfigOrderModal, ModalOptions} from './car-config-order-modal/car-config-order-modal';
 import {CarConfigGeneralFunctionsService} from '../../service/car-config-general-functions.service';
 import {CarConfigMenuTabs} from '../../models/CarConfigMenuTabs';
@@ -22,7 +22,7 @@ import {Router} from '@angular/router';
   templateUrl: './car-config-order.component.html',
   styleUrl: './car-config-order.component.scss'
 })
-export class CarConfigOrderComponent implements OnInit, OnDestroy {
+export class CarConfigOrderComponent implements OnInit {
   @Input() createNewOrder!: boolean;
   @Input() updateOrDeleteOrder!: boolean;
   @Input() showOrderMenu: boolean = false;
@@ -31,13 +31,10 @@ export class CarConfigOrderComponent implements OnInit, OnDestroy {
   rimData: CarRimDto | undefined;
   specialEquipments: SpecialEquipmentDto[] | undefined;
   carMenuTabs: CarConfigMenuTabs | undefined;
-  private carEngineSubscription: Subscription | undefined;
-  private carColorSubscription: Subscription | undefined;
-  private carRimSubscription: Subscription | undefined;
-  private tabMenuSubscription: Subscription | undefined;
+  // using effects instead of manual subscriptions
 
   private receivedOrderNumber: string | undefined;
-  private carSpecialEquipmentsSubscription: Subscription | undefined;
+  // using effects instead of manual subscriptions
 
   totalPrice = 0
   isSending: boolean = false;
@@ -50,50 +47,33 @@ export class CarConfigOrderComponent implements OnInit, OnDestroy {
               private readonly carConfigApiService: CarConfigApiService,
               private readonly router: Router) {
   } // Dialog statt alter Modal-"Service"
-  ngOnDestroy(): void {
-    this.carEngineSubscription?.unsubscribe();
-    this.carColorSubscription?.unsubscribe();
-    this.carRimSubscription?.unsubscribe();
-    this.carSpecialEquipmentsSubscription?.unsubscribe();
-    this.tabMenuSubscription?.unsubscribe();
-
-  }
+  // no manual unsubscribe required when using effects
 
   ngOnInit(): void {
-    // Subscribe to the observable to get the latest data
-    this.carEngineSubscription = this.carConfigChangedService.engineData$.subscribe(
-      (data) => {
-        this.engineData = data;
-        this.calculatePriceComplete()
+    // keep local fields in sync with signals and recalc price when needed
+    effect(() => {
+      this.engineData = this.carConfigChangedService.engineData();
+      this.calculatePriceComplete();
+    });
+    effect(() => {
+      this.colorData = this.carConfigChangedService.colorData();
+      this.calculatePriceComplete();
+    });
+    effect(() => {
+      this.rimData = this.carConfigChangedService.rimData();
+      this.calculatePriceComplete();
+    });
+    effect(() => {
+      this.specialEquipments = this.carConfigChangedService.specialEquipmentData();
+      this.calculatePriceComplete();
+    });
+    effect(() => {
+      const data = this.carTabMenuChangeService.carConfigTabInfoData();
+      this.carMenuTabs = data;
+      if (data?.showOrder) {
+        this.showOrderMenu = true;
       }
-    );
-    this.carColorSubscription = this.carConfigChangedService.colorData$.subscribe(
-      (data) => {
-        this.colorData = data;
-        this.calculatePriceComplete()
-      }
-    );
-
-    this.carRimSubscription = this.carConfigChangedService.rimDataData$.subscribe(
-      (data) => {
-        this.rimData = data;
-        this.calculatePriceComplete()
-      }
-    );
-    this.carSpecialEquipmentsSubscription = this.carConfigChangedService.specialEquipmentData$.subscribe(
-      (data) => {
-        this.specialEquipments = data;
-        this.calculatePriceComplete()
-      }
-    );
-    this.tabMenuSubscription = this.carTabMenuChangeService.carConfigTabInfoData$.subscribe(
-      (data) => {
-        this.carMenuTabs = data;
-        if (data?.showOrder) {
-          this.showOrderMenu = true;
-        }
-      }
-    )
+    });
   }
 
   toCurrencyFormat(price: number | undefined) {

@@ -9,7 +9,7 @@
          style="cursor: pointer;">
       <h5 class="mb-0 d-flex align-items-center">
         <i class="ri-truck-line me-2"></i>
-        {{ titleName }}
+        {{ titleName() }}
       </h5>
       <i class="bi fs-5 me-2"
          [class.bi-chevron-down]="!categoryMenuShown"
@@ -22,7 +22,7 @@
     <div #container class="overflow-auto header-equipment" tabindex="0" role="region"
          [attr.aria-label]="titleName + ' list'">
       <ul class="list-unstyled d-flex flex-row gap-2 m-0 p-0">
-        @for (item of specialEquipmentListInit; track item.productId) {
+        @for (item of specialEquipmentListInit(); track item.productId) {
           <li class="d-flex">
             <button type="button"
                     class="btn btn-light d-flex align-items-center gap-2 border rounded-3 p-2 shadow-sm"

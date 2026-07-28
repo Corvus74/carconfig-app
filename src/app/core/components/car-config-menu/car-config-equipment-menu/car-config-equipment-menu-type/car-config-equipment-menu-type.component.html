@@ -9,7 +9,7 @@
          style="cursor: pointer;">
       <h5 class="mb-0 d-flex align-items-center">
         <i class="me-2"></i>
-        {{ titleName }}
+        {{ titleName() }}
       </h5>
       <i class="bi fs-5 me-2"
          [class.bi-chevron-down]="!locationMenuShown"
@@ -28,7 +28,6 @@
       </div>
     }
     @if (specialEquipmentMultiMediaList.length > 0) {
-      <!-- Multimedia Category -->
       <div class="row">
         <app-car-config-equipment-menu-category
           [titleName]="multiMediaTitleName"
@@ -38,7 +37,6 @@
       </div>
     }
     @if (specialEquipmentSeatsList.length > 0) {
-      <!-- Seats Category -->
       <div class="row">
         <app-car-config-equipment-menu-category
           [titleName]="seatsTitleName"
@@ -57,18 +55,15 @@
       </div>
     }
     @if (specialEquipmentNaviList.length > 0) {
-      <!-- Navigation System Category -->
       <div class="row">
         <app-car-config-equipment-menu-category
           [titleName]="naviTitleName"
           [specialEquipmentListInit]="specialEquipmentNaviList"
         >
-
         </app-car-config-equipment-menu-category>
       </div>
     }
     @if (specialEquipmentSteeringWheelList.length > 0) {
-      <!-- Steering Wheel Category -->
       <div class="row">
         <app-car-config-equipment-menu-category
           [titleName]="steeringWheelTitleName"
@@ -78,7 +73,6 @@
       </div>
     }
     @if (specialEquipmentMiscList.length > 0) {
-      <!-- Misc Category -->
       <div class="row">
         <app-car-config-equipment-menu-category
           [titleName]="miscTitleName"

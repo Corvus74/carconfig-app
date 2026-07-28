@@ -1,9 +1,7 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {CarRimDto} from '../../../api';
-import {
-  CarConfigRimMenuItemComponent
-} from './car-config-rim-menu-item/car-config-rim-menu-item.component';
-import {CarConfigChangeService} from '../../../service/car-config-change.service';
+import { Component, ElementRef, input, output, ViewChild, inject } from '@angular/core';
+import { CarRimDto } from '../../../api';
+import { CarConfigRimMenuItemComponent } from './car-config-rim-menu-item/car-config-rim-menu-item.component';
+import { CarConfigChangeService } from '../../../service/car-config-change.service';
 
 @Component({
   selector: 'app-car-config-rim-menu',
@@ -13,21 +11,16 @@ import {CarConfigChangeService} from '../../../service/car-config-change.service
   templateUrl: './car-config-rim-menu.component.html',
   styleUrl: './car-config-rim-menu.component.scss'
 })
-export class CarConfigRimMenuComponent{
-  @Input() carRims: CarRimDto[] | undefined
-  @Input() selectedValue: CarRimDto |undefined;
+export class CarConfigRimMenuComponent {
+  readonly carRims = input<CarRimDto[] | undefined>(undefined);
+  readonly selectedValue = input<CarRimDto | undefined>(undefined);
   @ViewChild('container') container: ElementRef | undefined;
-  @Output() selectionChange = new EventEmitter<void>();
+  readonly selectionChange = output<void>();
 
-
-  constructor(private readonly carConfigChangeService:CarConfigChangeService) {
-  }
+  private readonly carConfigChangeService = inject(CarConfigChangeService);
 
   onItemSelected(value: CarRimDto): void {
-    this.selectedValue = value;
-    this.carConfigChangeService.updateCarRimData(value)
+    this.carConfigChangeService.updateCarRimData(value);
     this.selectionChange.emit();
   }
-
-
 }

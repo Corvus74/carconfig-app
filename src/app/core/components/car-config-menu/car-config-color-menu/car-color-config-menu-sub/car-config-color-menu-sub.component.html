@@ -1,16 +1,16 @@
 <div class="row bg-body bg-dark">
-  <h5>{{ titleName }}</h5>
+  <h5>{{ titleName() }}</h5>
 </div>
 <div class="row">
   <div class="col-12">
-      <div #container class="color-menu-container">
-        @for (carColor of carColorSub; track carColor.productId) {
-          <app-car-config-color-menu-color-item
-            [value]="carColor"
-            [isSelected]="carColor === selectedValue"
-            (itemSelected)="onItemSelected($event)"
-          ></app-car-config-color-menu-color-item>
-        }
-      </div>
+    <div #container class="color-menu-container">
+      @for (carColor of carColorSub(); track carColor.productId) {
+        <app-car-config-color-menu-color-item
+          [value]="carColor"
+          [isSelected]="carColor === selectedValue"
+          (itemSelected)="onItemSelected($event)"
+        ></app-car-config-color-menu-color-item>
+      }
     </div>
+  </div>
 </div>

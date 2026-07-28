@@ -1,3 +1,5 @@
+export * from './authenticationController.service';
+import { AuthenticationControllerService } from './authenticationController.service';
 export * from './carColorWebController.service';
 import { CarColorWebControllerService } from './carColorWebController.service';
 export * from './carEngineWebController.service';
@@ -14,4 +16,4 @@ export * from './productInfoWebController.service';
 import { ProductInfoWebControllerService } from './productInfoWebController.service';
 export * from './specialEquipmentWebController.service';
 import { SpecialEquipmentWebControllerService } from './specialEquipmentWebController.service';
-export const APIS = [CarColorWebControllerService, CarEngineWebControllerService, CarRimsWebControllerService, ConfigWebControllerService, OrderControllerService, OrderUserControllerService, ProductInfoWebControllerService, SpecialEquipmentWebControllerService];
+export const APIS = [AuthenticationControllerService, CarColorWebControllerService, CarEngineWebControllerService, CarRimsWebControllerService, ConfigWebControllerService, OrderControllerService, OrderUserControllerService, ProductInfoWebControllerService, SpecialEquipmentWebControllerService];

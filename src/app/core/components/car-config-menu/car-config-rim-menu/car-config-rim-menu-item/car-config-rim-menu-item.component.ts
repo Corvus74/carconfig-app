@@ -1,8 +1,7 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CarRimDto} from '../../../../api';
-import {formatCurrency} from '@angular/common';
-import {CarConfigGeneralFunctionsService} from '../../../../service/car-config-general-functions.service';
-import {CarConfigCommonInfoModal} from '../../../../common/car-config-common-info-modal/car-config-common-info-modal';
+import { Component, input, output, inject } from '@angular/core';
+import { CarRimDto } from '../../../../api';
+import { CarConfigGeneralFunctionsService } from '../../../../service/car-config-general-functions.service';
+import { CarConfigCommonInfoModal } from '../../../../common/car-config-common-info-modal/car-config-common-info-modal';
 
 @Component({
   selector: 'app-car-config-rim-menu-item',
@@ -11,39 +10,40 @@ import {CarConfigCommonInfoModal} from '../../../../common/car-config-common-inf
   styleUrl: './car-config-rim-menu-item.component.scss'
 })
 export class CarConfigRimMenuItemComponent {
-  @Input() value: CarRimDto={};
-  @Input() isSelected: boolean = false;
-  @Output() itemSelected = new EventEmitter<CarRimDto>();
+  readonly value = input<CarRimDto>({});
+  readonly isSelected = input<boolean>(false);
+  readonly itemSelected = output<CarRimDto>();
 
-  constructor(private readonly carConfigGeneralFunctionsService: CarConfigGeneralFunctionsService, private readonly carConfigCommonInfoModal:CarConfigCommonInfoModal) {
-  }
+  private readonly carConfigGeneralFunctionsService = inject(CarConfigGeneralFunctionsService);
+  private readonly carConfigCommonInfoModal = inject(CarConfigCommonInfoModal);
 
   onClick(): void {
-    this.itemSelected.emit(this.value);
+    this.itemSelected.emit(this.value());
   }
 
   toCurrencyFormat(price: number | undefined) {
     if (price) {
       return this.carConfigGeneralFunctionsService.formatCurrency(price);
     }
-    return "inkl."
+    return "inkl.";
   }
 
   getImage(innerDiameter: number | undefined) {
     const diameter = innerDiameter ?? 17;
-    if(diameter == 17) {
+    if (diameter === 17) {
       return "assets/felge_01.png";
-    }else{
+    } else {
       return "assets/felge_02.png.webp";
     }
   }
 
   handleIconClick(eventObj: MouseEvent) {
     eventObj.stopPropagation();
-    if (this.value?.description) {
-      let modalInfo = this.value?.model ?? "";
+    const val = this.value();
+    if (val?.description) {
+      let modalInfo = val?.model ?? "";
       modalInfo = "Info engine for " + modalInfo + ":";
-      this.carConfigCommonInfoModal.open(modalInfo, this.value.description)
+      this.carConfigCommonInfoModal.open(modalInfo, val.description);
     }
   }
 }
