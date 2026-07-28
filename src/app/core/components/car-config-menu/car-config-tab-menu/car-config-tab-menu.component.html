@@ -24,25 +24,25 @@
             <div class="container text-center">
               @if (showCarEngine() && tabStore.activeTab() === 1) {
                 <app-car-config-engine-menu
-                  [carEngines]="baseConfig.carEngines">
+                  [carEngines]="baseConfig?.carEngines">
                 </app-car-config-engine-menu>
               }
 
               @if (showCarColor() && tabStore.activeTab() === 2) {
                 <app-car-config-color-menu
-                  [carColorInit]="baseConfig.carColors">
+                  [carColorInit]="baseConfig?.carColors">
                 </app-car-config-color-menu>
               }
 
               @if (showCarRims() && tabStore.activeTab() === 3) {
                 <app-car-config-rim-menu
-                  [carRims]="baseConfig.carRims">
+                  [carRims]="baseConfig?.carRims">
                 </app-car-config-rim-menu>
               }
 
               @if (showSpecialEquipment() && tabStore.activeTab() === 4) {
                 <app-car-config-special-equipment-menu
-                  [specialEquipmentListInit]="baseConfig.specialEquipment">
+                  [specialEquipmentListInit]="baseConfig?.specialEquipment">
                 </app-car-config-special-equipment-menu>
               }
             </div>

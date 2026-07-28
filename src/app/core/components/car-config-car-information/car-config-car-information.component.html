@@ -5,9 +5,9 @@
       <div class="col">
         Engine Model:
       </div>
-      @if (this.engineData?.productId) {
+      @if (engineDataVisible()) {
         <div class="col text-start ps-4">
-          {{ engineData?.model }}
+          {{ engineData()?.model }}
         </div>
       } @else {
         <div class="col">
@@ -19,9 +19,9 @@
       <div class="col">
         Colorname:
       </div>
-      @if (colorData?.productId) {
+      @if (colorDataVisible()) {
         <div class="col text-start ps-4">
-          {{ colorData?.colorName }}
+          {{ colorData()?.colorName }}
         </div>
       } @else {
         <div class="col">
@@ -33,9 +33,9 @@
       <div class="col">
         Rim :
       </div>
-      @if (rimData?.productId) {
+      @if (rimDataVisible()) {
         <div class="col text-start ps-4">
-          {{ rimData?.rimName }}
+          {{ rimData()?.rimName }}
         </div>
       } @else {
         <div class="col ">
@@ -49,7 +49,7 @@
       </div>
       @if (showSpecialEquipment()) {
         <div class="col text-start ps-4">
-          {{ generateChoosenText() }}
+          {{ generateChosenText() }}
         </div>
       } @else {
         <div class="col">
@@ -59,7 +59,7 @@
     </div>
     <!-- Display the list of chosen equipment -->
     @if (showSpecialEquipment()) {
-      @for (equipment of specialEquipment; track equipment.productId) {
+      @for (equipment of specialEquipment() || []; track equipment.productId) {
         <div class="row">
           <div class="col"></div> <!-- Empty col for alignment -->
           <div class="col text-start ps-4">

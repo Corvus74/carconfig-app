@@ -1,7 +1,7 @@
 import { Component, ElementRef, input, output, ViewChild, inject } from '@angular/core';
 import { CarRimDto } from '../../../api';
 import { CarConfigRimMenuItemComponent } from './car-config-rim-menu-item/car-config-rim-menu-item.component';
-import { CarConfigChangeService } from '../../../service/car-config-change.service';
+import { CarConfigStoreService } from '../../../service/car-config-store.service';
 
 @Component({
   selector: 'app-car-config-rim-menu',
@@ -17,10 +17,10 @@ export class CarConfigRimMenuComponent {
   @ViewChild('container') container: ElementRef | undefined;
   readonly selectionChange = output<void>();
 
-  private readonly carConfigChangeService = inject(CarConfigChangeService);
+  private readonly carConfigStoreService = inject(CarConfigStoreService);
 
   onItemSelected(value: CarRimDto): void {
-    this.carConfigChangeService.updateCarRimData(value);
+    this.carConfigStoreService.updateRims(value);
     this.selectionChange.emit();
   }
 }

@@ -1,10 +1,10 @@
-import {Component, OnInit, OnDestroy, ViewChild, ElementRef} from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, ElementRef, inject} from '@angular/core';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {RGBELoader} from 'three/examples/jsm/loaders/RGBELoader.js';
 import {DRACOLoader} from 'three/examples/jsm/loaders/DRACOLoader.js';
-import {CarConfigChangeService} from '../../service/car-config-change.service';
+import { CarConfigStoreService } from '../../service/car-config-store.service';
 import {Subscription} from 'rxjs';
 import {CarColorDto} from '../../api';
 
@@ -39,8 +39,7 @@ export class CarConfig3dCarViewComponent implements OnInit, OnDestroy {
   };
 
   // --- Lifecycle Hooks ---
-  constructor(private readonly carConfigChangedService: CarConfigChangeService) {
-  }
+  private readonly carConfigStoreService = inject(CarConfigStoreService);
 
   /**
    * This method is called once when the component is initialized.
@@ -53,10 +52,11 @@ export class CarConfig3dCarViewComponent implements OnInit, OnDestroy {
     this.loadCarModel();
     this.animate();
 
-
-    this.carColorSubscription = this.carConfigChangedService.colorData$.subscribe(
+    console.log('[3D-CAR] Subscribing to color changes');
+    this.carColorSubscription = this.carConfigStoreService.color$.subscribe(
       (data) => {
-        this.colorData = data;
+        console.log('[3D-CAR] Color updated:', data);
+        this.colorData = data || {};
         this.updateColor();
         this.updateColorStyle()
 

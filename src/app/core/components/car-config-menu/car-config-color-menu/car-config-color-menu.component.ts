@@ -1,6 +1,7 @@
-import { Component, input, output, OnInit } from '@angular/core';
+import { Component, input, output, OnInit, inject } from '@angular/core';
 import { CarColorDto } from '../../../api';
 import { CarConfigColorMenuSubComponent } from './car-color-config-menu-sub/car-config-color-menu-sub.component';
+import { CarConfigStoreService } from '../../../service/car-config-store.service';
 
 @Component({
   selector: 'app-car-config-color-menu',
@@ -25,11 +26,14 @@ export class CarConfigColorMenuComponent implements OnInit {
   carColorGlossyTitleName: string = "Metallic Colors";
   carColorMatteTitleName: string = "Matte Colors";
 
+  private readonly carConfigStoreService = inject(CarConfigStoreService);
+
   ngOnInit(): void {
     this.createSubMenus();
   }
 
   forwardSelection(color: CarColorDto) {
+    this.carConfigStoreService.updateColor(color);
     this.selectionChange.emit(color);
   }
 

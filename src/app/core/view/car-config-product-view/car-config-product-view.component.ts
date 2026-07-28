@@ -12,8 +12,8 @@ import {
   ProductInfoWebControllerService,
   SpecialEquipmentDto
 } from '../../api';
-import {CarConfigChangeService} from '../../service/car-config-change.service';
 import {firstValueFrom} from 'rxjs';
+import {CarConfigStoreService} from '../../service/car-config-store.service';
 
 @Component({
   selector: 'app-car-config-overview-view',
@@ -32,7 +32,7 @@ export class CarConfigProductViewComponent implements OnInit {
   orderId: string | null = null;
   private isLoading: boolean = false;
 
-  constructor(private readonly route: ActivatedRoute, private readonly orderControllerService: ProductInfoWebControllerService, private readonly carConfigChangeService: CarConfigChangeService) {
+  constructor(private readonly route: ActivatedRoute, private readonly orderControllerService: ProductInfoWebControllerService, private readonly carConfigStoreService: CarConfigStoreService) {
   }
 
   ngOnInit(): void {
@@ -93,15 +93,15 @@ export class CarConfigProductViewComponent implements OnInit {
     if (this.productInfoDto) {
       const enginePos = this.productInfoDetailDto.carEngine;
       if (enginePos) {
-        this.carConfigChangeService.updateEngineData(enginePos);
+        this.carConfigStoreService.updateEngine(enginePos);
       }
       const colorPos = this.productInfoDetailDto.carColor;
       if (colorPos) {
-        this.carConfigChangeService.updateCarColorData(colorPos);
+        this.carConfigStoreService.updateColor(colorPos);
       }
       const rimPos = this.productInfoDetailDto.carRim;
       if (rimPos) {
-        this.carConfigChangeService.updateCarRimData(rimPos);
+        this.carConfigStoreService.updateRims(rimPos);
       }
       const specialEquipmentOrders = this.productInfoDetailDto.specialEquipment;
       let specialEquipmentList: SpecialEquipmentDto[] | undefined = [];
@@ -109,7 +109,7 @@ export class CarConfigProductViewComponent implements OnInit {
         for (let specialEquipmentElem of specialEquipmentOrders) {
           specialEquipmentList.push(specialEquipmentElem);
         }
-        this.carConfigChangeService.updateSpecialEquipmentData(specialEquipmentList);
+        this.carConfigStoreService.updateSpecialEquipment(specialEquipmentList);
       }
     }
   }

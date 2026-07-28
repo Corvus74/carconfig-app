@@ -1,4 +1,4 @@
-@if (showOrderMenu) {
+@if (getShowOrderMenu()) {
   <div class="card container text-center border border-primary mt-2">
     <h4> Current Order</h4>
     <div class="container text-lg-start">
@@ -13,47 +13,47 @@
           Price
         </div>
       </div>
-      @if (engineData?.productId) {
+      @if (engineDataVisible()) {
         <div class="row">
           <div class="col">
             Engine :
           </div>
           <div class="col">
-            {{ engineData?.model }}
+            {{ engineData()?.model }}
           </div>
           <div class="col">
-            {{ toCurrencyFormat(engineData?.price) }}
+            {{ toCurrencyFormat(engineData()?.price) }}
           </div>
         </div>
       }
-      @if (colorData?.productId) {
+      @if (colorDataVisible()) {
         <div class="row">
           <div class="col">
             Color:
           </div>
           <div class="col">
-            {{ colorData?.colorName }}
+            {{ colorData()?.colorName }}
           </div>
           <div class="col">
-            {{ toCurrencyFormat(colorData?.price) }}
+            {{ toCurrencyFormat(colorData()?.price) }}
           </div>
         </div>
       }
-      @if (rimData?.productId) {
+      @if (rimDataVisible()) {
         <div class="row">
           <div class="col">
             Rim :
           </div>
           <div class="col">
-            {{ rimData?.rimName }}
+            {{ rimData()?.rimName }}
           </div>
           <div class="col">
-            {{ toCurrencyFormat(rimData?.price) }}
+            {{ toCurrencyFormat(rimData()?.price) }}
           </div>
         </div>
       }
       @if (showSpecialEquipment()) {
-        @for (specialEquip of specialEquipments; track specialEquip.productId) {
+        @for (specialEquip of specialEquipments(); track specialEquip.productId) {
 
           <div class="row">
             <div class="col">
@@ -74,9 +74,9 @@
         </div>
         <div class="col">
         </div>
-        @if (totalPrice) {
+        @if (totalPrice()) {
           <div class="col">
-            {{ toCurrencyFormat(totalPrice) }}
+            {{ toCurrencyFormat(totalPrice()) }}
           </div>
         } @else {
           <div class="col">

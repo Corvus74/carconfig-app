@@ -9,7 +9,7 @@ import {
   ViewChild,
   inject
 } from '@angular/core';
-import { CarConfigChangeService } from '../../../../../service/car-config-change.service';
+import { CarConfigStoreService } from '../../../../../service/car-config-store.service';
 import { Subscription } from 'rxjs';
 import { SpecialEquipmentDto } from '../../../../../api';
 import {
@@ -30,7 +30,7 @@ export class CarConfigEquipmentMenuCategoryComponent implements OnInit, OnDestro
   readonly specialEquipmentListInit = input<SpecialEquipmentDto[]>([]);
   @ViewChild('container') container: ElementRef | undefined;
 
-  private readonly carConfigChangeService = inject(CarConfigChangeService);
+  private readonly carConfigStoreService = inject(CarConfigStoreService);
   private carSpecialEquipmentSubscription: Subscription | undefined;
 
   selectedEquipments: SpecialEquipmentDto[] = [];
@@ -48,7 +48,7 @@ export class CarConfigEquipmentMenuCategoryComponent implements OnInit, OnDestro
   }
 
   ngOnInit(): void {
-    this.carSpecialEquipmentSubscription = this.carConfigChangeService.specialEquipmentData$.subscribe(
+    this.carSpecialEquipmentSubscription = this.carConfigStoreService.specialEquipment$.subscribe(
       (data) => {
         const sanitized = (data ?? []).filter(
           (e): e is SpecialEquipmentDto => !!e && !!e.productId
@@ -91,7 +91,7 @@ export class CarConfigEquipmentMenuCategoryComponent implements OnInit, OnDestro
       return newItemsToModify;
     });
 
-    this.carConfigChangeService.updateSpecialEquipmentData(this.selectedEquipments);
+    this.carConfigStoreService.updateSpecialEquipment(this.selectedEquipments);
   }
 
   isSelectedAndNotDoubleByCategory(item: SpecialEquipmentDto): boolean {

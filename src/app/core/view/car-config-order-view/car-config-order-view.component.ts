@@ -10,8 +10,8 @@ import {
   CarConfigOrderOverviewComponent
 } from '../../components/car-config-order-overview/car-config-order-overview.component';
 import {CarOrderDto, OrderControllerService, SpecialEquipmentDto} from '../../api';
-import {CarConfigChangeService} from '../../service/car-config-change.service';
 import {firstValueFrom} from 'rxjs';
+import {CarConfigStoreService} from '../../service/car-config-store.service';
 
 @Component({
   selector: 'app-car-config-view-order',
@@ -30,7 +30,7 @@ export class CarConfigOrderViewComponent implements OnInit{
   orderInfo: CarOrderDto = {};
   isLoading = false;
 
-  constructor(private readonly route: ActivatedRoute, private readonly orderControllerService: OrderControllerService, private readonly carConfigChangeService: CarConfigChangeService) { }
+  constructor(private readonly route: ActivatedRoute, private readonly orderControllerService: OrderControllerService, private readonly carConfigChangeService: CarConfigStoreService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -67,15 +67,15 @@ export class CarConfigOrderViewComponent implements OnInit{
     if (this.orderInfo.carOrderId) {
       const enginePos = this.orderInfo.carEngineOrder?.carEngine;
       if (enginePos) {
-        this.carConfigChangeService.updateEngineData(enginePos);
+        this.carConfigChangeService.updateEngine(enginePos);
       }
       const colorPos = this.orderInfo.carColorOrder?.carColor;
       if (colorPos) {
-        this.carConfigChangeService.updateCarColorData(colorPos);
+        this.carConfigChangeService.updateColor(colorPos);
       }
       const rimPos = this.orderInfo.carRimOrder?.carRim;
       if (rimPos) {
-        this.carConfigChangeService.updateCarRimData(rimPos);
+        this.carConfigChangeService.updateRims(rimPos);
       }
       const specialEquipmentOrders = this.orderInfo.specialEquipmentOrders;
       let specialEquipmentList: SpecialEquipmentDto[] | undefined = [];
@@ -85,7 +85,7 @@ export class CarConfigOrderViewComponent implements OnInit{
             specialEquipmentList.push(specialEquipmentElem.specialEquipment)
           }
         }
-        this.carConfigChangeService.updateSpecialEquipmentData(specialEquipmentList)
+        this.carConfigChangeService.updateSpecialEquipment(specialEquipmentList)
 
 
       }

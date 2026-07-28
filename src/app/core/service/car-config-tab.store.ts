@@ -1,8 +1,8 @@
-import { Injectable, signal, effect, computed, inject } from '@angular/core';
-import { CarConfigChangeService } from './car-config-change.service';
+import { Injectable, signal, effect, inject } from '@angular/core';
 import { CarTabMenuChangeService } from './car-config-menu-tabs.service';
 import { BaseConfigDto } from '../api';
 import { CarConfigMenuTabs } from '../models/CarConfigMenuTabs';
+import {CarConfigStoreService} from './car-config-store.service';
 
 @Injectable({ providedIn: 'root' })
 export class CarConfigTabStore {
@@ -10,7 +10,7 @@ export class CarConfigTabStore {
   readonly tabsStatus = signal<CarConfigMenuTabs>({ tabEngine: false, tabColor: false, tabRim: false, tabSpecialEquipment: false, activeTab: 1 });
   readonly activeTab = signal<number>(1);
 
-  private readonly carConfigChangeService = inject(CarConfigChangeService);
+  private readonly carConfigStoreService = inject(CarConfigStoreService);
   private readonly carTabMenuChangeService = inject(CarTabMenuChangeService);
 
   constructor() {
@@ -24,19 +24,19 @@ export class CarConfigTabStore {
 
     // Watch car config selections and unlock tabs accordingly
     effect(() => {
-      const data = this.carConfigChangeService.engineData();
+      const data = this.carConfigStoreService.engine();
       if (data?.productId) this.markTabUnlocked('tabEngine');
     });
     effect(() => {
-      const data = this.carConfigChangeService.colorData();
+      const data = this.carConfigStoreService.color();
       if (data?.productId) this.markTabUnlocked('tabColor');
     });
     effect(() => {
-      const data = this.carConfigChangeService.rimData();
+      const data = this.carConfigStoreService.rims();
       if (data?.productId) this.markTabUnlocked('tabRim');
     });
     effect(() => {
-      const data = this.carConfigChangeService.specialEquipmentData();
+      const data = this.carConfigStoreService.specialEquipment();
       const equipmentFirstElem = data?.[0]?.productId;
       if (equipmentFirstElem) this.markTabUnlocked('tabSpecialEquipment');
     });

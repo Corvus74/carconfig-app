@@ -1,10 +1,10 @@
 # syntax=docker/dockerfile:1
 
-ARG NODE_VERSION=25.1.0
+ARG NODE_VERSION=26.5.0
 ARG NGINX_VERSION=stable-alpine
 
 
-FROM node:${NODE_VERSION}-alpine AS builder
+FROM node:${NODE_VERSION}-alpine3.24 AS builder
 
 WORKDIR /app
 

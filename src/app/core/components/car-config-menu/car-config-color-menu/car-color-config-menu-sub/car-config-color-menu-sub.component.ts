@@ -1,6 +1,6 @@
 import { Component, ElementRef, input, output, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { CarColorDto } from '../../../../api';
-import { CarConfigChangeService } from '../../../../service/car-config-change.service';
+import { CarConfigStoreService } from '../../../../service/car-config-store.service';
 import { Subscription } from 'rxjs';
 import { CarConfigColorMenuColorItemComponent } from './car-config-color-menu-color-item/car-config-color-menu-color-item.component';
 
@@ -18,16 +18,17 @@ export class CarConfigColorMenuSubComponent implements OnInit, OnDestroy {
   readonly selectionChange = output<CarColorDto>();
   @ViewChild('container') container: ElementRef | undefined;
 
-  private readonly carConfigChangeService = inject(CarConfigChangeService);
+  private readonly carConfigStoreService = inject(CarConfigStoreService);
   private carColorSubscription: Subscription | undefined;
   readonly CarColorDto = CarColorDto;
 
   selectedValue: CarColorDto | undefined;
 
   ngOnInit(): void {
-    this.carColorSubscription = this.carConfigChangeService.colorData$.subscribe(
+    this.carColorSubscription = this.carConfigStoreService.color$.subscribe(
       (data) => {
-        this.selectedValue = data;
+        console.log('[COLOR-SUB] Color changed:', data);
+        this.selectedValue = data || undefined;
       }
     );
   }
@@ -37,8 +38,9 @@ export class CarConfigColorMenuSubComponent implements OnInit, OnDestroy {
   }
 
   onItemSelected(value: CarColorDto): void {
+    console.log('[COLOR-SUB] Updating color:', value);
     this.selectedValue = value;
-    this.carConfigChangeService.updateCarColorData(value);
+    this.carConfigStoreService.updateColor(value);
     this.selectionChange.emit(value);
   }
 

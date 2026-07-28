@@ -1,6 +1,5 @@
-import {Component, OnInit, effect} from '@angular/core';
-import {CarColorDto, CarEngineDto, CarRimDto, SpecialEquipmentDto} from '../../api';
-import {CarConfigChangeService} from '../../service/car-config-change.service';
+import {Component, OnInit, computed, inject} from '@angular/core';
+import {CarConfigStoreService} from '../../service/car-config-store.service';
 import {CarTabMenuChangeService} from '../../service/car-config-menu-tabs.service';
 import {CarConfigMenuTabs} from '../../models/CarConfigMenuTabs';
 
@@ -11,46 +10,41 @@ import {CarConfigMenuTabs} from '../../models/CarConfigMenuTabs';
   styleUrl: './car-config-car-information.component.scss'
 })
 export class CarConfigCarInformationComponent implements OnInit {
-  engineData: CarEngineDto | undefined;
-  colorData: CarColorDto | undefined;
-  rimData: CarRimDto | undefined;
-  specialEquipment: SpecialEquipmentDto[] | undefined;
-  carMenuTabs: CarConfigMenuTabs  | undefined;
-  // using effects instead of manual subscriptions
+  private readonly carConfigStoreService = inject(CarConfigStoreService);
+  private readonly carTabMenuChangeService = inject(CarTabMenuChangeService);
 
-  constructor(private readonly carConfigChangedService: CarConfigChangeService,
-              private readonly carTabMenuChangeService: CarTabMenuChangeService) {
-    // use signals via effects to keep local fields in sync
-    effect(() => {
-      this.engineData = this.carConfigChangedService.engineData();
-    });
-    effect(() => {
-      this.colorData = this.carConfigChangedService.colorData();
-    });
-    effect(() => {
-      this.rimData = this.carConfigChangedService.rimData();
-    });
-    effect(() => {
-      this.specialEquipment = this.carConfigChangedService.specialEquipmentData();
-    });
-    effect(() => {
-      this.carMenuTabs = this.carTabMenuChangeService.carConfigTabInfoData();
-    });
-  }
+  // Direct signals - reactive to store updates
+  readonly engineData = this.carConfigStoreService.engine;
+  readonly colorData = this.carConfigStoreService.color;
+  readonly rimData = this.carConfigStoreService.rims;
+  readonly specialEquipment = this.carConfigStoreService.specialEquipment;
+
+  // Computed signals for visibility
+  readonly engineDataVisible = computed(() => this.engineData() !== null);
+  readonly colorDataVisible = computed(() => this.colorData() !== null);
+  readonly rimDataVisible = computed(() => this.rimData() !== null);
+
+  carMenuTabs: CarConfigMenuTabs | undefined;
 
   ngOnInit(): void {
+    console.log('[CAR-INFO] Component initialized');
+    // Subscribe to menu tabs
+    this.carTabMenuChangeService.carConfigTabInfoData$?.subscribe((data) => {
+      this.carMenuTabs = data;
+    });
   }
 
-
   showSpecialEquipment() {
-    if (this.specialEquipment) {
-      return this.specialEquipment[0].productId
+    const equipment = this.specialEquipment();
+    if (equipment && equipment.length > 0) {
+      return equipment[0].productId
     }
     return false;
   }
 
-  generateChoosenText() {
-    return "( " + this.specialEquipment?.length + " of 5 Equipments selected)";
+  generateChosenText() {
+    const equipment = this.specialEquipment();
+    return "( " + equipment?.length + " of 5 Equipments selected)";
   }
 
   showCarInfo() {
@@ -62,10 +56,9 @@ export class CarConfigCarInformationComponent implements OnInit {
   }
 
   onEarlyFinishedOrder() {
-    if(this.carMenuTabs){
+    if (this.carMenuTabs) {
       this.carMenuTabs.showOrder = true;
       this.carTabMenuChangeService.updateTabStatus(this.carMenuTabs)
     }
-
   }
 }

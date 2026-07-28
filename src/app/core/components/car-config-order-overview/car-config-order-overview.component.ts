@@ -1,7 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {firstValueFrom} from 'rxjs';
+import {Component, Input} from '@angular/core';
 import {CarOrderDto, OrderControllerService, SpecialEquipmentDto} from '../../api';
-import {CarConfigChangeService} from '../../service/car-config-change.service';
 import {DatePipe} from '@angular/common';
 import {
   CarConfigOrderOverviewStatusComponent
@@ -27,13 +25,6 @@ export class CarConfigOrderOverviewComponent {
   rimTitle: string | undefined="Car Rim";
   colorTitle: string | undefined="Car Color";
   specialEquipmentTitle: string | undefined="Special Equipments";
-
-
-  constructor(private readonly orderControllerService: OrderControllerService, private readonly carConfigChangeService: CarConfigChangeService) {
-  }
-
-
-
 
 
 }
