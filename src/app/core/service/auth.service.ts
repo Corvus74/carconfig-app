@@ -2,6 +2,7 @@ import { Injectable, signal, computed, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { AuthenticationControllerService, LoginResponse, LoginUserDto } from '../api';
+import { SnackbarService } from './snackbar.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,7 @@ export class AuthService {
   private readonly EXPIRATION_KEY = 'tokenExpiration';
   private readonly authApiService = inject(AuthenticationControllerService);
   private readonly router = inject(Router);
+  private readonly snackbar = inject(SnackbarService);
 
   // Signals for token and expiration
   readonly token = signal<string | null>(localStorage.getItem(this.TOKEN_KEY));
@@ -92,7 +94,7 @@ export class AuthService {
   logout(message?: string): void {
     if (message) {
       try {
-        alert(message);
+        this.snackbar.show(message);
       } catch {}
     }
     this.clearExpirationTimeout();
@@ -112,7 +114,7 @@ export class AuthService {
     this.token.set(null);
     this.expiration.set(null);
     try {
-      alert('Sitzung abgelaufen. Bitte erneut anmelden.');
+      this.snackbar.show('Sitzung abgelaufen. Bitte erneut anmelden.');
     } catch {}
     this.router.navigate(['/login']);
   }

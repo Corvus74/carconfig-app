@@ -1,4 +1,4 @@
-import { Component, ElementRef, input, OnInit, ViewChild, inject, signal, effect } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, inject, signal, effect } from '@angular/core';
 import { CarConfigColorMenuComponent } from "../car-config-color-menu/car-config-color-menu.component";
 import { CarConfigEngineMenuComponent } from "../car-config-engine-menu/car-config-engine-menu.component";
 import { CarConfigRimMenuComponent } from "../car-config-rim-menu/car-config-rim-menu.component";
@@ -17,10 +17,11 @@ import { CarConfigChangeService } from '../../../service/car-config-change.servi
     CarConfigEquipmentMenuComponent
   ],
   templateUrl: './car-config-tab-menu.component.html',
-  styleUrl: './car-config-tab-menu.component.scss'
+  styleUrls: ['./car-config-tab-menu.component.scss']
 })
 export class CarConfigTabMenuComponent implements OnInit {
-  readonly baseConfig = input<BaseConfigDto>({});
+  readonly baseConfig = signal<BaseConfigDto | null>(null);
+  @Input('baseConfig') set baseConfigInput(value: BaseConfigDto | null) { this.baseConfig.set(value); }
   readonly tabsStatus = signal<CarConfigMenuTabs>({ tabEngine: false, tabColor: false, tabRim: false, tabSpecialEquipment: false, activeTab: 1 });
   @ViewChild('tabScroll') tabScroll?: ElementRef<HTMLElement>;
 

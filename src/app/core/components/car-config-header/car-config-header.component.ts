@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {IMAGE_CONFIG, NgOptimizedImage} from '@angular/common';
 import {CarConfigUserInputComponent} from './car-config-header-user-input/car-config-user-input.component';
+import { SnackbarService } from '../../service/snackbar.service';
 
 @Component({
   selector: 'app-car-config-header',
@@ -9,17 +10,20 @@ import {CarConfigUserInputComponent} from './car-config-header-user-input/car-co
     CarConfigUserInputComponent
   ],
   templateUrl: './car-config-header.component.html',
-  styleUrl: './car-config-header.component.scss',
+  styleUrls: ['./car-config-header.component.scss'],
   providers:[  {    provide: IMAGE_CONFIG,    useValue: {      placeholderResolution: 40    }  }]
 })
 export class CarConfigHeaderComponent {
   isLoggedIn: boolean=false;
   showUserInput: boolean=false;
+
+  private readonly snackbar = inject(SnackbarService);
+
   /**
    * Method to handle the button click event.
    */
   onButtonClick(): void {
-    alert('Settings button was clicked!');
+    this.snackbar.show('Settings button was clicked!');
   }
 
   onLoginClick() {
