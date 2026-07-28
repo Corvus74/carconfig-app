@@ -7,6 +7,6 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App {
+exporty class App {
   protected readonly title = signal('carconfig-app');
 }
