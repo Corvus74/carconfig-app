@@ -21,7 +21,7 @@ jobs:
       - name: Set up Node.js and run tests
         uses: actions/setup-node@v4
         with:
-          node-version: '24.5.0'
+          node-version: '24.18.0'
           cache: 'npm'
       - run: |
           npm ci
