@@ -71,11 +71,11 @@ export class AuthService {
         return;
       }
       this.clearExpirationTimeout();
-      
+
       // setTimeout has a max delay of ~24 days (2^31-1 ms). For longer delays, use max value
       const timeoutMs = Math.min(ms, 2147483647); // Max safe setTimeout delay
       console.log('[AUTH] Setting expiration timeout in', timeoutMs, 'ms (requested:', ms, 'ms)');
-      
+
       this.expirationTimeout = setTimeout(() => {
         console.log('[AUTH] Expiration timeout triggered');
         this.handleTokenExpired();
@@ -100,11 +100,11 @@ export class AuthService {
           // Use backend expiresIn or default to 1 hour
           const backendExpiresInSecs = response.expiresIn || 3600;
           const backendExpiresInMs = backendExpiresInSecs * 1000;
-          
+
           // Ensure minimum token lifetime to prevent immediate expiration
           const expirationTime = Math.max(backendExpiresInMs, this.MIN_TOKEN_LIFETIME_MS);
           const expirationTimestamp = Date.now() + expirationTime;
-          
+
           console.log('[AUTH] Setting expiration:', {
             backendExpiresInSecs,
             backendExpiresInMs,
@@ -113,7 +113,7 @@ export class AuthService {
             expirationTimestamp,
             nowPlus5Min: Date.now() + this.MIN_TOKEN_LIFETIME_MS
           });
-          
+
           this.expiration.set(expirationTimestamp);
           // Reset backend timeout on successful login
           this.resetBackendTimeout();
@@ -121,6 +121,17 @@ export class AuthService {
         }
       })
     );
+  }
+  hasValidToken(): boolean {
+    const token = this.token();
+    if (!token) return false;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.exp * 1000 > Date.now();
+    } catch {
+      return false;
+    }
   }
 
   logout(message?: string): void {
@@ -154,7 +165,7 @@ export class AuthService {
 
   private setupUnloadListener(): void {
     if (typeof window === 'undefined') return;
-    
+
     // Only clear token on actual window unload, not on navigation
     // Use pagehide event which is more reliable than beforeunload
     window.addEventListener('pagehide', (event) => {

@@ -8,7 +8,7 @@ Annotations like `@OpenAPIDefinition` and `@SecurityScheme` are used to define A
 
 ## API Generation
 
-The project uses **OpenAPI Generator** (version 7.14.0) to generate API services and models. This ensures consistency between the backend API and the frontend services.
+The project uses **OpenAPI Generator** (version 7.24.0) to generate API services and models. This ensures consistency between the backend API and the frontend services.
 
 ### Configuration
 
