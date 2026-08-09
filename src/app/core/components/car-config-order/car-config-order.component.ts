@@ -1,16 +1,16 @@
-import {Component, input, OnInit, computed, inject} from '@angular/core';
+import { Component, input, OnInit, computed, inject } from '@angular/core';
 import {
   CarOrderUpdateDto,
   OrderControllerService,
 } from '../../api';
-import {firstValueFrom} from 'rxjs';
-import {CarConfigOrderModal, ModalOptions} from './car-config-order-modal/car-config-order-modal';
-import {CarConfigGeneralFunctionsService} from '../../service/car-config-general-functions.service';
-import {CarConfigMenuTabs} from '../../models/CarConfigMenuTabs';
-import {CarTabMenuChangeService} from '../../service/car-config-menu-tabs.service';
-import {CarConfigApiService} from '../../service/car-config-api.service';
-import {Router} from '@angular/router';
-import {CarConfigStoreService} from '../../service/car-config-store.service';
+import { firstValueFrom } from 'rxjs';
+import { CarConfigOrderModal, ModalOptions } from './car-config-order-modal/car-config-order-modal';
+import { CarConfigGeneralFunctionsService } from '../../service/car-config-general-functions.service';
+import { CarConfigMenuTabs } from '../../models/car-config-menu-tabs';
+import { CarTabMenuChangeService } from '../../service/car-config-menu-tabs.service';
+import { CarConfigApiService } from '../../service/car-config-api.service';
+import { Router } from '@angular/router';
+import { CarConfigStoreService } from '../../service/car-config-store.service';
 
 @Component({
   selector: 'app-car-config-order',

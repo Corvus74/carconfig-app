@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {CarConfig3dCarViewComponent} from '../../components/car-config-3d-car-view/car-config-3d-car-view.component';
 import {
@@ -45,7 +45,6 @@ export class CarConfigOrderViewComponent implements OnInit{
     });
   }
 
-
   async loadOrder() {
     try {
       this.isLoading = true;
@@ -64,31 +63,24 @@ export class CarConfigOrderViewComponent implements OnInit{
     }
   }
   updateCarOrder() {
-    if (this.orderInfo.carOrderId) {
+      if (!this.orderInfo.carOrderId) return;
+
       const enginePos = this.orderInfo.carEngineOrder?.carEngine;
-      if (enginePos) {
-        this.carConfigChangeService.updateEngine(enginePos);
-      }
+      if (enginePos) this.carConfigChangeService.updateEngine(enginePos);
+
       const colorPos = this.orderInfo.carColorOrder?.carColor;
-      if (colorPos) {
-        this.carConfigChangeService.updateColor(colorPos);
-      }
+      if (colorPos) this.carConfigChangeService.updateColor(colorPos);
+
       const rimPos = this.orderInfo.carRimOrder?.carRim;
-      if (rimPos) {
-        this.carConfigChangeService.updateRims(rimPos);
-      }
-      const specialEquipmentOrders = this.orderInfo.specialEquipmentOrders;
-      let specialEquipmentList: SpecialEquipmentDto[] | undefined = [];
-      if (specialEquipmentOrders) {
-        for (let specialEquipmentElem of specialEquipmentOrders) {
-          if (specialEquipmentElem.specialEquipment) {
-            specialEquipmentList.push(specialEquipmentElem.specialEquipment)
-          }
-        }
-        this.carConfigChangeService.updateSpecialEquipment(specialEquipmentList)
+      if (rimPos) this.carConfigChangeService.updateRims(rimPos);
 
+      // Sonderausstattung in einer einzigen Zeile extrahieren und filtern
+      const specialEquipmentList = this.orderInfo.specialEquipmentOrders
+        ?.map(item => item.specialEquipment)
+        .filter((item): item is SpecialEquipmentDto => !!item);
 
+      if (specialEquipmentList?.length) {
+        this.carConfigChangeService.updateSpecialEquipment(specialEquipmentList);
       }
     }
-  }
 }

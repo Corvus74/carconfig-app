@@ -1,10 +1,10 @@
-import { Injectable, signal, effect, inject } from '@angular/core';
+import { signal, effect, inject, Service } from '@angular/core';
 import { CarTabMenuChangeService } from './car-config-menu-tabs.service';
 import { BaseConfigDto } from '../api';
-import { CarConfigMenuTabs } from '../models/CarConfigMenuTabs';
-import {CarConfigStoreService} from './car-config-store.service';
+import { CarConfigMenuTabs } from '../models/car-config-menu-tabs';
+import { CarConfigStoreService } from './car-config-store.service';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class CarConfigTabStore {
   readonly baseConfig = signal<BaseConfigDto | null>(null);
   readonly tabsStatus = signal<CarConfigMenuTabs>({ tabEngine: false, tabColor: false, tabRim: false, tabSpecialEquipment: false, activeTab: 1 });
@@ -59,7 +59,7 @@ export class CarConfigTabStore {
   private markTabUnlocked(key: keyof CarConfigMenuTabs) {
     const ts = this.tabsStatus();
     if (!ts[key]) {
-      const updated = { ...ts, [key]: true } as CarConfigMenuTabs;
+      const updated = { ...ts, [key]: true };
       this.tabsStatus.set(updated);
       this.carTabMenuChangeService.updateTabStatus(updated);
     }

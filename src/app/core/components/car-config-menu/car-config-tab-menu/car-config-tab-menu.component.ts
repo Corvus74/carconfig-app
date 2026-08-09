@@ -1,11 +1,10 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, inject, signal, effect } from '@angular/core';
+import {Component, ElementRef, Input, ViewChild, inject, computed, input, signal} from '@angular/core';
 import { CarConfigColorMenuComponent } from "../car-config-color-menu/car-config-color-menu.component";
 import { CarConfigEngineMenuComponent } from "../car-config-engine-menu/car-config-engine-menu.component";
 import { CarConfigRimMenuComponent } from "../car-config-rim-menu/car-config-rim-menu.component";
 import { CarConfigEquipmentMenuComponent } from "../car-config-equipment-menu/car-config-equipment-menu.component";
 import { BaseConfigDto } from '../../../api';
 import { CarConfigTabStore } from '../../../service/car-config-tab.store';
-import { CarConfigMenuTabs } from '../../../models/CarConfigMenuTabs';
 
 @Component({
   selector: 'app-car-config-tab-menu',
@@ -18,23 +17,21 @@ import { CarConfigMenuTabs } from '../../../models/CarConfigMenuTabs';
   templateUrl: './car-config-tab-menu.component.html',
   styleUrls: ['./car-config-tab-menu.component.scss']
 })
-export class CarConfigTabMenuComponent implements OnInit {
+export class CarConfigTabMenuComponent {
   readonly tabStore = inject(CarConfigTabStore);
 
-  @Input('baseConfig') set baseConfigInput(value: BaseConfigDto | null) { this.tabStore.setBaseConfig(value); }
+  readonly baseConfig = input<BaseConfigDto | null>(null);
 
   @ViewChild('tabScroll') tabScroll?: ElementRef<HTMLElement>;
 
   // active tab getter
-  get activeTab() { return this.tabStore.activeTab(); }
-  get tabsStatus() { return this.tabStore.tabsStatus(); }
-  get baseConfig() { return this.tabStore.baseConfig(); }
+  readonly activeTab = this.tabStore.activeTab;
+  readonly tabsStatus = this.tabStore.tabsStatus;
 
-  // no manual unsubscribe needed when using effects
-
-  ngOnInit(): void {
-    // Store handles effects and syncing with change services
-  }
+  readonly canShowCarEngine = computed(() => !!this.baseConfig()?.carEngines?.length);
+  readonly canShowCarColor = computed(() => !!this.baseConfig()?.carColors?.length);
+  readonly canShowCarRims = computed(() => !!this.baseConfig()?.carRims?.length);
+  readonly canShowSpecialEquipment = computed(() => !!this.baseConfig()?.specialEquipment?.length);
 
   tabInfos = [
     { id: 1, label: 'Car Engine' },
@@ -42,29 +39,8 @@ export class CarConfigTabMenuComponent implements OnInit {
     { id: 3, label: 'Car Rim' },
     { id: 4, label: 'Special Equipments' }
   ];
-
   selectTab(index: number): void {
     this.tabStore.selectTab(index);
-  }
-
-  showCarEngine() {
-    const config = this.baseConfig;
-    return !!(config && config.carEngines && config.carEngines.length > 0);
-  }
-
-  showCarColor() {
-    const config = this.baseConfig;
-    return !!(config && config.carColors && config.carColors.length > 0);
-  }
-
-  showCarRims() {
-    const config = this.baseConfig;
-    return !!(config && config.carRims && config.carRims.length > 0);
-  }
-
-  showSpecialEquipment() {
-    const config = this.baseConfig;
-    return !!(config && config.specialEquipment && config.specialEquipment.length > 0);
   }
 
   get maxUnlockedTabId(): number {

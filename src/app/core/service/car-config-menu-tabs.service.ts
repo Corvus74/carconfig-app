@@ -1,10 +1,8 @@
-import { Injectable, signal } from '@angular/core';
+import { Service, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { CarConfigMenuTabs } from '../models/CarConfigMenuTabs';
+import { CarConfigMenuTabs } from '../models/car-config-menu-tabs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class CarTabMenuChangeService {
   readonly carConfigTabInfoData = signal<CarConfigMenuTabs>({});
 

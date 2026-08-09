@@ -1,6 +1,5 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { signalStore, withState, withMethods, patchState } from '@ngrx/signals';
-import { toObservable } from '@angular/core/rxjs-interop';
 import { CarEngineDto, CarColorDto, CarRimDto, SpecialEquipmentDto } from '../api';
 
 export interface CarConfigState {
@@ -39,9 +38,7 @@ export const CarConfigStore = signalStore(
   }))
 );
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class CarConfigStoreService {
   readonly store = inject(CarConfigStore);
 
@@ -50,10 +47,6 @@ export class CarConfigStoreService {
   readonly rims = this.store.rims;
   readonly specialEquipment = this.store.specialEquipment;
 
-  readonly engine$ = toObservable(this.store.engine);
-  readonly color$ = toObservable(this.store.color);
-  readonly rims$ = toObservable(this.store.rims);
-  readonly specialEquipment$ = toObservable(this.store.specialEquipment);
 
   updateEngine(engine: CarEngineDto): void {
     this.store.updateEngine(engine);

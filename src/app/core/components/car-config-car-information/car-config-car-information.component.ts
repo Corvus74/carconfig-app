@@ -1,7 +1,7 @@
-import {Component, OnInit, computed, inject} from '@angular/core';
-import {CarConfigStoreService} from '../../service/car-config-store.service';
-import {CarTabMenuChangeService} from '../../service/car-config-menu-tabs.service';
-import {CarConfigMenuTabs} from '../../models/CarConfigMenuTabs';
+import { Component, computed, effect, inject } from '@angular/core';
+import { CarConfigStoreService } from '../../service/car-config-store.service';
+import { CarTabMenuChangeService } from '../../service/car-config-menu-tabs.service';
+import { CarConfigMenuTabs } from '../../models/car-config-menu-tabs';
 
 @Component({
   selector: 'app-car-config-car-information',
@@ -9,7 +9,7 @@ import {CarConfigMenuTabs} from '../../models/CarConfigMenuTabs';
   templateUrl: './car-config-car-information.component.html',
   styleUrl: './car-config-car-information.component.scss'
 })
-export class CarConfigCarInformationComponent implements OnInit {
+export class CarConfigCarInformationComponent {
   private readonly carConfigStoreService = inject(CarConfigStoreService);
   private readonly carTabMenuChangeService = inject(CarTabMenuChangeService);
 
@@ -26,11 +26,9 @@ export class CarConfigCarInformationComponent implements OnInit {
 
   carMenuTabs: CarConfigMenuTabs | undefined;
 
-  ngOnInit(): void {
-    console.log('[CAR-INFO] Component initialized');
-    // Subscribe to menu tabs
-    this.carTabMenuChangeService.carConfigTabInfoData$?.subscribe((data) => {
-      this.carMenuTabs = data;
+  constructor() {
+    effect(() => {
+      this.carMenuTabs = this.carTabMenuChangeService.carConfigTabInfoData();
     });
   }
 

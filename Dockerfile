@@ -18,7 +18,7 @@ RUN --mount=type=cache,target=/root/.npm npm ci
 COPY . .
 # Build the Angular application for production
 # This build will include your `src/assets/env.template.js` file in the output.
-RUN npm run build -- --output-path=dist
+RUN npm run vite:build
 
 # =========================================
 # Stage 2: Prepare Nginx to Serve Static Files

@@ -3,14 +3,12 @@ import {
   Component,
   ElementRef,
   input,
-  OnDestroy,
-  OnInit,
   signal,
   ViewChild,
-  inject
+  inject,
+  effect
 } from '@angular/core';
 import { CarConfigStoreService } from '../../../../../service/car-config-store.service';
-import { Subscription } from 'rxjs';
 import { SpecialEquipmentDto } from '../../../../../api';
 import {
   CarConfigEquipmentMenuItemComponent
@@ -25,15 +23,14 @@ import {
   styleUrl: './car-config-equipment-menu-category.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CarConfigEquipmentMenuCategoryComponent implements OnInit, OnDestroy {
+export class CarConfigEquipmentMenuCategoryComponent {
   readonly titleName = input<string>('');
   readonly specialEquipmentListInit = input<SpecialEquipmentDto[]>([]);
   @ViewChild('container') container: ElementRef | undefined;
 
   private readonly carConfigStoreService = inject(CarConfigStoreService);
-  private carSpecialEquipmentSubscription: Subscription | undefined;
 
-  selectedEquipments: SpecialEquipmentDto[] = [];
+  selectedEquipments = signal<SpecialEquipmentDto[]>([]);
   maxSelection = 5;
   selectedIds = signal<Set<string>>(new Set());
   selectedCategories = signal<Set<SpecialEquipmentDto.CategoryTypeEnum>>(new Set());
@@ -43,55 +40,44 @@ export class CarConfigEquipmentMenuCategoryComponent implements OnInit, OnDestro
     this.categoryMenuShown = !this.categoryMenuShown;
   }
 
-  ngOnDestroy(): void {
-    this.carSpecialEquipmentSubscription?.unsubscribe();
+
+  constructor() {
+    effect(() => {
+      const data = this.carConfigStoreService.specialEquipment();
+      const sanitized = (data ?? []).filter(
+        (e): e is SpecialEquipmentDto => !!e && !!e.productId
+      );
+
+      this.selectedEquipments.set(sanitized);
+      this.selectedIds.set(new Set(sanitized.map(e => e.productId!)));
+    });
   }
 
-  ngOnInit(): void {
-    this.carSpecialEquipmentSubscription = this.carConfigStoreService.specialEquipment$.subscribe(
-      (data) => {
-        const sanitized = (data ?? []).filter(
-          (e): e is SpecialEquipmentDto => !!e && !!e.productId
-        );
-
-        this.selectedEquipments = sanitized;
-        this.selectedIds.set(new Set());
-        this.selectedIds.update(emptyItems => {
-          const toBeUpdatedItems = new Set(emptyItems);
-          for (const e of sanitized) {
-            toBeUpdatedItems.add(e.productId!);
-          }
-          return toBeUpdatedItems;
-        });
-      }
-    );
-  }
 
   onSelectItem(item: SpecialEquipmentDto): void {
     const id = item?.productId;
-    if (!id) {
-      return;
-    }
-    this.selectedIds.update(currentItems => {
-      const newItemsToModify = new Set(currentItems);
+    if (!id) return;
 
-      if (newItemsToModify.has(id)) {
-        newItemsToModify.delete(id);
-        this.selectedEquipments = this.selectedEquipments.filter(e => e.productId !== id);
-      } else {
-        if (this.selectedEquipments.length < this.maxSelection) {
-          if (!this.simpleCheckForCategory(item)) {
-            newItemsToModify.add(id);
-            this.selectedEquipments = [...this.selectedEquipments, item];
-          }
-        } else {
-          console.log(`Maximum of ${this.maxSelection} items can be selected.`);
-        }
+    const current = this.selectedEquipments();
+    const exists = current.some(e => e.productId === id);
+
+    if (exists) {
+      this.selectedEquipments.set(current.filter(e => e.productId !== id));
+    } else {
+      if (current.length >= this.maxSelection) {
+        console.log(`Maximum of ${this.maxSelection} items can be selected.`);
+        return;
       }
-      return newItemsToModify;
-    });
 
-    this.carConfigStoreService.updateSpecialEquipment(this.selectedEquipments);
+      if (this.simpleCheckForCategory(item, current)) {
+        console.log(`Item with category ${item.categoryType} is already selected.`);
+        return;
+      }
+
+      this.selectedEquipments.set([...current, item]);
+    }
+
+    this.carConfigStoreService.updateSpecialEquipment(this.selectedEquipments());
   }
 
   isSelectedAndNotDoubleByCategory(item: SpecialEquipmentDto): boolean {
@@ -112,22 +98,15 @@ export class CarConfigEquipmentMenuCategoryComponent implements OnInit, OnDestro
     }
   }
 
-  simpleCheckForCategory(item: SpecialEquipmentDto) {
+  private simpleCheckForCategory(item: SpecialEquipmentDto, selected: SpecialEquipmentDto[]): boolean {
     if (item.categoryType === SpecialEquipmentDto.CategoryTypeEnum.Misc) {
       return false;
     }
-    let setOfCategory = new Set<SpecialEquipmentDto.CategoryTypeEnum>();
 
-    for (const selectedItem of this.selectedEquipments) {
-      const category = selectedItem.categoryType;
-      if (category) {
-        setOfCategory.add(category);
-      }
-    }
-    const categoryItem = item.categoryType;
-    if (categoryItem) {
-      return setOfCategory.has(categoryItem);
-    }
-    return false;
+    const categories = new Set(
+      selected.map(e => e.categoryType).filter(Boolean)
+    );
+
+    return item.categoryType ? categories.has(item.categoryType) : false;
   }
 }

@@ -1,12 +1,11 @@
-import {Component, OnInit, OnDestroy, ViewChild, ElementRef, inject} from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, inject, effect } from '@angular/core';
 import * as THREE from 'three';
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
-import {RGBELoader} from 'three/examples/jsm/loaders/RGBELoader.js';
-import {DRACOLoader} from 'three/examples/jsm/loaders/DRACOLoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { CarConfigStoreService } from '../../service/car-config-store.service';
-import {Subscription} from 'rxjs';
-import {CarColorDto} from '../../api';
+import { CarColorDto } from '../../api';
 
 
 @Component({
@@ -16,10 +15,9 @@ import {CarColorDto} from '../../api';
   standalone: true,
 })
 export class CarConfig3dCarViewComponent implements OnInit, OnDestroy {
-// @ViewChild gets a reference to the canvas element from the HTML template.
-  @ViewChild('rendererContainer', {static: true})
+  // @ViewChild gets a reference to the canvas element from the HTML template.
+  @ViewChild('rendererContainer', { static: true })
   rendererContainer!: ElementRef;
-  private carColorSubscription: Subscription | undefined;
 
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
@@ -46,22 +44,20 @@ export class CarConfig3dCarViewComponent implements OnInit, OnDestroy {
    * It's where we set up the entire 3D scene.
    */
 
+  constructor() {
+    effect(() => {
+      const color = this.carConfigStoreService.color();
+      this.colorData = color || {};
+      this.updateColor();
+      this.updateColorStyle();
+    });
+  }
+
   ngOnInit() {
     this.initScene();
     this.createEnvironment();
     this.loadCarModel();
     this.animate();
-
-    console.log('[3D-CAR] Subscribing to color changes');
-    this.carColorSubscription = this.carConfigStoreService.color$.subscribe(
-      (data) => {
-        console.log('[3D-CAR] Color updated:', data);
-        this.colorData = data || {};
-        this.updateColor();
-        this.updateColorStyle()
-
-      }
-    )
     this.onWindowResize();
   }
 
@@ -92,7 +88,6 @@ export class CarConfig3dCarViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.renderer.dispose();
-    this.carColorSubscription?.unsubscribe();
   }
 
   private initScene(): void {
@@ -105,7 +100,7 @@ export class CarConfig3dCarViewComponent implements OnInit, OnDestroy {
     this.camera.position.set(4, 2, 4);
 
     // Renderer setup
-    this.renderer = new THREE.WebGLRenderer({antialias: true});
+    this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.rendererContainer.nativeElement.appendChild(this.renderer.domElement);
@@ -174,7 +169,7 @@ export class CarConfig3dCarViewComponent implements OnInit, OnDestroy {
       // Find the car body mesh and wheels
       this.carModel.traverse((child) => {
         if (child instanceof THREE.Mesh) {
-        //  console.log("Found mesh with name:", child.name, "and material type:", child.material.type);
+          //  console.log("Found mesh with name:", child.name, "and material type:", child.material.type);
           if (child.name === 'body') {
             // It's a best practice to clone the material to avoid modifying the original
             // material, which might be shared across other models.

@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {CarOrderDto, OrderControllerService, SpecialEquipmentDto} from '../../api';
+import {CarOrderDto} from '../../api';
 import {DatePipe} from '@angular/common';
 import {
   CarConfigOrderOverviewStatusComponent

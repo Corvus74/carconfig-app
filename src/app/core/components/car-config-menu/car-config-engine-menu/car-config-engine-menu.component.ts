@@ -3,21 +3,19 @@ import {
   ElementRef,
   input,
   output,
-  OnDestroy,
-  OnInit,
   ViewChild,
   ViewChildren,
   AfterViewInit,
   QueryList,
   inject,
+  effect,
 } from '@angular/core';
 import { CarEngineDto } from '../../../api';
 import {
   CarConfigEngineMenuItemComponent
 } from './car-config-engine-menu-item/car-config-engine-menu-item.component';
 import { CarConfigStoreService } from '../../../service/car-config-store.service';
-import { Subscription } from 'rxjs';
-import { CarConfigMenuTabs } from '../../../models/CarConfigMenuTabs';
+import { CarConfigMenuTabs } from '../../../models/car-config-menu-tabs';
 
 @Component({
   selector: 'app-car-config-engine-menu',
@@ -27,33 +25,27 @@ import { CarConfigMenuTabs } from '../../../models/CarConfigMenuTabs';
   templateUrl: './car-config-engine-menu.component.html',
   styleUrl: './car-config-engine-menu.component.scss'
 })
-export class CarConfigEngineMenuComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CarConfigEngineMenuComponent implements AfterViewInit {
   readonly carEngines = input<CarEngineDto[] | undefined>(undefined);
   @ViewChild('container') container: ElementRef | undefined;
   @ViewChildren(CarConfigEngineMenuItemComponent, { read: ElementRef }) itemEls!: QueryList<ElementRef>;
   readonly selectionChange = output<void>();
 
   private readonly carConfigStoreService = inject(CarConfigStoreService);
-  private carEngineSubscription: Subscription | undefined;
 
   selectedValue: CarEngineDto | null | undefined;
   currenTabStatus: CarConfigMenuTabs | undefined;
 
-  ngOnInit() {
-    this.carEngineSubscription = this.carConfigStoreService.engine$.subscribe(
-      (data) => {
-        this.selectedValue = data;
-        queueMicrotask(() => this.focusSelectedOrFirst());
-      }
-    );
+  constructor() {
+    effect(() => {
+      const selected = this.carConfigStoreService.engine();
+      this.selectedValue = selected;
+      queueMicrotask(() => this.focusSelectedOrFirst());
+    });
   }
 
   ngAfterViewInit(): void {
     queueMicrotask(() => this.focusSelectedOrFirst());
-  }
-
-  ngOnDestroy(): void {
-    this.carEngineSubscription?.unsubscribe();
   }
 
   onItemSelected(value: CarEngineDto): void {
