@@ -1,0 +1,37 @@
+{
+	"name": "CarConfig-App (UI)",
+	"build": {
+		"context": "..",
+		"dockerfile": "../Dockerfile",
+		"target": "dev"
+	},
+	 "workspaceFolder": "/workspace",
+    "mounts": [
+        "source=${localWorkspaceFolder},target=/workspace,type=bind"
+    ],
+	"forwardPorts": [
+		4200
+	],
+	"features": {
+		"ghcr.io/devcontainers-extra/features/angular-cli:2": {
+			"version": "latest"
+		},
+		"ghcr.io/helpers4/devcontainer/angular-dev:1": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"Angular.ng-template",
+				"Dbaeumer.vscode-eslint",
+				"Esbenp.prettier-vscode",
+				"Eamodio.gitlens"
+			],
+			"settings": {
+				"[html]": {
+					"editor.defaultFormatter": "Angular.ng-template"
+				},
+				"editor.formatOnSave": true
+			}
+		}
+	}
+}
