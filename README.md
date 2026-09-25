@@ -1,16 +1,16 @@
 # CarconfigApp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.6.
+This project uses Angular CLI with Angular's application builder. Its development server is Vite-based.
 
 ## Development server
 
-To start a local development server, run:
+Start the development server with:
 
 ```bash
-ng serve
+npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open `http://localhost:4200/`. The server watches the source files and reloads the application when they change.
 
 ## Code scaffolding
 
@@ -31,10 +31,10 @@ ng generate --help
 To build the project run:
 
 ```bash
-ng build
+npm run build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+This creates the production bundle in `dist/browser/`.
 
 ## Running unit tests
 

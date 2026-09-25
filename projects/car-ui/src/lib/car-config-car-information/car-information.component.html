@@ -1,0 +1,32 @@
+@if (showCarInfo()) {
+  <section class="car-summary" aria-labelledby="car-summary-title">
+    <div class="summary-heading">
+      <div>
+        <p class="eyebrow">{{ 'carInfo.eyebrow' | transloco }}</p>
+        <h2 id="car-summary-title">{{ 'carInfo.title' | transloco }}</h2>
+      </div>
+      <div class="price-block" aria-live="polite">
+        <span class="price-label">{{ 'carInfo.price' | transloco }}</span>
+        <strong>{{ formattedTotalPrice() }}</strong>
+      </div>
+    </div>
+
+    @if (selectedItems().length) {
+      <ul class="selection-list">
+        @for (item of selectedItems(); track $index) {
+          <li class="selection-item">
+            <div class="selection-copy">
+              <span class="selection-label">{{ item.label | transloco }}</span>
+              <span class="selection-name">{{ item.name }}</span>
+            </div>
+            <span class="selection-price">{{ toCurrencyFormat(item.price) }}</span>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="empty-selection">{{ 'carInfo.empty' | transloco }}</p>
+    }
+
+    <p class="price-note">{{ 'carInfo.priceNote' | transloco }}</p>
+  </section>
+}

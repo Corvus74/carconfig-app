@@ -11,8 +11,8 @@
     "carconfig-app": {
       "projectType": "application",
       "schematics": {},
-      "root": "",
-      "sourceRoot": "src",
+      "root": "projects/shell",
+      "sourceRoot": "projects/shell/src",
       "prefix": "app",
       "i18n": {
         "sourceLocale": "de"
@@ -21,22 +21,25 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "browser": "src/main.ts",
+            "outputPath": {
+              "base": "dist",
+              "browser": "browser"
+            },
+            "index": "projects/shell/src/index.html",
+            "browser": "projects/shell/src/main.ts",
             "polyfills": [
               "zone.js",
               "@angular/localize/init"
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets",
               {
                 "glob": "**/*",
                 "input": "public"
               }
             ],
             "styles": [
-              "src/styles.scss",
+              "projects/shared/src/styles.scss",
               "node_modules/bootstrap-icons/font/bootstrap-icons.css"
             ]
           },
@@ -93,15 +96,14 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets",
               {
                 "glob": "**/*",
                 "input": "public"
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "projects/shared/src/styles.scss",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css"
             ]
           }
         }

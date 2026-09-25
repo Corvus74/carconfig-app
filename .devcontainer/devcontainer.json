@@ -5,10 +5,15 @@
 		"dockerfile": "../Dockerfile",
 		"target": "dev"
 	},
-	 "workspaceFolder": "/workspace",
-    "mounts": [
-        "source=${localWorkspaceFolder},target=/workspace,type=bind"
-    ],
+	"workspaceFolder": "/workspace",
+	"containerEnv": {
+		"CARCONFIG_API_TARGET": "http://host.docker.internal:8090"
+	},
+	"mounts": [
+		"source=carconfig-app-node-modules,target=/workspace/node_modules,type=volume"
+	],
+	"postCreateCommand": "npm ci",
+	"appPort": "4200:4200",
 	"forwardPorts": [
 		4200
 	],

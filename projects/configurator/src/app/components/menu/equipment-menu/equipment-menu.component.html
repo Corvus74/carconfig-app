@@ -1,0 +1,13 @@
+<div class="equipment-picker">
+  @if (specialEquipmentInteriorList().length) {
+    <app-special-equipment-menu-type [titleName]="'equipment.interior' | transloco"
+      [specialEquipmentListInit]="specialEquipmentInteriorList()"></app-special-equipment-menu-type>
+  }
+  @if (specialEquipmentExteriorList().length) {
+    <app-special-equipment-menu-type [titleName]="'equipment.exterior' | transloco"
+      [specialEquipmentListInit]="specialEquipmentExteriorList()"></app-special-equipment-menu-type>
+  }
+  @if (!specialEquipmentInteriorList().length && !specialEquipmentExteriorList().length) {
+    <p class="empty-equipment">{{ 'equipment.empty' | transloco }}</p>
+  }
+</div>

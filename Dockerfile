@@ -20,9 +20,10 @@ RUN --mount=type=cache,target=/root/.npm npm ci
 FROM base AS dev
 
 RUN apk add --no-cache bash
+WORKDIR /workspace
 
 EXPOSE 4200
-CMD ["npm", "run", "start", "--", "--host", "0.0.0.0", "--poll", "2000"]
+CMD ["npm", "run", "start"]
 
 # =========================================
 # Stage: Builder
@@ -34,8 +35,8 @@ RUN apk add --no-cache bash
 # Copy the rest of the application source code into the container
 COPY . .
 # Build the Angular application for production
-# This build will include your `src/assets/env.template.js` file in the output.
-RUN npm run vite:build
+# The build includes `public/assets/env.template.js` in the output.
+RUN npm run build
 
 # Remove sourcemaps from the production output (optional, shrinks image)
 RUN find /app/dist -name "*.map" -delete

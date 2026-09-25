@@ -1,0 +1,56 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(25vw, 1fr));
+  gap: 1rem;
+}
+.slider-wrapper-parent { position: relative; width: 100%; }
+.color-menu-container { display: flex; flex-direction: row-reverse; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; padding: 0 40px; scroll-behavior: smooth; }
+.color-menu-container .slide { flex-shrink: 0; width: 200px; height: 150px; background-color: lightblue; border: 1px solid blue; margin: 10px; }
+.scroll-button { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; border: none; background-color: rgba(255, 255, 255, 0.7); cursor: pointer; padding: 10px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
+.left-button { left: 10px; }
+.right-button { right: 10px; }
+
+.order-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.1rem 1.25rem; border-bottom: 1px solid #e4eaf0; background: linear-gradient(120deg, #fff, #f4f8fb); text-align: left; }
+.order-heading h1 { color: #172b43; font-size: 1.35rem; font-weight: 750; }
+.eyebrow { margin: 0 0 .15rem; color: #168d8a; font-size: .68rem; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
+.heading-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.heading-actions .btn { min-height: 42px; border-radius: 9px; font-weight: 600; }
+.customer-details { margin: 1rem 0 1.5rem; padding: 1rem; border: 1px solid #dce5ed; border-radius: 12px; background: #f8fafc; }
+.section-heading { display: flex; align-items: center; justify-content: space-between; gap: .75rem; margin-bottom: .8rem; }
+.section-heading h2 { margin: 0; color: #263f58; font-size: 1rem; font-weight: 700; }
+.section-heading > span { color: #718196; font-size: .75rem; }
+.customer-fields { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: .8rem; }
+.customer-field { display: grid; align-content: start; gap: .35rem; color: #50667c; font-size: .8rem; font-weight: 650; }
+.customer-field textarea { resize: vertical; }
+.print-only { display: none; }
+.order-table-wrap { border: 1px solid #dce5ed; border-radius: 10px; }
+.order-table { min-width: 700px; margin: 0; color: #263f58; }
+.order-table thead th { padding: .75rem .8rem; border-bottom-color: #dce5ed; color: #61738a; background: #f5f8fb; font-size: .75rem; font-weight: 700; white-space: nowrap; }
+.order-table tbody th, .order-table tbody td { padding: .75rem .8rem; border-color: #edf1f5; font-size: .86rem; }
+.order-table .product-id { overflow-wrap: anywhere; }
+.order-table tfoot th, .order-table tfoot td { padding: .9rem .8rem; border-top: 2px solid #dce5ed; background: #f8fafc; }
+.product-id { color: #61738a; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: .76rem !important; }
+.price-cell, .total-price { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.total-price { color: #123d66; font-size: 1.05rem; font-weight: 750; }
+.order-actions { display: flex; gap: .75rem; margin: 1rem 0 .5rem; }
+.order-action-button { display: inline-flex; height: 3.5rem; min-height: 3.5rem; flex: 1 1 0; align-items: center; justify-content: center; border-radius: 9px; font-weight: 650; }
+
+@media (max-width: 640px) {
+  .order-heading { align-items: flex-start; flex-direction: column; }
+  .customer-fields { grid-template-columns: 1fr; }
+  .order-actions { flex-direction: column; }
+  .order-action-button { width: 100%; flex: none; }
+}
+
+@media print {
+  :host { position: absolute !important; inset: 0 auto auto 0 !important; display: block !important; width: 100% !important; padding: 0 !important; }
+  .no-print, .screen-only { display: none !important; }
+  .print-only { display: block !important; min-height: 2.5rem; padding: .45rem 0; border-bottom: 1px solid #aebdca; color: #172b43; white-space: pre-line; }
+  .address-value { min-height: 4rem; }
+  .card { border: 0 !important; box-shadow: none !important; }
+  .customer-details { margin: 1rem 0; background: #fff; }
+  .order-heading, .customer-details { break-inside: avoid; }
+  .order-table-wrap { overflow: visible !important; border: 0; }
+  .order-table { min-width: 0; font-size: 10pt; }
+  .order-table thead th, .order-table tbody th, .order-table tbody td, .order-table tfoot th, .order-table tfoot td { padding: .45rem; }
+}

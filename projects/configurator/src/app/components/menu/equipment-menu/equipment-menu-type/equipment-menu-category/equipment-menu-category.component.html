@@ -1,0 +1,17 @@
+<section class="equipment-category">
+  <header class="category-heading">
+    <h4>{{ titleName() }}</h4>
+    <span>{{ selectedCount() }} / {{ specialEquipmentListInit().length }} {{ 'common.selected' | transloco }}</span>
+  </header>
+  <ul class="equipment-options">
+    @for (item of specialEquipmentListInit(); track item.productId ?? $index) {
+      <li>
+        <app-equipment-menu-item [specialEquipment]="item" [isSelected]="isSelected(item)"
+          (selectionToggle)="onSelectItem($event)"></app-equipment-menu-item>
+      </li>
+    }
+  </ul>
+  @if (selectionMessage()) {
+    <p class="selection-message" role="status">{{ selectionMessage() | transloco }}</p>
+  }
+</section>

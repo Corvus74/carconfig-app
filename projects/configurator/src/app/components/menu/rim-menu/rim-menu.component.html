@@ -1,0 +1,10 @@
+<div #container class="rim-options" [attr.aria-label]="'rims.select' | transloco">
+  @for (carRim of carRims(); track carRim.productId) {
+    <app-rim-menu-item
+      [attr.data-rim-id]="carRim.productId"
+      [value]="carRim"
+      [isSelected]="carRim.productId === selectedRim()?.productId"
+      (itemSelected)="onItemSelected($event)"
+    ></app-rim-menu-item>
+  }
+</div>

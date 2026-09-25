@@ -9,9 +9,9 @@
     ]
   },
   "include": [
-    "src/**/*.ts"
+    "projects/**/*.ts"
   ],
   "exclude": [
-    "src/**/*.spec.ts"
+    "projects/**/*.spec.ts"
   ]
 }

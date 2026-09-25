@@ -1,0 +1,7 @@
+:host { display: block; min-width: 0; }
+.equipment-category { padding: .2rem; }
+.category-heading { display: flex; align-items: center; justify-content: space-between; gap: .75rem; margin: 0 0 .5rem; padding: 0 .15rem; }
+.category-heading h4 { margin: 0; color: #40566d; font-size: .8rem; font-weight: 700; }
+.category-heading > span { color: #718196; font-size: .7rem; white-space: nowrap; }
+.equipment-options { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: .55rem; margin: 0; padding: 0; list-style: none; }
+.selection-message { margin: .55rem 0 0; padding: .45rem .65rem; border-radius: 7px; color: #815b11; background: #fff5d9; font-size: .77rem; }

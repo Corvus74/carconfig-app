@@ -1,0 +1,21 @@
+<article class="equipment-card" [class.selected]="isSelected()">
+  <button type="button" class="equipment-select" [attr.aria-pressed]="isSelected()"
+    [attr.aria-label]="('equipment.select' | transloco) + ': ' + specialEquipment().equipmentName"
+    (click)="selectionToggle.emit(specialEquipment())">
+    <span class="selection-indicator" aria-hidden="true">
+      @if (isSelected()) { <i class="bi bi-check-lg"></i> }
+    </span>
+    <span class="equipment-copy">
+      <strong>{{ specialEquipment().equipmentName }}</strong>
+      @if (specialEquipment().description) {
+        <span>{{ specialEquipment().description }}</span>
+      }
+    </span>
+    <span class="equipment-price">{{ toCurrencyFormat(specialEquipment().price) }}</span>
+  </button>
+  @if (specialEquipment().description) {
+    <button type="button" class="info-button" [attr.aria-label]="'equipment.info' | transloco" (click)="openInfo()">
+      <i class="bi bi-info-circle" aria-hidden="true"></i>
+    </button>
+  }
+</article>

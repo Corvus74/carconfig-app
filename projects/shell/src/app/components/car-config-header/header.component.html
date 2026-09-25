@@ -1,0 +1,45 @@
+
+
+<header class="app-header py-3">
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      <div class="col-auto">
+        <img
+          ngSrc="./assets/logo.jpg"
+          alt="{{ 'app.logoAlt' | transloco }}"
+          class="img-fluid rounded shadow logo"
+          priority
+          width="500"
+          height="60"
+        />
+      </div>
+      <div class="col d-flex justify-content-end">
+        <app-language-switcher></app-language-switcher>
+      </div>
+@if(showUserInput){
+      <div class="col-md d-none d-md-block"></div>
+
+      <div class="col-12 col-md-auto">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-end">
+          <app-car-config-header-user-input></app-car-config-header-user-input>
+          @if(isLoggedIn){
+            <button
+              type="button"
+              class="btn btn-primary rounded-pill shadow-lg"
+              (click)="onLoginClick()">
+              {{ 'app.login' | transloco }}
+            </button>
+          } @else {
+            <button
+              type="button"
+              class="btn btn-primary rounded-pill shadow-lg"
+              (click)="onLogoffClick()">
+              {{ 'app.logout' | transloco }}
+            </button>
+          }
+        </div>
+      </div>
+}
+    </div>
+  </div>
+</header>

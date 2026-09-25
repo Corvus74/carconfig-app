@@ -1,0 +1,86 @@
+<main class="user-admin-page">
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow">{{ 'users.console' | transloco }}</p>
+      <h1>{{ 'users.title' | transloco }}</h1>
+      <p class="intro">{{ 'users.intro' | transloco }}</p>
+    </div>
+    <a routerLink="/" class="btn btn-outline-secondary">{{ 'users.back' | transloco }}</a>
+  </div>
+
+  <section class="admin-card" aria-labelledby="signup-key-heading">
+    <div class="section-heading">
+      <span class="step-number">1</span>
+      <div>
+        <h2 id="signup-key-heading">{{ 'users.signupKey' | transloco }}</h2>
+        <p>{{ 'users.keyPrivacy' | transloco }}</p>
+      </div>
+    </div>
+
+    <label for="signup-key" class="form-label">{{ 'users.signupKey' | transloco }}</label>
+    <input
+      id="signup-key"
+      type="password"
+      class="form-control"
+      autocomplete="off"
+      [formControl]="signupKey"
+      [placeholder]="'users.keyPlaceholder' | transloco"
+      aria-describedby="signup-key-help"
+    />
+    <div id="signup-key-help" class="form-text">{{ 'users.keyHelp' | transloco }}</div>
+    @if (signupKey.touched && signupKey.invalid) {
+      <div class="field-error">{{ 'users.keyRequired' | transloco }}</div>
+    }
+  </section>
+
+  @if (canEnterUserData) {
+    <section class="admin-card" aria-labelledby="add-user-heading">
+      <div class="section-heading">
+        <span class="step-number">2</span>
+        <div>
+          <h2 id="add-user-heading">{{ 'users.addTitle' | transloco }}</h2>
+          <p>{{ 'users.addIntro' | transloco }}</p>
+        </div>
+      </div>
+
+      <form [formGroup]="userForm" (ngSubmit)="addUser()" novalidate>
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <label for="user-name" class="form-label">{{ 'users.name' | transloco }}</label>
+            <input id="user-name" class="form-control" formControlName="userName" autocomplete="name" />
+            @if (userForm.controls.userName.touched && userForm.controls.userName.invalid) {
+              <div class="field-error">{{ 'users.nameInvalid' | transloco }}</div>
+            }
+          </div>
+          <div class="col-12 col-md-6">
+            <label for="user-email" class="form-label">{{ 'users.email' | transloco }}</label>
+            <input id="user-email" type="email" class="form-control" formControlName="email" autocomplete="email" />
+            @if (userForm.controls.email.touched && userForm.controls.email.invalid) {
+              <div class="field-error">{{ 'users.emailInvalid' | transloco }}</div>
+            }
+          </div>
+          <div class="col-12">
+            <label for="user-password" class="form-label">{{ 'users.password' | transloco }}</label>
+            <input id="user-password" type="password" class="form-control" formControlName="password" autocomplete="new-password" />
+            <div class="form-text">{{ 'users.passwordHelp' | transloco }}</div>
+            @if (userForm.controls.password.touched && userForm.controls.password.invalid) {
+              <div class="field-error">{{ 'users.passwordInvalid' | transloco }}</div>
+            }
+          </div>
+        </div>
+
+        @if (feedback(); as result) {
+          <div class="alert" [class.alert-success]="result.kind === 'success'" [class.alert-danger]="result.kind === 'error'" role="status">
+            {{ result.message | transloco: result.params }}
+          </div>
+        }
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" [disabled]="isSubmitting()">
+            @if (isSubmitting()) { {{ 'users.submitting' | transloco }} } @else { {{ 'users.submit' | transloco }} }
+          </button>
+        </div>
+      </form>
+    </section>
+  }
+</main>

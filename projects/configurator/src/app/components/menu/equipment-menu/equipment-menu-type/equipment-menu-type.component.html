@@ -1,0 +1,12 @@
+<section class="equipment-location">
+  <header class="location-heading">
+    <h3><i class="bi bi-grid-1x2" aria-hidden="true"></i>{{ titleName() }}</h3>
+    <span>{{ specialEquipmentListInit().length }} {{ 'common.options' | transloco }}</span>
+  </header>
+  <div class="equipment-categories">
+    @for (category of categoryGroups(); track category.type) {
+      <app-equipment-menu-category [titleName]="category.title | transloco"
+        [specialEquipmentListInit]="category.items"></app-equipment-menu-category>
+    }
+  </div>
+</section>

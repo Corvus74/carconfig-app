@@ -1,0 +1,133 @@
+:host { display: block; min-width: 0; }
+
+.tabs-container {
+  display: flex;
+  height: 68vh;
+  max-height: 68vh;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--app-border, #d8e1eb);
+  border-radius: 14px;
+  background: var(--app-surface, #fff);
+  box-shadow: 0 8px 24px rgba(28, 52, 78, .07);
+}
+
+.tabs-header {
+  display: flex;
+  flex: 0 0 auto;
+  gap: .25rem;
+  overflow-x: auto;
+  padding: .6rem .65rem;
+  border-bottom: 1px solid var(--app-border, #d8e1eb);
+  background: #f7f9fc;
+  scrollbar-width: thin;
+  scrollbar-color: #aab8c8 transparent;
+}
+
+.tab-button {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  padding: .6rem .75rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: var(--app-muted, #63758b);
+  background: transparent;
+  font-size: .9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .16s ease, background-color .16s ease, border-color .16s ease, box-shadow .16s ease;
+
+  &:hover { color: var(--app-primary, #145da0); background: #edf3f9; }
+  &:focus-visible { outline: 3px solid rgba(22, 166, 161, .5); outline-offset: 2px; }
+  &.active {
+    border-color: #dbe7f1;
+    color: var(--app-primary, #145da0);
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(28, 52, 78, .07);
+  }
+  &.completed:not(.active) { color: #24796f; }
+}
+
+.step-indicator {
+  display: grid;
+  width: 1.8rem;
+  height: 1.8rem;
+  flex: 0 0 1.8rem;
+  place-items: center;
+  border: 1px solid #cbd7e3;
+  border-radius: 50%;
+  color: inherit;
+  background: #fff;
+  font-size: .8rem;
+  font-weight: 700;
+}
+.tab-button.active .step-indicator { border-color: var(--app-primary, #145da0); color: #fff; background: var(--app-primary, #145da0); }
+.tab-button.completed .step-indicator { border-color: #b8e1d7; color: #176a5e; background: #e6f5f0; }
+.tab-button.active.completed .step-indicator { border-color: var(--app-primary, #145da0); color: #fff; background: var(--app-primary, #145da0); }
+.step-label { overflow: hidden; text-overflow: ellipsis; }
+
+.tabs-content { display: flex; min-height: 0; flex: 1 1 auto; padding: 0; }
+.tab-panel { display: flex; min-width: 0; min-height: 0; flex: 1 1 auto; flex-direction: column; }
+.tab-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.15rem .85rem;
+  border-bottom: 1px solid #edf1f5;
+  background: #fff;
+}
+.tab-panel-heading h2 { margin: 0; color: var(--app-ink, #172b43); font-size: 1.1rem; font-weight: 700; }
+.step-caption { margin: 0 0 .25rem; color: var(--app-accent, #16a6a1); font-size: .68rem; font-weight: 700; letter-spacing: .1em; }
+.step-count { padding: .3rem .65rem; border-radius: 999px; color: var(--app-muted, #63758b); background: #f1f5f9; font-size: .78rem; font-weight: 700; }
+
+.tab-content-scroll {
+  height: auto;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: auto;
+  padding: 1rem;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #9aaabd transparent;
+}
+.tab-content-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+.tab-content-scroll::-webkit-scrollbar-thumb { border-radius: 8px; background: #9aaabd; }
+.tab-options { width: 100%; }
+
+.tab-bottom-bar {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .8rem 1rem;
+  border-top: 1px solid var(--app-border, #d8e1eb);
+  background: #f8fafc;
+}
+.navigation-spacer, .navigation-action { min-width: 7rem; }
+.navigation-action { display: flex; justify-content: flex-end; }
+.tab-bottom-bar .btn { min-height: 42px; border-radius: 9px; font-weight: 600; }
+
+@media (max-width: 768px) {
+  .tabs-container { height: 82vh; }
+  .tabs-container { max-height: 82vh; }
+  .tab-content-scroll { height: auto; }
+  .tabs-header { justify-content: flex-start; padding: .5rem; }
+  .tab-button { flex: 0 0 auto; justify-content: flex-start; padding: .5rem .65rem; font-size: .83rem; }
+  .step-indicator { width: 1.65rem; height: 1.65rem; flex-basis: 1.65rem; }
+}
+
+@media (max-width: 420px) {
+  .step-label { max-width: 5.2rem; }
+  .tab-panel-heading { padding: .85rem; }
+  .tab-content-scroll { padding: .75rem; }
+  .tab-bottom-bar { padding: .65rem .75rem; }
+  .navigation-spacer, .navigation-action { min-width: 0; }
+}

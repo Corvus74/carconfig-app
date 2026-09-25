@@ -1,0 +1,27 @@
+<section class="engine-picker" [attr.aria-label]="'engines.available' | transloco">
+    <div class="slider-wrapper-parent">
+      <button
+        class="scroll-button left-button"
+        type="button"
+        [attr.aria-label]="'engines.scrollLeft' | transloco"
+        (click)="scroll('left')">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <div #container class="engine-menu-container">
+        @for (carEngine of carEngines(); track carEngine.productId ?? $index) {
+          <app-engine-menu-item
+            [value]="carEngine"
+            [isSelected]="isValueSelected(carEngine)"
+            (carEngineSelected)="onItemSelected($event)"
+          ></app-engine-menu-item>
+        }
+      </div>
+      <button
+        class="scroll-button right-button"
+        type="button"
+        [attr.aria-label]="'engines.scrollRight' | transloco"
+        (click)="scroll('right')">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+</section>

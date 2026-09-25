@@ -1,0 +1,7 @@
+:host { display: block; min-width: 0; }
+.equipment-location { overflow: hidden; border: 1px solid #dce5ed; border-radius: 12px; background: #fff; }
+.location-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .75rem .9rem; border-bottom: 1px solid #e8edf2; background: #f5f8fb; }
+.location-heading h3 { display: flex; align-items: center; gap: .55rem; margin: 0; color: #23415d; font-size: .92rem; font-weight: 750; }
+.location-heading h3 i { color: #168d8a; }
+.location-heading > span { color: #718196; font-size: .74rem; }
+.equipment-categories { display: grid; gap: .75rem; padding: .8rem; }

@@ -1,0 +1,85 @@
+<div class="tabs-container">
+  <nav class="tabs-header" role="tablist" [attr.aria-label]="'config.steps' | transloco">
+    @for (tab of tabInfos; track tab.id) {
+      @if (tab.id <= tabStore.maxUnlockedTabId) {
+        <button
+          type="button"
+          class="tab-button"
+          role="tab"
+          [class.active]="tabStore.activeTab() === tab.id"
+          [class.completed]="isTabComplete(tab.id)"
+          [attr.aria-selected]="tabStore.activeTab() === tab.id"
+          [attr.aria-controls]="'config-step-' + tab.id"
+          (click)="selectTab(tab.id)">
+          <span class="step-indicator" aria-hidden="true">
+            @if (isTabComplete(tab.id)) {
+              <i class="bi bi-check-lg"></i>
+            } @else {
+              {{ tab.id }}
+            }
+          </span>
+          <span class="step-label">{{ tab.label | transloco }}</span>
+        </button>
+      }
+    }
+  </nav>
+
+  <div class="tabs-content">
+    @for (tab of tabInfos; track tab.id) {
+      @if (tab.id === tabStore.activeTab() && tab.id <= tabStore.maxUnlockedTabId) {
+        <section class="tab-panel" role="tabpanel" [id]="'config-step-' + tab.id">
+          <header class="tab-panel-heading">
+            <div>
+              <p class="step-caption">{{ 'config.stepCaption' | transloco: { current: tab.id } }}</p>
+              <h2>{{ 'config.choose' | transloco: { item: (tab.label | transloco) } }}</h2>
+            </div>
+            <span class="step-count">{{ tab.id }} / 4</span>
+          </header>
+
+          <section class="tab-content-scroll" #tabScroll [attr.aria-label]="'config.choose' | transloco: { item: (tab.label | transloco) }">
+            <div class="tab-options">
+              @if (canShowCarEngine() && tabStore.activeTab() === 1) {
+                <app-engine-menu [carEngines]="baseConfig()?.carEngines"></app-engine-menu>
+              }
+
+              @if (canShowCarColor() && tabStore.activeTab() === 2) {
+                <app-color-menu [carColorInit]="baseConfig()?.carColors"></app-color-menu>
+              }
+
+              @if (canShowCarRims() && tabStore.activeTab() === 3) {
+                <app-rim-menu [carRims]="baseConfig()?.carRims"></app-rim-menu>
+              }
+
+              @if (canShowSpecialEquipment() && tabStore.activeTab() === 4) {
+                <app-special-equipment-menu [specialEquipmentListInit]="baseConfig()?.specialEquipment"></app-special-equipment-menu>
+              }
+            </div>
+          </section>
+
+          <footer class="tab-bottom-bar">
+            <div class="navigation-spacer">
+              @if (tab.id !== 1) {
+                <button type="button" class="btn btn-outline-secondary" (click)="goToPreviousTab()">
+                  <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>{{ 'common.back' | transloco }}
+                </button>
+              }
+            </div>
+            <div class="navigation-action">
+              @if (tab.id !== 4) {
+                <button type="button" class="btn btn-primary" (click)="goToNextTab()"
+                  [disabled]="!canProceedFromActiveTab()">
+                  {{ 'common.next' | transloco }}<i class="bi bi-arrow-right ms-2" aria-hidden="true"></i>
+                </button>
+              } @else {
+                <button type="button" class="btn btn-primary" (click)="showOrderReview()"
+                  [disabled]="!canShowOrderReview()">
+                  <i class="bi bi-receipt me-2" aria-hidden="true"></i>{{ 'config.reviewOrder' | transloco }}
+                </button>
+              }
+            </div>
+          </footer>
+        </section>
+      }
+    }
+  </div>
+</div>

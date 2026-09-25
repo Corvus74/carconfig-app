@@ -1,0 +1,29 @@
+<app-car-config-header></app-car-config-header>
+
+@if (orderInfo.carOrderId) {
+  <div class="card">
+    <div class="card-body">
+      <div class="container text-center">
+        <div class="row">
+          <div class="col">
+            <app-car-config-order-overview [orderInfo]="orderInfo"></app-car-config-order-overview>
+
+          </div>
+          <div class="col">
+            <app-3d-car-view></app-3d-car-view>
+            <app-car-information></app-car-information>
+            <app-checkout-view [createNewOrder]="false" [updateOrDeleteOrder]="true"[showOrderMenu]="true"></app-checkout-view>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="row">
+    <div class="col">
+      {{ 'orders.notFound' | transloco: { id: orderId } }}
+    </div>
+  </div>
+}
+
+

@@ -1,0 +1,14 @@
+:host { display: block; min-width: 0; }
+.color-card { display: flex; min-height: 11rem; flex-direction: column; overflow: hidden; border: 1px solid #d6e0e9; border-radius: 12px; background: #fff; box-shadow: 0 2px 10px rgb(28 52 78 / 5%); transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease; }
+.color-card:hover { transform: translateY(-2px); box-shadow: 0 7px 16px rgb(28 52 78 / 10%); }
+.color-card.selected { border: 2px solid #145da0; box-shadow: 0 0 0 3px rgb(20 93 160 / 12%), 0 7px 16px rgb(28 52 78 / 8%); }
+.color-select { display: flex; min-width: 0; flex: 1 1 auto; flex-direction: column; align-items: center; gap: .35rem; padding: .8rem .65rem .65rem; border: 0; background: transparent; color: #172b43; cursor: pointer; }
+.color-select:focus-visible { outline: 3px solid rgb(22 166 161 / 50%); outline-offset: -4px; }
+.swatch-wrap { position: relative; display: grid; width: 3.5rem; height: 3.5rem; place-items: center; margin-bottom: .2rem; }
+.selected-mark { position: absolute; right: -.15rem; bottom: -.1rem; display: grid; width: 1.25rem; height: 1.25rem; place-items: center; border: 2px solid white; border-radius: 50%; color: white; background: #145da0; font-size: .68rem; }
+.color-name { max-width: 100%; overflow-wrap: anywhere; font-size: .85rem; font-weight: 700; text-align: center; }
+.paint-type { color: #718196; font-size: .71rem; }
+.color-price { margin-top: auto; padding-top: .35rem; color: #123d66; font-size: .82rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.info-button { display: flex; min-height: 2.35rem; align-items: center; justify-content: center; gap: .4rem; border: 0; border-top: 1px solid #e8edf2; color: #145da0; background: #f8fafc; font-size: .75rem; font-weight: 650; cursor: pointer; }
+.info-button:hover { background: #edf4f9; }
+.info-button:focus-visible { outline: 3px solid rgb(22 166 161 / 50%); outline-offset: -3px; }

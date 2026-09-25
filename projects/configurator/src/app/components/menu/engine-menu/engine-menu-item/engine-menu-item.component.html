@@ -1,0 +1,46 @@
+<article class="engine-card" [class.selected]="isSelected()">
+  <button
+    type="button"
+    class="engine-select"
+    [attr.aria-pressed]="isSelected()"
+    [attr.aria-label]="('engines.select' | transloco) + ': ' + (value().model || value().engineType || ('config.engine' | transloco))"
+    (click)="selectCarEngine()">
+    <span class="engine-visual" aria-hidden="true">
+      <i class="bi bi-gear-wide-connected"></i>
+      <span>{{ getFuelTypeLabel(value().fuelType) }}</span>
+    </span>
+    <span class="engine-heading">
+      <strong>{{ value().model || value().engineType || ('config.engine' | transloco) }}</strong>
+      @if (value().description) {
+        <span>{{ value().description }}</span>
+      }
+    </span>
+    <span class="engine-specs">
+      @if (value().horsepowerKw) {
+        <span><small>{{ 'engines.power' | transloco }}</small><strong>{{ value().horsepowerKw }} kW</strong></span>
+      }
+      @if (value().torqueNm) {
+        <span><small>{{ 'engines.torque' | transloco }}</small><strong>{{ value().torqueNm }} Nm</strong></span>
+      }
+      @if (value().cylinders) {
+        <span><small>{{ 'engines.cylinders' | transloco }}</small><strong>{{ value().cylinders }}</strong></span>
+      }
+      @if (value().displacementL) {
+        <span><small>{{ 'engines.displacement' | transloco }}</small><strong>{{ value().displacementL }} l</strong></span>
+      }
+      @if (value().drivetrain) {
+        <span><small>{{ 'engines.drivetrain' | transloco }}</small><strong>{{ value().drivetrain }}</strong></span>
+      }
+      @if (value().co2 !== undefined) {
+        <span><small>{{ 'engines.co2' | transloco }}</small><strong>{{ value().co2 }} g/km</strong></span>
+      }
+    </span>
+    <span class="engine-price">{{ toCurrencyFormat(value().price) || ('engines.priceOnRequest' | transloco) }}</span>
+  </button>
+  @if (value().description) {
+    <button type="button" class="info-button" [attr.aria-label]="'engines.info' | transloco" (click)="handleIconClick($event)">
+      <i class="bi bi-info-circle" aria-hidden="true"></i>
+      <span>{{ 'common.details' | transloco }}</span>
+    </button>
+  }
+</article>

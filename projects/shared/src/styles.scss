@@ -1,0 +1,119 @@
+@use '@angular/material' as mat;
+@use 'bootstrap/scss/bootstrap' as bootstrap;
+
+:root {
+  --app-ink: #172b43;
+  --app-muted: #63758b;
+  --app-primary: #145da0;
+  --app-primary-hover: #104b81;
+  --app-accent: #16a6a1;
+  --app-canvas: #eef3f8;
+  --app-surface: #ffffff;
+  --app-border: #d8e1eb;
+  --app-shadow: 0 12px 32px rgba(28, 52, 78, 0.09);
+  --app-radius: 14px;
+  color-scheme: light;
+}
+
+html {
+  min-height: 100%;
+  @include mat.theme((
+    color: (primary: mat.$azure-palette, tertiary: mat.$cyan-palette),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  margin: 0;
+  background: var(--app-canvas);
+  color: var(--app-ink);
+  font-family: Roboto, 'Segoe UI', Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button, input, select, textarea { font: inherit; }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+a { color: var(--app-primary); }
+:focus-visible { outline: 3px solid rgba(22, 166, 161, 0.55); outline-offset: 2px; }
+
+.card {
+  color: var(--app-ink);
+  background-color: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+}
+.card-body { padding: clamp(1rem, 2vw, 1.75rem); }
+
+.btn-primary {
+  --bs-btn-bg: var(--app-primary);
+  --bs-btn-border-color: var(--app-primary);
+  --bs-btn-hover-bg: var(--app-primary-hover);
+  --bs-btn-hover-border-color: var(--app-primary-hover);
+  --bs-btn-active-bg: var(--app-primary-hover);
+  --bs-btn-active-border-color: var(--app-primary-hover);
+  --bs-btn-focus-shadow-rgb: 20, 93, 160;
+  font-weight: 600;
+}
+.form-control, .form-select {
+  min-height: 44px;
+  border-color: var(--app-border);
+  border-radius: 9px;
+  color: var(--app-ink);
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--app-primary);
+  box-shadow: 0 0 0 0.2rem rgba(20, 93, 160, 0.14);
+}
+
+.car-config-info-modal .modal-content {
+  overflow: hidden;
+  border: 1px solid #d8e1eb;
+  border-radius: 16px;
+  box-shadow: 0 18px 55px rgb(13 35 58 / 24%);
+}
+.car-config-info-modal .modal-header {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  padding: 1.2rem 1.35rem;
+  border-bottom-color: #e7edf3;
+  background: linear-gradient(120deg, #fff, #f4f8fb);
+}
+.car-config-info-modal .info-modal-icon {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: 0 0 2.5rem;
+  place-items: center;
+  border-radius: 11px;
+  color: #145da0;
+  background: #e8f1f8;
+  font-size: 1.25rem;
+}
+.car-config-info-modal .modal-title { color: var(--app-ink); font-size: 1.1rem; font-weight: 700; }
+.car-config-info-modal .modal-body { padding: 1.35rem; color: #52677d; line-height: 1.7; white-space: pre-line; }
+.car-config-info-modal .modal-footer { padding: .85rem 1.35rem; border-top-color: #e7edf3; background: #f8fafc; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  @page { margin: 16mm; }
+  body.printing-car-config-order * { visibility: hidden !important; }
+  body.printing-car-config-order app-checkout-view.print-order-target,
+  body.printing-car-config-order app-checkout-view.print-order-target * { visibility: visible !important; }
+  body.printing-car-config-order app-checkout-view.print-order-target { position: absolute; inset: 0 auto auto 0; width: 100%; }
+}

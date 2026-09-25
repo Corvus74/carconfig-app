@@ -1,0 +1,40 @@
+<div class="card">
+  <div class="card-header">
+    <h6>
+      {{ 'orders.statusFor' | transloco: { title: (title | transloco) } }}
+    </h6>
+  </div>
+  <div class="card border border-primary">
+    @for (equipmentOrder of specialEquipmentOrders; track equipmentOrder.specialEquipmentOrderId) {
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header">
+            <h6>
+              {{ 'orders.statusForEquipment' | transloco: { product: equipmentOrder.specialEquipment?.equipmentName } }}
+            </h6>
+          </div>
+          <div class="card border border-primary">
+            <div class="row">
+              <div class="col">
+                {{ 'orders.status' | transloco }}:
+              </div>
+              <div class="col">{{ equipmentOrder.orderStatus?.currentStatus }}</div>
+            </div>
+            <div class="row">
+              <div class="col">
+                {{ 'orders.shippedAt' | transloco }}:
+              </div>
+              <div class="col">{{ equipmentOrder.orderStatus?.shippingDate | date: 'dd.MM.yyyy HH:mm' }}</div>
+            </div>
+            <div class="row">
+              <div class="col">
+                {{ 'orders.deliveryTime' | transloco }}:
+              </div>
+              <div class="col">{{ equipmentOrder.orderStatus?.deliveryDate | date: 'dd.MM.yyyy HH:mm' }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

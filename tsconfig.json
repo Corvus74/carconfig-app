@@ -13,7 +13,16 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "module": "preserve"
+    "module": "preserve",
+    "paths": {
+      "@carconfig/api-client": ["./projects/api-client/src/public-api.ts"],
+      "@carconfig/auth": ["./projects/auth/src/public-api.ts"],
+      "@carconfig/shared": ["./projects/shared/src/public-api.ts"],
+      "@carconfig/car-state": ["./projects/car-state/src/public-api.ts"],
+      "@carconfig/car-ui": ["./projects/car-ui/src/public-api.ts"],
+      "@carconfig/checkout": ["./projects/checkout/src/public-api.ts"],
+      "@carconfig/user-management": ["./projects/user-management/src/public-api.ts"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

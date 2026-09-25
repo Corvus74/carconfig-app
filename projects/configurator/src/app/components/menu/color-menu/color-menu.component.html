@@ -1,0 +1,17 @@
+<section class="color-picker" [attr.aria-label]="'colors.available' | transloco">
+  @if (carColorBase.length > 0) {
+    <app-color-menu-sub [carColorSub]="carColorBase" [titleName]="carColorBaseTitleName"
+      (selectionChange)="forwardSelection($event)"></app-color-menu-sub>
+  }
+  @if (carColorGlossy.length > 0) {
+    <app-color-menu-sub [carColorSub]="carColorGlossy" [titleName]="carColorGlossyTitleName"
+      (selectionChange)="forwardSelection($event)"></app-color-menu-sub>
+  }
+  @if (carColorMatte.length > 0) {
+    <app-color-menu-sub [carColorSub]="carColorMatte" [titleName]="carColorMatteTitleName"
+      (selectionChange)="forwardSelection($event)"></app-color-menu-sub>
+  }
+  @if (!carColorBase.length && !carColorGlossy.length && !carColorMatte.length) {
+    <p class="empty-colors">{{ 'colors.empty' | transloco }}</p>
+  }
+</section>

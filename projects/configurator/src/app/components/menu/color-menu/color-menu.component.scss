@@ -1,0 +1,14 @@
+:host { display: block; min-width: 0; }
+.color-picker { display: grid; gap: 1rem; min-width: 0; }
+.color-group { min-width: 0; }
+.color-group-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 0; padding: .65rem .8rem; border: 1px solid #e1e8ef; border-bottom: 0; border-radius: 10px 10px 0 0; color: #344b65; background: #f5f8fb; font-size: .84rem; font-weight: 700; }
+.color-group-heading span { color: #74869a; font-size: .72rem; font-weight: 500; }
+.color-menu-container { display: flex; min-width: 0; gap: .7rem; overflow-x: auto; padding: .75rem; border: 1px solid #e1e8ef; border-radius: 0 0 10px 10px; background: #fbfcfd; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: #9aaabd transparent; }
+.color-menu-container > app-color-menu-color-item { flex: 0 0 12rem; scroll-snap-align: start; }
+.color-menu-container::-webkit-scrollbar { height: 7px; }
+.color-menu-container::-webkit-scrollbar-thumb { border-radius: 99px; background: #9aaabd; }
+.empty-colors { margin: 0; padding: 1rem; color: #61738a; }
+
+@media (max-width: 575px) {
+  .color-menu-container > app-color-menu-color-item { flex-basis: 10.5rem; }
+}

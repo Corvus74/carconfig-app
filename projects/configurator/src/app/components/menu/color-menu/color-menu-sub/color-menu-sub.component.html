@@ -1,0 +1,15 @@
+<section class="color-group">
+  <h3 class="color-group-heading">
+    {{ titleName() | transloco }}
+    <span>{{ carColorSub()?.length ?? 0 }} {{ 'common.available' | transloco }}</span>
+  </h3>
+  <div #container class="color-menu-container">
+    @for (carColor of carColorSub(); track carColor.productId ?? $index) {
+      <app-color-menu-color-item
+        [value]="carColor"
+        [isSelected]="isValueSelected(carColor)"
+        (itemSelected)="onItemSelected($event)"
+      ></app-color-menu-color-item>
+    }
+  </div>
+</section>

@@ -1,0 +1,85 @@
+@if (getShowOrderMenu()) {
+  <div class="card text-center border border-primary mt-2">
+    <div class="order-heading">
+      <div>
+        <p class="eyebrow">{{ 'checkout.eyebrow' | transloco }}</p>
+        <h1 class="mb-0">{{ 'checkout.title' | transloco }}</h1>
+      </div>
+      <div class="heading-actions no-print">
+        <button type="button" class="btn btn-outline-secondary" (click)="onBackToSelection()">
+          <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>{{ 'checkout.backToSelection' | transloco }}
+        </button>
+        <button type="button" class="btn btn-outline-primary" (click)="printOrderAsPdf()">
+          <i class="bi bi-printer me-2" aria-hidden="true"></i>{{ 'checkout.printPdf' | transloco }}
+        </button>
+      </div>
+    </div>
+    <div class="container text-lg-start">
+      <section class="customer-details" aria-labelledby="customer-details-title">
+        <div class="section-heading">
+          <h2 id="customer-details-title">{{ 'checkout.customerDetails' | transloco }}</h2>
+          <span>{{ 'common.optional' | transloco }}</span>
+        </div>
+        <div class="customer-fields">
+          <label class="customer-field">
+            <span>{{ 'checkout.customerNumber' | transloco }}</span>
+            <input class="form-control screen-only" type="text" name="customerNumber" autocomplete="off"
+              [placeholder]="'checkout.customerNumberPlaceholder' | transloco" [(ngModel)]="customerNumber">
+            <span class="print-only">{{ customerNumber || '—' }}</span>
+          </label>
+          <label class="customer-field">
+            <span>{{ 'checkout.deliveryAddress' | transloco }}</span>
+            <textarea class="form-control screen-only" name="deliveryAddress" rows="3"
+              [placeholder]="'checkout.addressPlaceholder' | transloco" [(ngModel)]="deliveryAddress"></textarea>
+            <span class="print-only address-value">{{ deliveryAddress || '—' }}</span>
+          </label>
+        </div>
+      </section>
+
+      <div class="table-responsive order-table-wrap">
+        <table class="table order-table align-middle mb-0">
+          <thead>
+            <tr><th scope="col">{{ 'checkout.positionShort' | transloco }}</th><th scope="col">ID</th><th scope="col">{{ 'checkout.position' | transloco }}</th><th scope="col">{{ 'checkout.description' | transloco }}</th><th scope="col" class="text-end">{{ 'checkout.unitPrice' | transloco }}</th></tr>
+          </thead>
+          <tbody>
+            @for (line of orderLines(); track line.id + line.position) {
+              <tr>
+                <th scope="row">{{ line.position }}</th>
+                <td class="product-id">{{ line.id }}</td>
+                <td>{{ line.item | transloco }}</td>
+                <td>{{ line.description }}</td>
+                <td class="text-end price-cell">{{ toCurrencyFormat(line.price) }}</td>
+              </tr>
+            } @empty {
+              <tr><td colspan="5" class="text-center text-muted py-4">{{ 'checkout.empty' | transloco }}</td></tr>
+            }
+          </tbody>
+          <tfoot>
+            <tr><th colspan="4" scope="row">{{ 'checkout.totalPrice' | transloco }}</th><td class="text-end total-price">{{ toCurrencyFormat(totalPrice()) }}</td></tr>
+          </tfoot>
+        </table>
+      </div>
+      @if (canCreateNewOrder()) {
+        <div class="order-actions no-print">
+          <button type="button" class="btn btn-outline-primary order-action-button" (click)="onShareClick()">
+            <i class="bi bi-share me-2" aria-hidden="true"></i>{{ 'checkout.share' | transloco }}
+          </button>
+          <button type="button" class="btn btn-primary order-action-button" (click)="onOrderConfirmClick()">
+            <i class="bi bi-cart-check-fill me-2" aria-hidden="true"></i>{{ 'checkout.confirm' | transloco }}
+          </button>
+        </div>
+      }
+      @if (showRearmOrderButton()) {
+        <div class="order-actions no-print">
+          <button type="button" class="btn btn-outline-primary order-action-button" (click)="onRearmOrder()">{{ 'checkout.prepareNew' | transloco }}</button>
+        </div>
+      }
+      @if (canModifyOrderButtons()) {
+        <div class="order-actions no-print">
+          <button type="button" class="btn btn-outline-primary order-action-button" (click)="onModifyOrder()">{{ 'checkout.modify' | transloco }}</button>
+          <button type="button" class="btn btn-outline-danger order-action-button" (click)="onDeleteOrder()">{{ 'checkout.delete' | transloco }}</button>
+        </div>
+      }
+    </div>
+  </div>
+}

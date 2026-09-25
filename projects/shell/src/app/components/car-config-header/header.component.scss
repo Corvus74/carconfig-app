@@ -1,0 +1,23 @@
+.app-header {
+  position: relative;
+  z-index: 5;
+  color: #fff;
+  background: linear-gradient(115deg, #132a43 0%, #1d4668 68%, #176c78 100%);
+  border-bottom: 3px solid #16a6a1;
+  box-shadow: 0 5px 20px rgba(19, 42, 67, .16);
+}
+.logo {
+  display: block;
+  width: min(250px, 34vw);
+  max-height: 48px;
+  object-fit: contain;
+  object-position: left center;
+  border-radius: 6px;
+}
+.app-header .btn {
+  min-width: 96px;
+  font-weight: 600;
+}
+@media (max-width: 575.98px) {
+  .logo { width: min(190px, 58vw); }
+}
