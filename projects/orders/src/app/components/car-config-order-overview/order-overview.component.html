@@ -1,26 +1,26 @@
 <div class="card border border-primary">
-  <h6>Detailed Order </h6>
+  <h6>{{ 'orders.detailTitle' | transloco }}</h6>
   <div class="container text-lg-start">
     <div class="row">
       <div class="col">
-        <h5>Details for OrderId : {{ orderInfo.carOrderId }}</h5>
+        <h5>{{ 'orders.idLabel' | transloco }}: {{ orderInfo.carOrderId }}</h5>
       </div>
     </div>
     <div class="row">
       <div class="col">
-        Created By :
+        {{ 'orders.createdBy' | transloco }}:
       </div>
       <div class="col">{{ orderInfo.orderUser?.userName }}</div>
     </div>
     <div class="row">
       <div class="col">
-        Created At :
+        {{ 'orders.createdAt' | transloco }}:
       </div>
       <div class="col">{{ orderInfo.createdAt | date: 'dd.MM.yyyy HH:mm' }}</div>
     </div>
     <div class="row">
       <div class="col">
-        Updated At :
+        {{ 'orders.updatedAt' | transloco }}:
       </div>
       <div class="col">{{ orderInfo.updatedAt | date: 'dd.MM.yyyy HH:mm' }}</div>
     </div>

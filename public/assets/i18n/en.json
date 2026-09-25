@@ -1,0 +1,78 @@
+{
+  "app": { "logoAlt": "Company logo", "login": "Sign in", "logout": "Sign out", "userManagement": "User management" },
+  "common": {
+    "available": "available", "included": "Included", "includedShort": "Incl.", "details": "Details",
+    "selected": "selected", "options": "options", "optional": "Optional", "back": "Back", "next": "Next",
+    "close": "Close", "understood": "Got it", "cancel": "Cancel", "confirm": "Confirm", "error": "Error"
+  },
+  "login": {
+    "title": "Welcome back", "subtitle": "Sign in to continue", "email": "Email address",
+    "emailPlaceholder": "name@example.com", "emailInvalid": "Enter a valid email address.",
+    "password": "Password", "passwordRequired": "Password is required.", "submit": "Sign in",
+    "failed": "Sign-in failed. Please check your credentials."
+  },
+  "carInfo": {
+    "eyebrow": "Your configuration", "title": "Vehicle summary", "price": "Selected configuration price",
+    "empty": "Choose an engine, paint, rims or equipment to see your configuration.",
+    "priceNote": "The price adds up the items currently selected in the configurator."
+  },
+  "config": {
+    "engine": "Engine", "color": "Color", "paint": "Paint", "rims": "Rims", "equipment": "Equipment",
+    "steps": "Configuration steps", "stepCaption": "CONFIGURATION · STEP {{current}} OF 4",
+    "choose": "Choose {{item}}", "reviewOrder": "Review order"
+  },
+  "colors": {
+    "available": "Available paint colors", "solid": "Solid paints", "metallic": "Metallic paints", "matte": "Matte paints",
+    "matteLabel": "Matte", "glossy": "Glossy", "empty": "No paint colors are available for this configuration.",
+    "select": "Select color", "info": "Show paint information", "infoTitle": "Paint information for"
+  },
+  "engines": {
+    "available": "Available engines", "scrollLeft": "Scroll engine choices left", "scrollRight": "Scroll engine choices right",
+    "select": "Select engine", "gasoline": "Gasoline", "electric": "Electric", "powertrain": "Powertrain",
+    "info": "Show engine information", "infoTitle": "Engine information for", "power": "Power",
+    "torque": "Torque", "cylinders": "Cylinders", "displacement": "Displacement", "drivetrain": "Drivetrain",
+    "co2": "CO₂ emissions", "priceOnRequest": "Price on request"
+  },
+  "rims": { "select": "Select rims", "rim": "Rim", "inches": "in", "info": "Show rim details", "infoTitle": "Rim information for" },
+  "equipment": {
+    "interior": "Interior", "exterior": "Exterior", "empty": "No optional equipment is available for this configuration.",
+    "airCondition": "Climate control", "multimedia": "Multimedia", "seats": "Seats", "heating": "Heating",
+    "navigation": "Navigation", "steeringWheel": "Steering wheel", "misc": "Other equipment",
+    "select": "Select equipment", "info": "Show equipment details", "infoTitle": "Equipment information for",
+    "maxSelected": "You can select up to five equipment options.", "onePerCategory": "Only one option can be selected from this category."
+  },
+  "checkout": {
+    "eyebrow": "Final step", "title": "Order summary", "backToSelection": "Back to selection", "printPdf": "Print as PDF",
+    "customerDetails": "Customer details", "customerNumber": "Customer number", "customerNumberPlaceholder": "Enter customer number",
+    "deliveryAddress": "Delivery address", "addressPlaceholder": "Name, street, ZIP code and city", "positionShort": "No.",
+    "position": "Item", "description": "Description", "unitPrice": "Unit price", "empty": "No items have been selected yet.",
+    "totalPrice": "Total price", "share": "Share configuration", "confirm": "Place order", "prepareNew": "Prepare a new order",
+    "modify": "Edit order", "delete": "Delete order", "confirmTitle": "Confirm order",
+    "confirmMessage": "Would you like to place this order?", "createdTitle": "Order created", "deleteTitle": "Delete order",
+    "deleteMessage": "Are you sure you want to delete this order? This action cannot be undone.",
+    "deleteError": "The order could not be deleted. Please try again later.", "shareTitle": "Share link",
+    "shareDescription": "Use this link to open this order."
+  },
+  "users": {
+    "console": "ADMIN CONSOLE", "title": "User management", "intro": "Create new users for the application.",
+    "back": "Back to configurator", "signupKey": "Sign-up key", "keyPrivacy": "The sign-up key is used for this request only and is not stored.",
+    "keyPlaceholder": "Enter sign-up key", "keyHelp": "The backend checks this key when you create a user.",
+    "keyRequired": "Enter the sign-up key.", "addTitle": "Add user", "addIntro": "Create credentials for a new user.",
+    "name": "Name", "nameInvalid": "Enter a name with no more than 100 characters.", "email": "Email address",
+    "emailInvalid": "Enter a valid email address.", "password": "Initial password", "passwordHelp": "At least 8 characters.",
+    "passwordInvalid": "The password must be at least 8 characters long.", "submitting": "Creating user…", "submit": "Create user",
+    "created": "User {{name}} was created.", "keyRejected": "The sign-up key was rejected.",
+    "emailExists": "A user with this email address already exists.", "createFailed": "The user could not be created. Please try again."
+  },
+  "auth": {
+    "sessionExpired": "Your session has expired. Please sign in again.", "connectionLost": "The connection to the server was lost. Please sign in again.",
+    "idleTimeout": "You were signed out after 10 minutes of inactivity.", "unauthorized": "Your session expired or is no longer authorized. Please sign in again."
+  },
+  "orders": {
+    "engine": "Engine", "rims": "Rims", "color": "Paint", "equipment": "Equipment", "detailTitle": "Order details",
+    "idLabel": "Order ID", "createdBy": "Created by", "createdAt": "Created at", "updatedAt": "Updated at",
+    "statusForProduct": "Order status for {{title}}: {{product}}", "statusFor": "Order status for {{title}}",
+    "statusForEquipment": "Order status for {{product}}", "status": "Status", "shippedAt": "Shipped at",
+    "deliveryTime": "Delivery date", "notFound": "No order was found with ID {{id}}. Please check the order ID and try again."
+  }
+}
