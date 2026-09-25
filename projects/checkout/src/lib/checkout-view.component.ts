@@ -6,20 +6,11 @@ import {
 } from  '@carconfig/api-client';
 import { firstValueFrom } from 'rxjs';
 import { OrderModal, ModalOptions } from './order-modal/order-modal';
-import { GeneralFunctionsService } from '@carconfig/shared';
-import { CarTabMenuChangeService } from '@carconfig/car-state';
-import { ApiService } from '@carconfig/shared';
+import { CarConfigStoreService, CarTabMenuChangeService } from '@carconfig/car-state';
+import { ApiService, GeneralFunctionsService } from '@carconfig/shared';
 import { Router } from '@angular/router';
-import { CarConfigStoreService } from '@carconfig/car-state';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
-
-interface OrderLine {
-  position: number;
-  id: string;
-  item: string;
-  description: string;
-  price: number;
-}
+import { buildOrderLines, calculateTotalPrice } from './checkout-summary';
 
 @Component({
   selector: 'app-checkout-view',
@@ -53,52 +44,13 @@ export class CheckoutViewComponent {
   readonly colorDataVisible = computed(() => this.colorData() !== null);
   readonly rimDataVisible = computed(() => this.rimData() !== null);
 
-  readonly orderLines = computed<OrderLine[]>(() => {
-    const lines: OrderLine[] = [];
-    const addLine = (item: string, description: string | undefined, id: string | undefined, price: number | undefined) => {
-      lines.push({
-        position: lines.length + 1,
-        id: id || '—',
-        item,
-        description: description || '—',
-        price: price ?? 0,
-      });
-    };
+  readonly orderLines = computed(() => buildOrderLines(
+    this.engineData(), this.colorData(), this.rimData(), this.specialEquipments(),
+  ));
 
-    const engine = this.engineData();
-    if (engine) addLine('config.engine', engine.model || engine.description, engine.productId, engine.price);
-    const color = this.colorData();
-    if (color) addLine('config.paint', color.colorName || color.description, color.productId, color.price);
-    const rims = this.rimData();
-    if (rims) addLine('config.rims', rims.rimName || rims.model, rims.productId, rims.price);
-    for (const equipment of this.specialEquipments()) {
-      addLine(this.getEquipmentCategory(equipment.categoryType), equipment.equipmentName || equipment.description,
-        equipment.productId, equipment.price);
-    }
-
-    return lines;
-  });
-
-  readonly totalPrice = computed(() => {
-    let total = 0;
-    const engine = this.engineData();
-    if (engine?.price) total += engine.price;
-
-    const color = this.colorData();
-    if (color?.price) total += color.price;
-
-    const rim = this.rimData();
-    if (rim?.price) total += rim.price;
-
-    const equipments = this.specialEquipments();
-    if (equipments) {
-      equipments.forEach(e => {
-        if (e.price) total += e.price;
-      });
-    }
-
-    return total;
-  });
+  readonly totalPrice = computed(() => calculateTotalPrice(
+    this.engineData(), this.colorData(), this.rimData(), this.specialEquipments(),
+  ));
 
   private receivedOrderNumber: string | undefined;
   isSending: boolean = false;
@@ -125,19 +77,6 @@ export class CheckoutViewComponent {
       return this.carConfigGeneralFunctionsService.formatCurrency(price)
     }
     return this.carConfigGeneralFunctionsService.formatCurrency(0)
-  }
-
-  getEquipmentCategory(category: string | undefined): string {
-    const labels: Record<string, string> = {
-      MULTIMEDIA: 'equipment.multimedia',
-      SEATS: 'equipment.seats',
-      HEATING: 'equipment.heating',
-      AIR_CONDITION: 'equipment.airCondition',
-      NAVIGATION_SYSTEM: 'equipment.navigation',
-      STEERING_WHEEL: 'equipment.steeringWheel',
-      MISC: 'equipment.misc',
-    };
-    return category ? labels[category] ?? 'config.equipment' : 'config.equipment';
   }
 
   async onOrderConfirmClick() {

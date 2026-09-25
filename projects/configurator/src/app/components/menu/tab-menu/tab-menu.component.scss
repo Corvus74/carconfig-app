@@ -84,7 +84,7 @@
   background: #fff;
 }
 .tab-panel-heading h2 { margin: 0; color: var(--app-ink, #172b43); font-size: 1.1rem; font-weight: 700; }
-.step-caption { margin: 0 0 .25rem; color: var(--app-accent, #16a6a1); font-size: .68rem; font-weight: 700; letter-spacing: .1em; }
+.step-caption { margin: 0 0 .25rem; color: #08716c; font-size: .68rem; font-weight: 700; letter-spacing: .1em; }
 .step-count { padding: .3rem .65rem; border-radius: 999px; color: var(--app-muted, #63758b); background: #f1f5f9; font-size: .78rem; font-weight: 700; }
 
 .tab-content-scroll {
@@ -116,8 +116,7 @@
 .tab-bottom-bar .btn { min-height: 42px; border-radius: 9px; font-weight: 600; }
 
 @media (max-width: 768px) {
-  .tabs-container { height: 82vh; }
-  .tabs-container { max-height: 82vh; }
+  .tabs-container { height: 82vh; max-height: 82vh; }
   .tab-content-scroll { height: auto; }
   .tabs-header { justify-content: flex-start; padding: .5rem; }
   .tab-button { flex: 0 0 auto; justify-content: flex-start; padding: .5rem .65rem; font-size: .83rem; }

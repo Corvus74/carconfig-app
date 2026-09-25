@@ -14,8 +14,7 @@ import { CarEngineDto } from '@carconfig/api-client';
 import {
   EngineMenuItemComponent
 } from './engine-menu-item/engine-menu-item.component';
-import { CarConfigStoreService } from '@carconfig/car-state';
-import { CarConfigMenuTabs } from '@carconfig/car-state';
+import { CarConfigMenuTabs, CarConfigStoreService } from '@carconfig/car-state';
 import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
@@ -73,7 +72,7 @@ export class EngineMenuComponent implements AfterViewInit {
 
     const selectedIndex =
       this.selectedValue
-        ? Math.max(0, engines.findIndex(e => e === this.selectedValue))
+        ? Math.max(0, engines.indexOf(this.selectedValue))
         : 0;
 
     const targetEl = items.get(selectedIndex)?.nativeElement as HTMLElement | undefined;

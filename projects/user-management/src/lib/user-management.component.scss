@@ -33,7 +33,7 @@
 .step-number { display: grid; width: 2.25rem; height: 2.25rem; flex: 0 0 2.25rem; place-items: center; border-radius: 50%; color: #fff; background: var(--app-primary); font-weight: 700; }
 .field-error { margin-top: .35rem; color: #a52834; font-size: .85rem; }
 .form-actions { justify-content: flex-end; margin-top: 1.5rem; }
-.alert { margin: 1.25rem 0 0; }
+.alert { display: block; margin: 1.25rem 0 0; }
 
 @media (max-width: 575.98px) {
   .page-heading { align-items: flex-start; flex-direction: column; }

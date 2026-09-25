@@ -1,9 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HeaderComponent} from '../../../../../shell/src/app/components/car-config-header/header.component';
-import {CarConfig3dCarViewComponent} from '@carconfig/car-ui';
-import {
-  CarInformationComponent
-} from '@carconfig/car-ui';
+import {CarConfig3dCarViewComponent, CarInformationComponent } from '@carconfig/car-ui';
 import {CheckoutViewComponent} from '@carconfig/checkout';
 import {ActivatedRoute} from '@angular/router';
 import {

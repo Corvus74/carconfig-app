@@ -1,4 +1,4 @@
-import { TestBed, fakeAsync, flush, waitForAsync } from '@angular/core/testing';
+import { TestBed, fakeAsync, flush } from '@angular/core/testing';
 import { CarConfigTabStore } from './car-config-tab.store';
 import { CarTabMenuChangeService } from '@carconfig/car-state';
 import {CarConfigStoreService} from '@carconfig/car-state';
@@ -34,4 +34,41 @@ describe('CarConfigTabStore', () => {
     expect(store.activeTab()).toBe(3);
     expect(tabMenuSvc.carConfigTabInfoData().activeTab).toBe(3);
   });
+
+  it('unlocks configuration steps in order and blocks progress until the next choice exists', fakeAsync(() => {
+    expect(store.maxUnlockedTabId).toBe(1);
+    expect(store.canProceedFromActiveTab()).toBeFalse();
+
+    configStoreSvc.updateEngine({ productId: 'engine-1' } as CarEngineDto);
+    TestBed.flushEffects();
+    expect(store.maxUnlockedTabId).toBe(2);
+    expect(store.canProceedFromActiveTab()).toBeTrue();
+
+    store.goToNextTab();
+    expect(store.activeTab()).toBe(2);
+    expect(store.canProceedFromActiveTab()).toBeFalse();
+    store.goToNextTab();
+    expect(store.activeTab()).toBe(2);
+
+    configStoreSvc.updateColor({ productId: 'color-1' });
+    TestBed.flushEffects();
+    expect(store.canProceedFromActiveTab()).toBeTrue();
+    store.goToNextTab();
+    expect(store.activeTab()).toBe(3);
+  }));
+
+  it('returns to the first step after the configuration is reset', fakeAsync(() => {
+    configStoreSvc.updateEngine({ productId: 'engine-1' } as CarEngineDto);
+    configStoreSvc.updateColor({ productId: 'color-1' });
+    TestBed.flushEffects();
+    store.selectTab(2);
+
+    configStoreSvc.reset();
+    tabMenuSvc.reset();
+    TestBed.flushEffects();
+
+    expect(store.activeTab()).toBe(1);
+    expect(store.maxUnlockedTabId).toBe(1);
+    expect(store.canProceedFromActiveTab()).toBeFalse();
+  }));
 });

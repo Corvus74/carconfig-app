@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnDestroy, ElementRef, inject, effect, viewCh
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
+import { HDRLoader } from 'three/examples/jsm/loaders/HDRLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { CarConfigStoreService } from '@carconfig/car-state';
 import { CarColorDto } from '@carconfig/api-client';
@@ -23,7 +23,7 @@ export class CarConfig3dCarViewComponent implements AfterViewInit, OnDestroy {
   private controls!: OrbitControls;
   private carModel!: THREE.Group;
   private carBodyMaterial!: THREE.MeshStandardMaterial;
-  private readonly clock = new THREE.Clock();
+  private readonly timer = new THREE.Timer();
   private readonly drivingSpeed = 5.5;
   private readonly wheelRadius = 0.48;
   private readonly roadLength = 240;
@@ -61,6 +61,7 @@ export class CarConfig3dCarViewComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
+    this.timer.connect(document);
     this.initScene();
     this.createEnvironment();
     this.loadCarModel();
@@ -95,6 +96,7 @@ export class CarConfig3dCarViewComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.timer.disconnect();
     this.destroyed = true;
     cancelAnimationFrame(this.animationFrameId);
     window.removeEventListener('resize', this.resizeHandler);
@@ -151,7 +153,7 @@ export class CarConfig3dCarViewComponent implements AfterViewInit, OnDestroy {
     this.controls.update();
 
     // Load the HDR environment map.
-    new RGBELoader()
+    new HDRLoader()
       .load('assets/quarry_01_1k.hdr', (texture) => {
       if (this.destroyed) {
         texture.dispose();
@@ -344,7 +346,8 @@ export class CarConfig3dCarViewComponent implements AfterViewInit, OnDestroy {
 
   private readonly animate = () => {
     this.animationFrameId = requestAnimationFrame(this.animate);
-    const delta = Math.min(this.clock.getDelta(), 0.05);
+    this.timer.update();
+    const delta = Math.min(this.timer.getDelta(), 0.05);
     this.controls.update();
 
     for (const scenery of this.roadsideObjects) {

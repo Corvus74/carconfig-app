@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@carconfig/auth';
 import { TranslocoModule } from '@jsverse/transloco';
-import { LanguageSwitcherComponent } from '../../components/language-switcher/language-switcher.component';
+import { LanguageSwitcherComponent } from '../../../components/language-switcher/language-switcher.component';
 
 @Component({
   selector: 'app-login',

@@ -35,8 +35,8 @@ export class RimMenuComponent {
   }
 
   private scrollToRim(productId: string): void {
-    const items = this.container()?.nativeElement.querySelectorAll('[data-rim-id]');
-    const selectedItem = items && Array.from(items).find(item => item.getAttribute('data-rim-id') === productId);
+    const items = this.container()?.nativeElement.querySelectorAll<HTMLElement>('[data-rim-id]');
+    const selectedItem = items && Array.from(items).find(item => item.dataset['rimId'] === productId);
     selectedItem?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
   }
 }

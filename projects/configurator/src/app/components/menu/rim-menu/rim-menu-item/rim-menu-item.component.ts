@@ -23,14 +23,6 @@ export class RimMenuItemComponent {
     this.itemSelected.emit(this.value());
   }
 
-  onKeyDown(event: KeyboardEvent): void {
-    if (event.target !== event.currentTarget) return;
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      this.onClick();
-    }
-  }
-
   toCurrencyFormat(price: number | undefined) {
     if (price) {
       return this.carConfigGeneralFunctionsService.formatCurrency(price);
@@ -39,12 +31,15 @@ export class RimMenuItemComponent {
   }
 
   getImage(innerDiameter: number | undefined) {
-    const diameter = innerDiameter ?? 17;
-    if (diameter === 17) {
-      return "assets/felge_01.png";
-    } else {
-      return "assets/felge_02.png.webp";
+    if(innerDiameter) {
+      if (innerDiameter <= 17) {
+        return "assets/felge_01.png";
+      }
+      if (innerDiameter > 17) {
+        return "assets/felge_02.png.webp";
+      }
     }
+    return "assets/felge_01.png";
   }
 
   handleIconClick(eventObj: MouseEvent) {

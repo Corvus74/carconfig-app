@@ -24,7 +24,7 @@ export function provideRuntimeConfig(): RuntimeConfig {
   // browser same-origin and lets ng serve reach a backend running in Docker.
   if (isDevMode()) {
     console.log('Running in development mode, using proxy for API calls.');
-    const appOrigin = typeof window === 'undefined' ? 'http://localhost:4200' : window.location.origin;
+    const appOrigin = window.location.origin;
     return { apiBaseUrl: '/api', apiOrderUrl: `${appOrigin}/order`, apiProductViewUrl: `${appOrigin}/product` };
   }
 
@@ -32,12 +32,11 @@ export function provideRuntimeConfig(): RuntimeConfig {
   const env = (window as any).env;
 
   // A simple check to see if the global env object and its properties are available.
-  const runtimeVarsAvailable = env && env.apiUrl && env.apiOrderUrl && env.apiProductViewUrl;
+  const runtimeVarsAvailable = env?.apiUrl && env.apiOrderUrl && env.apiProductViewUrl;
 
   if (!runtimeVarsAvailable) {
     console.error('ERROR: Runtime environment variables from env.js are not available!');
-    // Provide a sensible default or throw an error to fail fast
-    return { apiBaseUrl: 'http://error.invalid/api', apiOrderUrl: 'http://error.invalid/order', apiProductViewUrl: 'http://error.invalid/product' };
+    throw new Error('Runtime environment variables from env.js are not available.');
   }
 
   return {

@@ -1,7 +1,6 @@
 import { Component, input, output, OnInit, inject } from '@angular/core';
 import { CarColorDto } from  '@carconfig/api-client';
-import { ColorviewCircle } from '@carconfig/car-ui';
-import { CommonInfoModal } from '@carconfig/car-ui';
+import { ColorviewCircle, CommonInfoModal } from '@carconfig/car-ui';
 import { GeneralFunctionsService } from '@carconfig/shared';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 

@@ -50,12 +50,12 @@ FROM nginxinc/nginx-unprivileged:${NGINX_VERSION} AS runner
 USER nginx
 
 # Copy custom Nginx config
-COPY --chown=nginx:nginx nginx.conf /etc/nginx/conf.d/default.conf
+COPY --chown=0:0 nginx.conf /etc/nginx/conf.d/default.conf
 # Copy the entrypoint script that will substitute environment variables at runtime.
-COPY --chown=nginx:nginx entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY --chown=0:0 entrypoint.sh /usr/local/bin/entrypoint.sh
 
 # Copy the static build output from the build stage to Nginx's default HTML serving directory.
-COPY --chown=nginx:nginx --from=builder /app/dist/browser /usr/share/nginx/html
+COPY --chown=0:0 --from=builder /app/dist/browser /usr/share/nginx/html
 
 # Make the entrypoint script executable
 RUN chmod +x /usr/local/bin/entrypoint.sh

@@ -10,10 +10,10 @@
   border-radius: 12px;
   color: var(--app-ink, #172b43);
   background: var(--app-surface, #fff);
-  cursor: pointer;
+  overflow: hidden;
   transition: border-color .16s ease, box-shadow .16s ease, background-color .16s ease;
 
-  &:hover {
+  &:has(.rim-select:hover) {
     border-color: rgba(20, 93, 160, .45);
     box-shadow: 0 5px 16px rgba(28, 52, 78, .09);
   }
@@ -24,8 +24,24 @@
     box-shadow: 0 0 0 2px rgba(20, 93, 160, .12);
   }
 
-  &:focus-visible { outline: 3px solid rgba(22, 166, 161, .55); outline-offset: 2px; }
 }
+
+.rim-select {
+  display: grid;
+  grid-column: 1 / 4;
+  grid-row: 1;
+  grid-template-columns: 6.5rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.rim-select:focus-visible { outline: 3px solid rgba(22, 166, 161, .65); outline-offset: 2px; }
 
 .rim-visual {
   display: grid;
@@ -42,8 +58,11 @@
 .rim-name { overflow: hidden; font-size: 1rem; text-overflow: ellipsis; }
 .model-name { color: var(--app-muted, #63758b); font-size: .85rem; }
 .rim-price { font-weight: 700; white-space: nowrap; }
-.selection-status { position: absolute; right: 4rem; bottom: .35rem; color: var(--app-primary, #145da0); font-size: .72rem; font-weight: 700; }
+.selection-status { position: absolute; right: 4rem; bottom: .35rem; color: #104b43; font-size: .72rem; font-weight: 700; }
 .button-info {
+  position: absolute;
+  top: .9rem;
+  right: 1rem;
   display: grid;
   width: 2.25rem;
   height: 2.25rem;
@@ -58,10 +77,11 @@
 }
 
 @media (max-width: 575.98px) {
-  .rim-list-item { grid-template-columns: 4.5rem minmax(0, 1fr) auto; gap: .65rem; padding: .75rem; }
+  .rim-list-item { padding: .75rem; }
+  .rim-select { grid-template-columns: 4.5rem minmax(0, 1fr) auto; gap: .65rem; }
   .rim-visual { width: 4.5rem; height: 4.5rem; }
   .image-rim { width: 3.8rem; height: 3.8rem; }
-  .button-info { grid-column: 3; grid-row: 1; align-self: start; }
+  .button-info { top: .55rem; right: .55rem; }
   .rim-price { grid-column: 2; grid-row: 2; justify-self: start; }
   .selection-status { position: static; grid-column: 2 / 4; grid-row: 3; }
 }

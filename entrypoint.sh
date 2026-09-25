@@ -6,7 +6,7 @@ set -e
 
 # Path to the template and final config file
 TEMPLATE_FILE="/usr/share/nginx/html/assets/env.template.js"
-OUTPUT_FILE="/usr/share/nginx/html/assets/env.js"
+OUTPUT_FILE="/tmp/env.js"
 
 # Check that the required environment variable is set.
 # The :? operator will cause the script to exit with an error if API_URL is unset or empty.

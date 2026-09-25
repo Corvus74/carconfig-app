@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CommonInfoModal } from './common-info-modal';
+import { TranslocoService } from '@jsverse/transloco';
 
 describe('CommonInfoModal', () => {
   let component: CommonInfoModal;
@@ -8,7 +9,8 @@ describe('CommonInfoModal', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CommonInfoModal]
+      imports: [CommonInfoModal],
+      providers: [{ provide: TranslocoService, useValue: { translate: (key: string) => key } }],
     })
     .compileComponents();
 

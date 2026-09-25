@@ -4,4 +4,4 @@
 .category-heading h4 { margin: 0; color: #40566d; font-size: .8rem; font-weight: 700; }
 .category-heading > span { color: #718196; font-size: .7rem; white-space: nowrap; }
 .equipment-options { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: .55rem; margin: 0; padding: 0; list-style: none; }
-.selection-message { margin: .55rem 0 0; padding: .45rem .65rem; border-radius: 7px; color: #815b11; background: #fff5d9; font-size: .77rem; }
+.selection-message { display: block; margin: .55rem 0 0; padding: .45rem .65rem; border-radius: 7px; color: #684500; background: #fff5d9; font-size: .77rem; }

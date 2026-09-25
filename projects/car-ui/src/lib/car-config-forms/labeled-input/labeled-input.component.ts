@@ -2,15 +2,6 @@ import {Component, EventEmitter, forwardRef, Input, Output} from '@angular/core'
 import {FormsModule, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 
-const getRandomId = (length: number) => {
-  let result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
 @Component({
   selector: 'app-car-config-labeled-input',
   imports: [
@@ -28,7 +19,7 @@ const getRandomId = (length: number) => {
   standalone: true,
 })
 export class LabeledInputComponent {
-  inputId = `form-input-${getRandomId(5)}`;
+  inputId = `form-input-${crypto.randomUUID()}`;
 
   /**
    * The text that will be displayed as the label for the input.

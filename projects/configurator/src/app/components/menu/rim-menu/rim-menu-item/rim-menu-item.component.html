@@ -1,24 +1,18 @@
-<article
-  class="rim-list-item"
-  [class.selected]="isSelected()"
-  role="button"
-  tabindex="0"
-  [attr.aria-pressed]="isSelected()"
-  (click)="onClick()"
-  (keydown)="onKeyDown($event)"
->
-  <div class="rim-visual">
-    <img [src]="getImage(value().innerDiameter)" [alt]="('rims.rim' | transloco) + ' ' + value().rimName" class="image-rim" />
-  </div>
-  <div class="rim-details">
-    <span class="diameter-name">{{ value().innerDiameter }} {{ 'rims.inches' | transloco }}</span>
-    <strong class="rim-name">{{ value().rimName }}</strong>
-    <span class="model-name">{{ value().model }}</span>
-  </div>
-  <div class="rim-price">{{ toCurrencyFormat(value().price) }}</div>
-  @if (isSelected()) {
-    <span class="selection-status"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> {{ 'common.selected' | transloco }}</span>
-  }
+<article class="rim-list-item" [class.selected]="isSelected()">
+  <button class="rim-select" type="button" [attr.aria-pressed]="isSelected()" (click)="onClick()">
+    <div class="rim-visual">
+      <img [src]="getImage(value().innerDiameter)" [alt]="('rims.rim' | transloco) + ' ' + value().rimName" class="image-rim" />
+    </div>
+    <div class="rim-details">
+      <span class="diameter-name">{{ value().innerDiameter }} {{ 'rims.inches' | transloco }}</span>
+      <strong class="rim-name">{{ value().rimName }}</strong>
+      <span class="model-name">{{ value().model }}</span>
+    </div>
+    <div class="rim-price">{{ toCurrencyFormat(value().price) }}</div>
+    @if (isSelected()) {
+      <span class="selection-status"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> {{ 'common.selected' | transloco }}</span>
+    }
+  </button>
   <button type="button" (click)="handleIconClick($event)" class="button-info" [attr.aria-label]="'rims.info' | transloco">
     <i class="bi bi-info-circle" aria-hidden="true"></i>
   </button>
